@@ -1,0 +1,184 @@
+[
+  {
+    "receipt_id": "lidl_20260704",
+    "store": {"name": "Lidl", "address": "Schweickhardtstr. 11, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-04", "time": "N/A", "total_eur": 3.97, "exchange_rate_jpy": 184, "total_jpy": 730},
+    "items": [
+      {"name_original": "Romatomaten", "name_jp": "トマト", "category": "Food", "price": {"regular_eur": 0.99, "discount_eur": 0.0, "final_eur": 0.99}},
+      {"name_original": "Speisequark 0%", "name_jp": "クワルク（無脂肪）", "category": "Food", "price": {"regular_eur": 1.19, "discount_eur": 0.0, "final_eur": 1.19}},
+      {"name_original": "Heidelbeer-Konfitüre", "name_jp": "ブルーベリージャム", "category": "Food", "price": {"regular_eur": 1.79, "discount_eur": 0.0, "final_eur": 1.79}}
+    ]
+  },
+  {
+    "receipt_id": "lidl_20260708",
+    "store": {"name": "Lidl", "address": "Schweickhardtstr. 11, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-08", "time": "N/A", "total_eur": 10.54, "exchange_rate_jpy": 184, "total_jpy": 1939},
+    "items": [
+      {"name_original": "Romatomaten", "name_jp": "トマト", "category": "Food", "price": {"regular_eur": 0.99, "discount_eur": 0.0, "final_eur": 0.99}},
+      {"name_original": "BackofenFeine Pommes", "name_jp": "フライドポテト", "category": "Food", "price": {"regular_eur": 1.49, "discount_eur": 0.0, "final_eur": 1.49}},
+      {"name_original": "Norweg. Räucherlachs", "name_jp": "スモークサーモン", "category": "Food", "price": {"regular_eur": 2.49, "discount_eur": 0.0, "final_eur": 2.49}},
+      {"name_original": "Rohwurst Salami", "name_jp": "サラミ", "category": "Food", "price": {"regular_eur": 1.79, "discount_eur": 0.0, "final_eur": 1.79}},
+      {"name_original": "Fr.Eier.a. Bodenhal.", "name_jp": "卵", "category": "Food", "price": {"regular_eur": 2.49, "discount_eur": 0.0, "final_eur": 2.49}},
+      {"name_original": "Thunfischsteak Sonn.", "name_jp": "マグロステーキ", "category": "Food", "price": {"regular_eur": 1.39, "discount_eur": -0.10, "final_eur": 1.29}}
+    ]
+  },
+  {
+    "receipt_id": "lidl_20260709",
+    "store": {"name": "Lidl", "address": "Schweickhardtstr. 11, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-09", "time": "N/A", "total_eur": 11.56, "exchange_rate_jpy": 184, "total_jpy": 2127},
+    "items": [
+      {"name_original": "Bayernkrone Butter", "name_jp": "バター", "category": "Food", "price": {"regular_eur": 0.99, "discount_eur": 0.0, "final_eur": 0.99}},
+      {"name_original": "Joghurt mild 3,5%", "name_jp": "ヨーグルト", "category": "Food", "price": {"regular_eur": 0.89, "discount_eur": 0.0, "final_eur": 0.89}},
+      {"name_original": "Spaghetti", "name_jp": "スパゲッティ", "category": "Food", "price": {"regular_eur": 0.69, "discount_eur": 0.0, "final_eur": 0.69}},
+      {"name_original": "Nescafé Classic", "name_jp": "インスタントコーヒー", "category": "Beverage", "price": {"regular_eur": 8.99, "discount_eur": 0.0, "final_eur": 8.99}}
+    ]
+  },
+  {
+    "receipt_id": "lidl_20260710",
+    "store": {"name": "Lidl", "address": "Schweickhardtstr. 11, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-10", "time": "N/A", "total_eur": 6.67, "exchange_rate_jpy": 184, "total_jpy": 1227},
+    "items": [
+      {"name_original": "Häh.-Minischnitzel", "name_jp": "チキンミニシュニッツェル", "category": "Food", "price": {"regular_eur": 3.99, "discount_eur": 0.0, "final_eur": 3.99}},
+      {"name_original": "Joghurt mild 3,5%", "name_jp": "ヨーグルト", "category": "Food", "price": {"regular_eur": 0.89, "discount_eur": 0.0, "final_eur": 0.89}},
+      {"name_original": "Aprikosen-Konfitüre", "name_jp": "アプリコットジャム", "category": "Food", "price": {"regular_eur": 1.79, "discount_eur": 0.0, "final_eur": 1.79}}
+    ]
+  },
+  {
+    "receipt_id": "lidl_20260713",
+    "store": {"name": "Lidl", "address": "Schweickhardtstr. 11, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-13", "time": "N/A", "total_eur": 7.28, "exchange_rate_jpy": 184, "total_jpy": 1340},
+    "items": [
+      {"name_original": "Romatomaten", "name_jp": "トマト", "category": "Food", "price": {"regular_eur": 1.11, "discount_eur": 0.0, "final_eur": 1.11}},
+      {"name_original": "Joghurt mild 3,5%", "name_jp": "ヨーグルト", "category": "Food", "price": {"regular_eur": 0.89, "discount_eur": 0.0, "final_eur": 0.89}},
+      {"name_original": "Reis Kochbeutel", "name_jp": "お米（調理パック）", "category": "Food", "price": {"regular_eur": 1.59, "discount_eur": 0.0, "final_eur": 1.59}},
+      {"name_original": "Red Bull original", "name_jp": "エナジードリンク", "category": "Beverage", "price": {"regular_eur": 2.98, "discount_eur": -1.28, "final_eur": 1.70}},
+      {"name_original": "Pfand 0,25 M", "name_jp": "容器デポジット", "category": "Pfand", "price": {"regular_eur": 0.50, "discount_eur": 0.0, "final_eur": 0.50}},
+      {"name_original": "Haribo Goldbären", "name_jp": "ハリボーグミ", "category": "Snack", "price": {"regular_eur": 1.49, "discount_eur": 0.0, "final_eur": 1.49}}
+    ]
+  },
+  {
+    "receipt_id": "goasia_20260725_100179891",
+    "store": {"name": "go asia Supermarkt", "address": "Königstraße 28, 70173 Stuttgart"},
+    "transaction": {"date": "2026-07-25", "time": "14:24", "total_eur": 37.19, "exchange_rate_jpy": 184, "total_jpy": 6843},
+    "items": [
+      {"name_original": "TK Karaage Sojasoße", "name_jp": "冷凍唐揚げ", "category": "Food", "price": {"regular_eur": 7.99, "discount_eur": 0.0, "final_eur": 7.99}},
+      {"name_original": "TK Kinako Ohagi Mochi", "name_jp": "冷凍きなこおはぎ", "category": "Food", "price": {"regular_eur": 4.99, "discount_eur": 0.0, "final_eur": 4.99}},
+      {"name_original": "Instant-Nudeln Hühner INDOMIE", "name_jp": "インスタント麺（チキン）", "category": "Food", "price": {"regular_eur": 0.59, "discount_eur": 0.0, "final_eur": 0.59}},
+      {"name_original": "Kumamoto Schwarzer Knoblauch Tonkotsu Ramen", "name_jp": "熊本黒マー油豚骨ラーメン", "category": "Food", "price": {"regular_eur": 3.99, "discount_eur": 0.0, "final_eur": 3.99}},
+      {"name_original": "Shin Ramyun Nudelsuppe", "name_jp": "辛ラーメン", "category": "Food", "price": {"regular_eur": 1.19, "discount_eur": 0.0, "final_eur": 1.19}},
+      {"name_original": "NK Verpackter Tofu VEGAN", "name_jp": "包装豆腐（ヴィーガン）", "category": "Food", "price": {"regular_eur": 1.89, "discount_eur": 0.0, "final_eur": 1.89}},
+      {"name_original": "Takoyaki Sauce 300g", "name_jp": "たこ焼きソース", "category": "Food", "price": {"regular_eur": 4.24, "discount_eur": 0.0, "final_eur": 4.24}},
+      {"name_original": "Shiro Dashi 500ml NINBEN", "name_jp": "白だし", "category": "Food", "price": {"regular_eur": 6.99, "discount_eur": 0.0, "final_eur": 6.99}},
+      {"name_original": "Sesamöl 100%", "name_jp": "ごま油", "category": "Food", "price": {"regular_eur": 6.99, "discount_eur": 0.0, "final_eur": 6.99}},
+      {"name_original": "Rabatt 5,00 %", "name_jp": "5%割引", "category": "Discount", "price": {"regular_eur": -1.67, "discount_eur": 0.0, "final_eur": -1.67}}
+    ]
+  },
+  {
+    "receipt_id": "kaufland_20260701_45793",
+    "store": {"name": "Kaufland", "address": "Reutlinger Straße 44, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-01", "time": "21:19", "total_eur": 2.88, "exchange_rate_jpy": 184, "total_jpy": 530},
+    "items": [
+      {"name_original": "K.Vollkorntoast", "name_jp": "全粒粉トースト", "category": "Food", "price": {"regular_eur": 0.89, "discount_eur": 0.0, "final_eur": 0.89}},
+      {"name_original": "KLC.Erdnüsse ges.", "name_jp": "塩ピーナッツ", "category": "Snack", "price": {"regular_eur": 1.99, "discount_eur": 0.0, "final_eur": 1.99}}
+    ]
+  },
+  {
+    "receipt_id": "kaufland_20260702_65079",
+    "store": {"name": "Kaufland", "address": "Reutlinger Straße 44, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-02", "time": "18:59", "total_eur": 6.14, "exchange_rate_jpy": 184, "total_jpy": 1130},
+    "items": [
+      {"name_original": "Milka Daim", "name_jp": "チョコレート", "category": "Snack", "price": {"regular_eur": 1.90, "discount_eur": -0.32, "final_eur": 1.58}},
+      {"name_original": "Romatomaten 500g", "name_jp": "トマト", "category": "Food", "price": {"regular_eur": 1.29, "discount_eur": 0.0, "final_eur": 1.29}},
+      {"name_original": "Haribo Goldbären", "name_jp": "ハリボーグミ", "category": "Snack", "price": {"regular_eur": 2.38, "discount_eur": 0.0, "final_eur": 2.38}},
+      {"name_original": "K.Naturjoghurt", "name_jp": "プレーンヨーグルト", "category": "Food", "price": {"regular_eur": 0.89, "discount_eur": 0.0, "final_eur": 0.89}}
+    ]
+  },
+  {
+    "receipt_id": "kaufland_20260704_5740",
+    "store": {"name": "Kaufland", "address": "Reutlinger Straße 44, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-04", "time": "19:14", "total_eur": 2.41, "exchange_rate_jpy": 184, "total_jpy": 443},
+    "items": [
+      {"name_original": "Red Bull Energy", "name_jp": "エナジードリンク", "category": "Beverage", "price": {"regular_eur": 0.99, "discount_eur": -0.11, "final_eur": 0.88}},
+      {"name_original": "Pfandartikel", "name_jp": "容器デポジット", "category": "Pfand", "price": {"regular_eur": 0.25, "discount_eur": 0.0, "final_eur": 0.25}},
+      {"name_original": "Red Bull Suda.-Li.", "name_jp": "エナジードリンク", "category": "Beverage", "price": {"regular_eur": 0.99, "discount_eur": -0.11, "final_eur": 0.88}},
+      {"name_original": "Pfandartikel", "name_jp": "容器デポジット", "category": "Pfand", "price": {"regular_eur": 0.25, "discount_eur": 0.0, "final_eur": 0.25}},
+      {"name_original": "KLC.Zitr.Limo Zero", "name_jp": "レモネードゼロ", "category": "Beverage", "price": {"regular_eur": 0.65, "discount_eur": 0.0, "final_eur": 0.65}},
+      {"name_original": "Pfandartikel", "name_jp": "容器デポジット", "category": "Pfand", "price": {"regular_eur": 0.25, "discount_eur": 0.0, "final_eur": 0.25}},
+      {"name_original": "Leergut Getränke", "name_jp": "飲料容器返却", "category": "Pfand_Return", "price": {"regular_eur": -0.75, "discount_eur": 0.0, "final_eur": -0.75}}
+    ]
+  },
+  {
+    "receipt_id": "kaufland_20260714_72936",
+    "store": {"name": "Kaufland", "address": "Reutlinger Straße 44, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-14", "time": "18:48", "total_eur": 3.93, "exchange_rate_jpy": 184, "total_jpy": 723},
+    "items": [
+      {"name_original": "Demae Ra. Huhn", "name_jp": "出前一丁（チキン）", "category": "Food", "price": {"regular_eur": 1.38, "discount_eur": 0.0, "final_eur": 1.38}},
+      {"name_original": "Demae Ra. Yakisoba", "name_jp": "出前一丁（焼きそば）", "category": "Food", "price": {"regular_eur": 0.69, "discount_eur": 0.0, "final_eur": 0.69}},
+      {"name_original": "Mü.Milchreis", "name_jp": "ミルクライス", "category": "Food", "price": {"regular_eur": 0.78, "discount_eur": 0.0, "final_eur": 0.78}},
+      {"name_original": "Demae Ra. Sesam", "name_jp": "出前一丁（ごま）", "category": "Food", "price": {"regular_eur": 0.69, "discount_eur": 0.0, "final_eur": 0.69}},
+      {"name_original": "Mü.Milchreis", "name_jp": "ミルクライス", "category": "Food", "price": {"regular_eur": 0.39, "discount_eur": 0.0, "final_eur": 0.39}}
+    ]
+  },
+  {
+    "receipt_id": "kaufland_20260729_82861",
+    "store": {"name": "Kaufland", "address": "Reutlinger Straße 44, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-29", "time": "08:37", "total_eur": 15.21, "exchange_rate_jpy": 184, "total_jpy": 2799},
+    "items": [
+      {"name_original": "Leergut Getränke", "name_jp": "飲料容器返却", "category": "Pfand_Return", "price": {"regular_eur": -0.75, "discount_eur": 0.0, "final_eur": -0.75}},
+      {"name_original": "K.H-Milch", "name_jp": "牛乳", "category": "Food", "price": {"regular_eur": 0.85, "discount_eur": 0.0, "final_eur": 0.85}},
+      {"name_original": "K.Naturjoghurt", "name_jp": "プレーンヨーグルト", "category": "Food", "price": {"regular_eur": 0.79, "discount_eur": 0.0, "final_eur": 0.79}},
+      {"name_original": "Wildlachs Kräuter", "name_jp": "天然鮭（ハーブ）", "category": "Food", "price": {"regular_eur": 4.98, "discount_eur": 0.0, "final_eur": 4.98}},
+      {"name_original": "Hühner Frikassee", "name_jp": "チキンフリカッセ", "category": "Food", "price": {"regular_eur": 2.49, "discount_eur": 0.0, "final_eur": 2.49}},
+      {"name_original": "K.Brötchen 6er", "name_jp": "白パン（6個入り）", "category": "Food", "price": {"regular_eur": 0.69, "discount_eur": 0.0, "final_eur": 0.69}},
+      {"name_original": "Pfeffermettwurst", "name_jp": "ペッパーソーセージ", "category": "Food", "price": {"regular_eur": 2.18, "discount_eur": 0.0, "final_eur": 2.18}},
+      {"name_original": "Pick up Caramel", "name_jp": "キャラメルビスケット", "category": "Snack", "price": {"regular_eur": 3.98, "discount_eur": 0.0, "final_eur": 3.98}}
+    ]
+  },
+  {
+    "receipt_id": "dm_20260706_4630",
+    "store": {"name": "dm-drogerie markt", "address": "Hügelstraße 5, 72072 Tübingen"},
+    "transaction": {"date": "2026-07-06", "time": "13:16", "total_eur": 0.95, "exchange_rate_jpy": 184, "total_jpy": 175},
+    "items": [
+      {"name_original": "Balea men DG Ice Feeling", "name_jp": "メンズボディウォッシュ", "category": "Daily_Necessities", "price": {"regular_eur": 0.95, "discount_eur": 0.0, "final_eur": 0.95}}
+    ]
+  },
+  {
+    "receipt_id": "dm_20260708_9231",
+    "store": {"name": "dm-drogerie markt", "address": "Nonnengasse 14, 72070 Tübingen"},
+    "transaction": {"date": "2026-07-08", "time": "18:14", "total_eur": 2.30, "exchange_rate_jpy": 184, "total_jpy": 423},
+    "items": [
+      {"name_original": "Mivolis Traubenzuck Heim. Früch", "name_jp": "ぶどう糖キャンディ", "category": "Snack", "price": {"regular_eur": 0.85, "discount_eur": 0.0, "final_eur": 0.85}},
+      {"name_original": "Balea Fuß Deospray", "name_jp": "足用デオドラントスプレー", "category": "Daily_Necessities", "price": {"regular_eur": 1.45, "discount_eur": 0.0, "final_eur": 1.45}}
+    ]
+  },
+  {
+    "receipt_id": "dm_20260709_6471",
+    "store": {"name": "dm-drogerie markt", "address": "Nonnengasse 14, 72070 Tübingen"},
+    "transaction": {"date": "2026-07-09", "time": "11:35", "total_eur": 4.95, "exchange_rate_jpy": 184, "total_jpy": 911},
+    "items": [
+      {"name_original": "Old Spice Deo Spray Captain", "name_jp": "デオドラントスプレー", "category": "Daily_Necessities", "price": {"regular_eur": 4.95, "discount_eur": 0.0, "final_eur": 4.95}}
+    ]
+  },
+  {
+    "receipt_id": "dm_20260720_8904",
+    "store": {"name": "dm-drogerie markt", "address": "Nonnengasse 14, 72070 Tübingen"},
+    "transaction": {"date": "2026-07-20", "time": "19:00", "total_eur": 0.85, "exchange_rate_jpy": 184, "total_jpy": 156},
+    "items": [
+      {"name_original": "Mivolis Traubenz.10vitam. 100g", "name_jp": "ぶどう糖（ビタミン入り）", "category": "Snack", "price": {"regular_eur": 0.85, "discount_eur": 0.0, "final_eur": 0.85}}
+    ]
+  },
+  {
+    "receipt_id": "dm_20260731_2654",
+    "store": {"name": "dm-drogerie markt", "address": "Nonnengasse 14, 72070 Tübingen"},
+    "transaction": {"date": "2026-07-31", "time": "17:41", "total_eur": 26.65, "exchange_rate_jpy": 184, "total_jpy": 4904},
+    "items": [
+      {"name_original": "Mivolis Traubenz.10vitam. 100g", "name_jp": "ぶどう糖（ビタミン入り）", "category": "Snack", "price": {"regular_eur": 0.85, "discount_eur": 0.0, "final_eur": 0.85}},
+      {"name_original": "Nø happy today 120h Liquid Hy.", "name_jp": "美容液", "category": "Daily_Necessities", "price": {"regular_eur": 9.95, "discount_eur": 0.0, "final_eur": 9.95}},
+      {"name_original": "Nø Liquid Refiner BHA Toner", "name_jp": "BHAトナー", "category": "Daily_Necessities", "price": {"regular_eur": 9.95, "discount_eur": 0.0, "final_eur": 9.95}},
+      {"name_original": "Gliss Shampoo Total Repair 250", "name_jp": "シャンプー", "category": "Daily_Necessities", "price": {"regular_eur": 2.95, "discount_eur": 0.0, "final_eur": 2.95}},
+      {"name_original": "Gliss Spülung Liquid silk200ml", "name_jp": "コンディショナー", "category": "Daily_Necessities", "price": {"regular_eur": 2.95, "discount_eur": 0.0, "final_eur": 2.95}}
+    ]
+  }
+
+]
+

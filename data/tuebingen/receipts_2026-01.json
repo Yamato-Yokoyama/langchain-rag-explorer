@@ -1,0 +1,526 @@
+[
+  {
+    "receipt_id": "REWE_20260107_01",
+    "store": {
+      "name": "REWE[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-07",
+      "time": "00:00",
+      "total_eur": 12.14,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2233
+    },
+    "items": [
+      {
+        "name_original": "SCHINKENWURST[cite: 4]",
+        "name_jp": "ハムソーセージ[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "VOLLKORNTOAST[cite: 4]",
+        "name_jp": "全粒粉トースト[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "KART. MEHLIG[cite: 4]",
+        "name_jp": "じゃがいも(粉質)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "JA! H-MILCH 1.5%[cite: 4]",
+        "name_jp": "牛乳(低脂肪1.5%)[cite: 4]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "FUSILLI[cite: 4]",
+        "name_jp": "フジッリ(パスタ)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "LANG. REIS KB[cite: 4]",
+        "name_jp": "長粒米(湯煎バッグ)x4[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 3.16,
+          "discount_eur": 0.00,
+          "final_eur": 3.16
+        }
+      },
+      {
+        "name_original": "HAFERFL. ZART[cite: 4]",
+        "name_jp": "オートミール(ソフト)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "SONNENBLUMENOEL[cite: 4]",
+        "name_jp": "ひまわり油[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.69,
+          "discount_eur": 0.00,
+          "final_eur": 1.69
+        }
+      },
+      {
+        "name_original": "THUNFISCHFI. WAS[cite: 4]",
+        "name_jp": "ツナ缶(水煮)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Kaufland_20260108_01",
+    "store": {
+      "name": "Kaufland[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-08",
+      "time": "00:00",
+      "total_eur": 8.24,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1516
+    },
+    "items": [
+      {
+        "name_original": "K. Rahmspinat[cite: 4]",
+        "name_jp": "ほうれん草(クリーム)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Hähn. Unterschenkel[cite: 4]",
+        "name_jp": "鶏下腿肉[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 4.44,
+          "discount_eur": 0.00,
+          "final_eur": 4.44
+        }
+      },
+      {
+        "name_original": "Zwiebeln 2kg[cite: 4]",
+        "name_jp": "玉ねぎ 2kg[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.79,
+          "discount_eur": 0.00,
+          "final_eur": 1.79
+        }
+      },
+      {
+        "name_original": "Bananen[cite: 4]",
+        "name_jp": "バナナ(1.27kg)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.12,
+          "discount_eur": 0.00,
+          "final_eur": 1.12
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20260109_01",
+    "store": {
+      "name": "REWE[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-09",
+      "time": "00:00",
+      "total_eur": 2.49,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 458
+    },
+    "items": [
+      {
+        "name_original": "EIER BH M-L[cite: 4]",
+        "name_jp": "平飼い卵(M-L)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20260115_01",
+    "store": {
+      "name": "REWE[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-15",
+      "time": "00:00",
+      "total_eur": 2.47,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 454
+    },
+    "items": [
+      {
+        "name_original": "SCHINKENWURST[cite: 4]",
+        "name_jp": "ハムソーセージ[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "VOLLKORNTOAST[cite: 4]",
+        "name_jp": "全粒粉トースト[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "FUSILLI[cite: 4]",
+        "name_jp": "フジッリ(パスタ)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20260116_01",
+    "store": {
+      "name": "REWE[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-16",
+      "time": "00:00",
+      "total_eur": 0.69,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 126
+    },
+    "items": [
+      {
+        "name_original": "HAFERFL. ZART[cite: 4]",
+        "name_jp": "オートミール(ソフト)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Kaufland_20260117_01",
+    "store": {
+      "name": "Kaufland[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-17",
+      "time": "00:00",
+      "total_eur": 14.78,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2719
+    },
+    "items": [
+      {
+        "name_original": "KPur.H.Flügel[cite: 4]",
+        "name_jp": "鶏手羽先(XXL)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 5.45,
+          "discount_eur": 0.00,
+          "final_eur": 5.45
+        }
+      },
+      {
+        "name_original": "KLC.Mozzarella ger[cite: 4]",
+        "name_jp": "シュレッドモッツァレラ[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.79,
+          "discount_eur": 0.00,
+          "final_eur": 1.79
+        }
+      },
+      {
+        "name_original": "Radeberger Pilsner[cite: 4]",
+        "name_jp": "ビール(ラーデベルガー)[cite: 4]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.15,
+          "discount_eur": 0.00,
+          "final_eur": 1.15
+        }
+      },
+      {
+        "name_original": "Pfandartikel[cite: 4]",
+        "name_jp": "デポジット[cite: 4]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.08,
+          "discount_eur": 0.00,
+          "final_eur": 0.08
+        }
+      },
+      {
+        "name_original": "K.H-Milch[cite: 4]",
+        "name_jp": "牛乳[cite: 4]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Trauben 500g hell[cite: 4]",
+        "name_jp": "白ぶどう 500g[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Knoblauch 200g[cite: 4]",
+        "name_jp": "にんにく 200g[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "Fa Duschgel[cite: 4]",
+        "name_jp": "ボディソープ[cite: 4]",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "KLC DeliMayo 500ml[cite: 4]",
+        "name_jp": "デリ・マヨネーズ[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.69,
+          "discount_eur": 0.00,
+          "final_eur": 1.69
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Kaufland_20260121_01",
+    "store": {
+      "name": "Kaufland[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-21",
+      "time": "00:00",
+      "total_eur": 7.77,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1429
+    },
+    "items": [
+      {
+        "name_original": "Apfel 2kg rot[cite: 4]",
+        "name_jp": "りんご 2kg[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "K.Buttertoast[cite: 4]",
+        "name_jp": "バタートースト[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "K.Inst.Kaffee Mild[cite: 4]",
+        "name_jp": "インスタントコーヒー[cite: 4]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 5.49,
+          "discount_eur": 0.00,
+          "final_eur": 5.49
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20260123_01",
+    "store": {
+      "name": "REWE[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-23",
+      "time": "00:00",
+      "total_eur": 3.34,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 614
+    },
+    "items": [
+      {
+        "name_original": "EIER BH M-L[cite: 4]",
+        "name_jp": "平飼い卵(M-L)[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      },
+      {
+        "name_original": "JA! H-MILCH 1.5%[cite: 4]",
+        "name_jp": "牛乳(低脂肪1.5%)[cite: 4]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Kaufland_20260131_01",
+    "store": {
+      "name": "Kaufland[cite: 4]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2026-01-31",
+      "time": "00:00",
+      "total_eur": 4.90,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 901
+    },
+    "items": [
+      {
+        "name_original": "Budweiser Budvar[cite: 4]",
+        "name_jp": "ビール(ブドヴァル)[cite: 4]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Pfandartikel[cite: 4]",
+        "name_jp": "デポジット[cite: 4]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.08,
+          "discount_eur": 0.00,
+          "final_eur": 0.08
+        }
+      },
+      {
+        "name_original": "K.H-Milch[cite: 4]",
+        "name_jp": "牛乳[cite: 4]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Trauben 500g hell[cite: 4]",
+        "name_jp": "白ぶどう 500g[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Laugenbrezel[cite: 4]",
+        "name_jp": "プレッツェルx2[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.50,
+          "discount_eur": 0.00,
+          "final_eur": 0.50
+        }
+      },
+      {
+        "name_original": "K.Buttertoast[cite: 4]",
+        "name_jp": "バタートースト[cite: 4]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      }
+    ]
+  }
+]

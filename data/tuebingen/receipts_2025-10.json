@@ -1,0 +1,1898 @@
+[
+  {
+    "receipt_id": "ALDI_SUD_20251001_01",
+    "store": {
+      "name": "ALDI SÜD[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-01",
+      "time": "00:00",
+      "total_eur": 13.96,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2568
+    },
+    "items": [
+      {
+        "name_original": "Käsescheiben 150g[cite: 1]",
+        "name_jp": "スライスチーズ 150g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Weizenbrötchen[cite: 1]",
+        "name_jp": "小麦の丸パン[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.19,
+          "discount_eur": 0.00,
+          "final_eur": 0.19
+        }
+      },
+      {
+        "name_original": "Weizenbrötchen[cite: 1]",
+        "name_jp": "小麦の丸パン[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.19,
+          "discount_eur": 0.00,
+          "final_eur": 0.19
+        }
+      },
+      {
+        "name_original": "Müllermilch Shake[cite: 1]",
+        "name_jp": "ミュラーミルクシェイク[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "Handelsmarke: Pfan[cite: 1]",
+        "name_jp": "プライベートブランド: デポジット[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Himbeeren 125g[cite: 1]",
+        "name_jp": "ラズベリー 125g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      },
+      {
+        "name_original": "Spaghetti 500g[cite: 1]",
+        "name_jp": "スパゲッティ 500g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "Der Grosse Bauer[cite: 1]",
+        "name_jp": "ヨーグルト「Der Grosse Bauer」[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.49,
+          "discount_eur": 0.00,
+          "final_eur": 0.49
+        }
+      },
+      {
+        "name_original": "Valensina Orange[cite: 1]",
+        "name_jp": "ヴァレンシナ オレンジジュース[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.39,
+          "discount_eur": 0.00,
+          "final_eur": 1.39
+        }
+      },
+      {
+        "name_original": "Pfand[cite: 1]",
+        "name_jp": "デポジット[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Dt. Markenbut 250g[cite: 1]",
+        "name_jp": "ドイツのブランドバター 250g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Fresh-Cut-Salat 2[cite: 1]",
+        "name_jp": "カットサラダ 2[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "Rapsöl nativ 500ml[cite: 1]",
+        "name_jp": "キャノーラオイル 500ml[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Fresh-Cut-Salat 2[cite: 1]",
+        "name_jp": "カットサラダ 2[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "Kochbeutel Reis[cite: 1]",
+        "name_jp": "湯煎用ライス[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Gewürzmühle[cite: 1]",
+        "name_jp": "スパイスミル[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "LIDL_20251002_01",
+    "store": {
+      "name": "Lidl[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-02",
+      "time": "00:00",
+      "total_eur": 47.16,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 8677
+    },
+    "items": [
+      {
+        "name_original": "Banane loso[cite: 1]",
+        "name_jp": "バナナ (バラ)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.69,
+          "discount_eur": 0.00,
+          "final_eur": 1.69
+        }
+      },
+      {
+        "name_original": "Rispentomaten[cite: 1]",
+        "name_jp": "トマト[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Apfel rot[cite: 1]",
+        "name_jp": "赤りんご[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Speiseq.[cite: 1]",
+        "name_jp": "クワルク[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.60,
+          "discount_eur": 0.00,
+          "final_eur": 0.60
+        }
+      },
+      {
+        "name_original": "Gem. KorbscH[cite: 1]",
+        "name_jp": "野菜[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "Geflüge. Salami[cite: 1]",
+        "name_jp": "家禽のサラミ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.89,
+          "discount_eur": 0.00,
+          "final_eur": 1.89
+        }
+      },
+      {
+        "name_original": "Müll.Milch Schoko[cite: 1]",
+        "name_jp": "ミュラーミルク チョコレート[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Müll.Milch[cite: 1]",
+        "name_jp": "ミュラーミルク[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "M+M Wiener Klassik[cite: 1]",
+        "name_jp": "ウィンナーソーセージ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.59,
+          "discount_eur": 0.00,
+          "final_eur": 2.59
+        }
+      },
+      {
+        "name_original": "Buttertoast[cite: 1]",
+        "name_jp": "バタートースト[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Dressing Sylter Art[cite: 1]",
+        "name_jp": "ドレッシング (ジルト風)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.59,
+          "discount_eur": 0.00,
+          "final_eur": 1.59
+        }
+      },
+      {
+        "name_original": "Müllermilch Vanille[cite: 1]",
+        "name_jp": "ミュラーミルク バニラ[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "Pfand 0.25 Z% M[cite: 1]",
+        "name_jp": "デポジット 0.25[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Eier Fr. BW[cite: 1]",
+        "name_jp": "卵[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.89,
+          "discount_eur": 0.00,
+          "final_eur": 1.89
+        }
+      },
+      {
+        "name_original": "Lakt.fr.H.Milch[cite: 1]",
+        "name_jp": "ラクトースフリー牛乳[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "Mozzar. Bits[cite: 1]",
+        "name_jp": "モッツァレラ (小片)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Spaghetti[cite: 1]",
+        "name_jp": "スパゲッティ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "HP Sauce[cite: 1]",
+        "name_jp": "HPソース[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Pfand 0.25 Z%EM[cite: 1]",
+        "name_jp": "デポジット 0.25[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Family Capuc. Choco[cite: 1]",
+        "name_jp": "ファミリーカプチーノ チョコ[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 3.49,
+          "discount_eur": 0.00,
+          "final_eur": 3.49
+        }
+      },
+      {
+        "name_original": "Tomatenzwie.ZW.[cite: 1]",
+        "name_jp": "トマトと玉ねぎ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "Speisezwiebeln[cite: 1]",
+        "name_jp": "玉ねぎ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.29,
+          "discount_eur": 0.00,
+          "final_eur": 0.29
+        }
+      },
+      {
+        "name_original": "Pfand 0.25 EM[cite: 1]",
+        "name_jp": "デポジット 0.25[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Bier alkoholfrei[cite: 1]",
+        "name_jp": "ノンアルコールビール[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.39,
+          "discount_eur": 0.00,
+          "final_eur": 0.39
+        }
+      },
+      {
+        "name_original": "Pfand 0.25 EM[cite: 1]",
+        "name_jp": "デポジット 0.25[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Red Bull Lilac Edit[cite: 1]",
+        "name_jp": "レッドブル ライラック味[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Pfand 0.25 M[cite: 1]",
+        "name_jp": "デポジット 0.25[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Buttertoast[cite: 1]",
+        "name_jp": "バタートースト[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "Hähnchen Mini-Steaks[cite: 1]",
+        "name_jp": "チキンミニステーキ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 4.99,
+          "discount_eur": 0.00,
+          "final_eur": 4.99
+        }
+      },
+      {
+        "name_original": "LC Starterpa-1801429[cite: 1]",
+        "name_jp": "LCスターターパック[cite: 1]",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 9.99,
+          "discount_eur": 0.00,
+          "final_eur": 9.99
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20251006_01",
+    "store": {
+      "name": "REWE[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-06",
+      "time": "00:00",
+      "total_eur": 8.77,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1613
+    },
+    "items": [
+      {
+        "name_original": "SONNTAGSBROETCH.[cite: 1]",
+        "name_jp": "日曜日の丸パン[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.38,
+          "discount_eur": 0.00,
+          "final_eur": 0.38
+        }
+      },
+      {
+        "name_original": "BUTTERTOAST[cite: 1]",
+        "name_jp": "バタートースト[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "MILCHSALAMI PCHK[cite: 1]",
+        "name_jp": "ミルクサラミ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "ja! MILCH 1.5%[cite: 1]",
+        "name_jp": "ja! 牛乳 1.5%[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "SPAGHETTI[cite: 1]",
+        "name_jp": "スパゲッティ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "ja! RAHMEN HUHN[cite: 1]",
+        "name_jp": "ja! チキンラーメン[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.89,
+          "discount_eur": 0.00,
+          "final_eur": 1.89
+        }
+      },
+      {
+        "name_original": "REWE MAYO[cite: 1]",
+        "name_jp": "REWE マヨネーズ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "PEPSI[cite: 1]",
+        "name_jp": "ペプシ[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.70,
+          "discount_eur": 0.00,
+          "final_eur": 0.70
+        }
+      },
+      {
+        "name_original": "PFAND 0,25 EURO[cite: 1]",
+        "name_jp": "デポジット 0.25ユーロ[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20251007_01",
+    "store": {
+      "name": "REWE[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-07",
+      "time": "00:00",
+      "total_eur": 3.65,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 671
+    },
+    "items": [
+      {
+        "name_original": "SALAMI[cite: 1]",
+        "name_jp": "サラミ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "SONNTAGSBROETCH.[cite: 1]",
+        "name_jp": "日曜日の丸パン[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.38,
+          "discount_eur": 0.00,
+          "final_eur": 0.38
+        }
+      },
+      {
+        "name_original": "PASTA TOM KCH[cite: 1]",
+        "name_jp": "パスタトマトソース[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "KNORR PASTAROCC[cite: 1]",
+        "name_jp": "クノール パスタロック[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "DM_20251008_01",
+    "store": {
+      "name": "dm[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-08",
+      "time": "00:00",
+      "total_eur": 3.90,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 717
+    },
+    "items": [
+      {
+        "name_original": "Gilette Spülmittel Zitronenfr.[cite: 1]",
+        "name_jp": "Gilette 食器用洗剤 レモンフレッシュ[cite: 1]",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 0.95,
+          "discount_eur": 0.00,
+          "final_eur": 0.95
+        }
+      },
+      {
+        "name_original": "Niveja A-Z Komplett Deo.100st[cite: 1]",
+        "name_jp": "ニベア A-Z コンプリート デオドラント (?)[cite: 1]",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 2.95,
+          "discount_eur": 0.00,
+          "final_eur": 2.95
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "KAUFLAND_20251008_01",
+    "store": {
+      "name": "Kaufland[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-08",
+      "time": "00:00",
+      "total_eur": 7.76,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1427
+    },
+    "items": [
+      {
+        "name_original": "Kcl Pasta Snack[cite: 1]",
+        "name_jp": "Kcl パスタスナック[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Kn.Kart.Snack[cite: 1]",
+        "name_jp": "クノール ポテトスナック[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "KLC Gouda ger.250g[cite: 1]",
+        "name_jp": "KLC ゴーダチーズ 250g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.89,
+          "discount_eur": 0.00,
+          "final_eur": 1.89
+        }
+      },
+      {
+        "name_original": "KLC Cornflakes[cite: 1]",
+        "name_jp": "KLC コーンフレーク[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Rohwurst-Snack 50g[cite: 1]",
+        "name_jp": "生ソーセージスナック 50g[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.65,
+          "discount_eur": 0.00,
+          "final_eur": 1.65
+        }
+      },
+      {
+        "name_original": "Mira.la Spaghetti.[cite: 1]",
+        "name_jp": "Miracoli スパゲッティ (?)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.75,
+          "discount_eur": 0.00,
+          "final_eur": 0.75
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "STUDIERENDENWERK_20251008_01",
+    "store": {
+      "name": "Studierendenwerk[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-08",
+      "time": "00:00",
+      "total_eur": 9.27,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1705
+    },
+    "items": [
+      {
+        "name_original": "Studenten Tübingen (10)[cite: 1]",
+        "name_jp": "テュービンゲン学生 (10)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 5.20,
+          "discount_eur": 0.00,
+          "final_eur": 5.20
+        }
+      },
+      {
+        "name_original": "Salat/GemüseBuffet MW 0,223 kg[cite: 1]",
+        "name_jp": "サラダ/野菜ビュッフェ 0.223kg[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.22,
+          "discount_eur": 0.00,
+          "final_eur": 2.22
+        }
+      },
+      {
+        "name_original": "Telnacher Iso 0.5 L PET (o)[cite: 1]",
+        "name_jp": "飲料 0.5L PET[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.60,
+          "discount_eur": 0.00,
+          "final_eur": 1.60
+        }
+      },
+      {
+        "name_original": "Pfandflasche Plus 0,25 € (o)[cite: 1]",
+        "name_jp": "デポジットボトル プラス 0.25€[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "STUDIERENDENWERK_20251009_01",
+    "store": {
+      "name": "Studierendenwerk[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-09",
+      "time": "00:00",
+      "total_eur": 8.30,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1527
+    },
+    "items": [
+      {
+        "name_original": "Studenten Tübingen (10)[cite: 1]",
+        "name_jp": "テュービンゲン学生 (10)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 3.70,
+          "discount_eur": 0.00,
+          "final_eur": 3.70
+        }
+      },
+      {
+        "name_original": "Tagesmenü (o)[cite: 1]",
+        "name_jp": "日替わりメニュー[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.15,
+          "discount_eur": 0.00,
+          "final_eur": 1.15
+        }
+      },
+      {
+        "name_original": "Beilagen vorsort. (o)[cite: 1]",
+        "name_jp": "付け合わせ（選択）[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.60,
+          "discount_eur": 0.00,
+          "final_eur": 1.60
+        }
+      },
+      {
+        "name_original": "Afri Cola 0,5L PET (o)[cite: 1]",
+        "name_jp": "アフリコーラ 0.5L PET[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.60,
+          "discount_eur": 0.00,
+          "final_eur": 1.60
+        }
+      },
+      {
+        "name_original": "Pfandflasche Plus 0,25 € (o)[cite: 1]",
+        "name_jp": "デポジットボトル プラス 0.25€[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "KAUFLAND_20251010_01",
+    "store": {
+      "name": "Kaufland[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-10",
+      "time": "00:00",
+      "total_eur": 15.06,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2771
+    },
+    "items": [
+      {
+        "name_original": "Axe Bodyspray[cite: 1]",
+        "name_jp": "アックス ボディースプレー[cite: 1]",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 3.95,
+          "discount_eur": 0.00,
+          "final_eur": 3.95
+        }
+      },
+      {
+        "name_original": "Bev.OG3InFlash300[cite: 1]",
+        "name_jp": "ドリンク OG3 300mlボトル (?)[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "Eier Bodenhaltung[cite: 1]",
+        "name_jp": "平飼い卵[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Kasia.Sz.Chinken[cite: 1]",
+        "name_jp": "カシアブランド ハム[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.59,
+          "discount_eur": 0.00,
+          "final_eur": 2.59
+        }
+      },
+      {
+        "name_original": "K.Heidelbeer[cite: 1]",
+        "name_jp": "K.(ブランド) ブルーベリー[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.99,
+          "discount_eur": 0.00,
+          "final_eur": 2.99
+        }
+      },
+      {
+        "name_original": "KPur.H.Inn.Brustf.[cite: 1]",
+        "name_jp": "K-Purland 鶏胸肉フィレ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 3.25,
+          "discount_eur": 0.00,
+          "final_eur": 3.25
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "LIDL_20251014_01",
+    "store": {
+      "name": "Lidl[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-14",
+      "time": "00:00",
+      "total_eur": 10.70,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1968
+    },
+    "items": [
+      {
+        "name_original": "Apfel rot[cite: 1]",
+        "name_jp": "赤りんご[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Eisbergsalat-Mix[cite: 1]",
+        "name_jp": "アイスバーグレタスミックス[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.75,
+          "discount_eur": 0.00,
+          "final_eur": 0.75
+        }
+      },
+      {
+        "name_original": "RAMA 100% Pfl.[cite: 1]",
+        "name_jp": "ラマ (マーガリン)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "H-Milch1,5% 1L[cite: 1]",
+        "name_jp": "UHT牛乳 1.5% 1L[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Orangenlimonade[cite: 1]",
+        "name_jp": "オレンジリモナーデ[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.55,
+          "discount_eur": 0.00,
+          "final_eur": 0.55
+        }
+      },
+      {
+        "name_original": "Pfand 0.25 EM[cite: 1]",
+        "name_jp": "デポジット 0.25[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Weizentoast[cite: 1]",
+        "name_jp": "小麦トースト[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Hähn.Geschnetzeltes[cite: 1]",
+        "name_jp": "スライスチキン[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 3.99,
+          "discount_eur": 0.00,
+          "final_eur": 3.99
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "DM_20251016_01",
+    "store": {
+      "name": "dm[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-16",
+      "time": "00:00",
+      "total_eur": 1.15,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 211
+    },
+    "items": [
+      {
+        "name_original": "Balea Invisible Power SH 300ml[cite: 1]",
+        "name_jp": "Balea シャワージェル 300ml[cite: 1]",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 1.15,
+          "discount_eur": 0.00,
+          "final_eur": 1.15
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "KAUFLAND_20251017_01",
+    "store": {
+      "name": "Kaufland[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-17",
+      "time": "00:00",
+      "total_eur": 14.58,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2682
+    },
+    "items": [
+      {
+        "name_original": "Eier Bodenhaltung[cite: 1]",
+        "name_jp": "平飼い卵[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Grill 212Z 5A8SE50g[cite: 1]",
+        "name_jp": "グリル関連商品 (判読不明)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.79,
+          "discount_eur": 0.00,
+          "final_eur": 1.79
+        }
+      },
+      {
+        "name_original": "Kcl.Schultersteak[cite: 1]",
+        "name_jp": "K-Classic ショルダーステーキ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 6.98,
+          "discount_eur": 0.00,
+          "final_eur": 6.98
+        }
+      },
+      {
+        "name_original": "KLC Bolognese[cite: 1]",
+        "name_jp": "K-Classic ボロネーゼ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.75,
+          "discount_eur": 0.00,
+          "final_eur": 1.75
+        }
+      },
+      {
+        "name_original": "Coleslaw 400g[cite: 1]",
+        "name_jp": "コールスロー 400g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "Kasia Sweet Chili[cite: 1]",
+        "name_jp": "カシア スイートチリソース[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "KLC Buchstabensupp[cite: 1]",
+        "name_jp": "K-Classic アルファベットスープ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.59,
+          "discount_eur": 0.00,
+          "final_eur": 0.59
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "GO_ASIA_20251018_01",
+    "store": {
+      "name": "go asia[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-18",
+      "time": "00:00",
+      "total_eur": 13.89,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2555
+    },
+    "items": [
+      {
+        "name_original": "Shirakiku Miso Paste 1kg HIKARI[cite: 1]",
+        "name_jp": "白菊 ヒカリ撰 赤みそ 1kg[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 4.89,
+          "discount_eur": 0.00,
+          "final_eur": 4.89
+        }
+      },
+      {
+        "name_original": "Shin Ramyun Nudelsuppe 120g NONGSHIM[cite: 1]",
+        "name_jp": "農心 辛ラーメン 120g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Shin Ramyun Nudelsuppe 120g NONGSHIM[cite: 1]",
+        "name_jp": "農心 辛ラーメン 120g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Shin Ramyun Nudelsuppe 120g NONGSHIM[cite: 1]",
+        "name_jp": "農心 辛ラーメン 120g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Shin Ramyun Nudelsuppe 120g NONGSHIM[cite: 1]",
+        "name_jp": "農心 辛ラーメン 120g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Golden Curry mild 220g S&B[cite: 1]",
+        "name_jp": "ゴールデンカレー(マイルド) 220g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 4.24,
+          "discount_eur": 0.00,
+          "final_eur": 4.24
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "DM_20251020_01",
+    "store": {
+      "name": "dm[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-20",
+      "time": "00:00",
+      "total_eur": 2.35,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 432
+    },
+    "items": [
+      {
+        "name_original": "Ricola Alpen Salbei oZ 75g[cite: 1]",
+        "name_jp": "リコラ アルペンセージ 75g[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 2.35,
+          "discount_eur": 0.00,
+          "final_eur": 2.35
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "DM_20251021_01",
+    "store": {
+      "name": "dm[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-21",
+      "time": "00:00",
+      "total_eur": 1.45,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 266
+    },
+    "items": [
+      {
+        "name_original": "Balea Schuhdeo[cite: 1]",
+        "name_jp": "Balea 靴用デオドラント[cite: 1]",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 1.45,
+          "discount_eur": 0.00,
+          "final_eur": 1.45
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "ALDI_SUD_20251023_01",
+    "store": {
+      "name": "ALDI SÜD[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-23",
+      "time": "00:00",
+      "total_eur": 8.27,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1521
+    },
+    "items": [
+      {
+        "name_original": "Bio-Haferdrink 1l[cite: 1]",
+        "name_jp": "オーガニックオーツミルク 1L[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.90,
+          "discount_eur": 0.00,
+          "final_eur": 0.90
+        }
+      },
+      {
+        "name_original": "XXL Schw.Minutenst[cite: 1]",
+        "name_jp": "XXL ポークミニッツステーキ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 5.99,
+          "discount_eur": 0.00,
+          "final_eur": 5.99
+        }
+      },
+      {
+        "name_original": "Fresh-Cut-Salat 2 (2個)[cite: 1]",
+        "name_jp": "カットサラダ 2 (2個)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.38,
+          "discount_eur": 0.00,
+          "final_eur": 1.38
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "KAUFLAND_20251024_01",
+    "store": {
+      "name": "Kaufland[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-24",
+      "time": "00:00",
+      "total_eur": 12.00,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2208
+    },
+    "items": [
+      {
+        "name_original": "Paul.Hefe Naturtr.[cite: 1]",
+        "name_jp": "パウラーナー ヘフェ ヴァイスビア[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.09,
+          "discount_eur": 0.00,
+          "final_eur": 1.09
+        }
+      },
+      {
+        "name_original": "Pfandartikel[cite: 1]",
+        "name_jp": "デポジット品[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Eier Bodenhaltung[cite: 1]",
+        "name_jp": "平飼い卵[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "K.Obazda Original[cite: 1]",
+        "name_jp": "K.(ブランド) オバツダ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.79,
+          "discount_eur": 0.00,
+          "final_eur": 1.79
+        }
+      },
+      {
+        "name_original": "Müllermilch[cite: 1]",
+        "name_jp": "ミュラーミルク[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "Pfandartikel[cite: 1]",
+        "name_jp": "デポジット品[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Demae Ra.Sesam[cite: 1]",
+        "name_jp": "出前一丁 ごまラー油味[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Demae Ra.Huhn[cite: 1]",
+        "name_jp": "出前一丁 チキン味[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Kinder Schokolade[cite: 1]",
+        "name_jp": "キンダー チョコレート[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "KLC.Käseflips[cite: 1]",
+        "name_jp": "K-Classic チーズフリップス[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "KBio-Tomaten 500g[cite: 1]",
+        "name_jp": "K-Bio トマト 500g[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.79,
+          "discount_eur": 0.00,
+          "final_eur": 1.79
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20251025_01",
+    "store": {
+      "name": "REWE[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-25",
+      "time": "00:00",
+      "total_eur": 4.31,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 793
+    },
+    "items": [
+      {
+        "name_original": "BUTTERTOAST[cite: 1]",
+        "name_jp": "バタートースト[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "TRAUBE HELL KL[cite: 1]",
+        "name_jp": "白ぶどう[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "SAHNEJ.BRATAPFEL[cite: 1]",
+        "name_jp": "ヨーグルト 焼きリンゴ味[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.39,
+          "discount_eur": 0.00,
+          "final_eur": 0.39
+        }
+      },
+      {
+        "name_original": "FRITZ KOLA[cite: 1]",
+        "name_jp": "フリッツコーラ[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.39,
+          "discount_eur": 0.00,
+          "final_eur": 1.39
+        }
+      },
+      {
+        "name_original": "PFAND 0,25 EURO[cite: 1]",
+        "name_jp": "デポジット 0.25ユーロ[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20251028_01",
+    "store": {
+      "name": "REWE[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-28",
+      "time": "00:00",
+      "total_eur": 3.86,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 710
+    },
+    "items": [
+      {
+        "name_original": "SCHINKEN NUGGETZ[cite: 1]",
+        "name_jp": "ハムナゲット[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "MILCHREIS SCHOKO[cite: 1]",
+        "name_jp": "ミルヒライス チョコ[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "MUE MILCHREIS[cite: 1]",
+        "name_jp": "ミュラー ミルヒライス[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.39,
+          "discount_eur": 0.00,
+          "final_eur": 0.39
+        }
+      },
+      {
+        "name_original": "INST. NUDELN CHI[cite: 1]",
+        "name_jp": "インスタントヌードル チキン味[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "KAUFLAND_20251030_01",
+    "store": {
+      "name": "Kaufland[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-30",
+      "time": "00:00",
+      "total_eur": 34.15,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 6283
+    },
+    "items": [
+      {
+        "name_original": "Happy Day[cite: 1]",
+        "name_jp": "ハッピーデイ (ジュース)[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Hochwald Eisschoko[cite: 1]",
+        "name_jp": "ホッホヴァルト アイスチョコ[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.70,
+          "discount_eur": 0.00,
+          "final_eur": 0.70
+        }
+      },
+      {
+        "name_original": "Weih.Butter[cite: 1]",
+        "name_jp": "バター[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.69,
+          "discount_eur": 0.00,
+          "final_eur": 1.69
+        }
+      },
+      {
+        "name_original": "K Card Rabatt[cite: 1]",
+        "name_jp": "Kカード割引[cite: 1]",
+        "category": "Discount",
+        "price": {
+          "regular_eur": -0.40,
+          "discount_eur": 0.00,
+          "final_eur": -0.40
+        }
+      },
+      {
+        "name_original": "KPur.H.Brustfilet[cite: 1]",
+        "name_jp": "鶏胸肉フィレ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 9.99,
+          "discount_eur": 0.00,
+          "final_eur": 9.99
+        }
+      },
+      {
+        "name_original": "Eier Bodenhaltung[cite: 1]",
+        "name_jp": "平飼い卵[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Staro.Prag.Pils DS[cite: 1]",
+        "name_jp": "スタロプラメン ピルスナー[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Pfandartikel[cite: 1]",
+        "name_jp": "デポジット品[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Bananen[cite: 1]",
+        "name_jp": "バナナ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.27,
+          "discount_eur": 0.00,
+          "final_eur": 1.27
+        }
+      },
+      {
+        "name_original": "K.Emmentaler ger.[cite: 1]",
+        "name_jp": "エメンタールチーズ（すりおろし）[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.59,
+          "discount_eur": 0.00,
+          "final_eur": 1.59
+        }
+      },
+      {
+        "name_original": "KLC.Jodsalz/Fluor[cite: 1]",
+        "name_jp": "ヨウ素・フッ素入り食塩[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.29,
+          "discount_eur": 0.00,
+          "final_eur": 0.29
+        }
+      },
+      {
+        "name_original": "Milka Oreo[cite: 1]",
+        "name_jp": "ミルカ オレオ[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.95,
+          "discount_eur": 0.00,
+          "final_eur": 0.95
+        }
+      },
+      {
+        "name_original": "Milka Uni Daim[cite: 1]",
+        "name_jp": "ミルカ Uni Daim[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.95,
+          "discount_eur": 0.00,
+          "final_eur": 0.95
+        }
+      },
+      {
+        "name_original": "Milka Erdnuss[cite: 1]",
+        "name_jp": "ミルカ ピーナッツ[cite: 1]",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.95,
+          "discount_eur": 0.00,
+          "final_eur": 0.95
+        }
+      },
+      {
+        "name_original": "KLC.LangkornReis[cite: 1]",
+        "name_jp": "K-Classic 長粒米[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Bu.Fruchtaufstrsi.[cite: 1]",
+        "name_jp": "フルーツスプレッド/ジャム[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Pfandartikel[cite: 1]",
+        "name_jp": "デポジット品[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Red Bull Energy[cite: 1]",
+        "name_jp": "レッドブル エナジードリンク[cite: 1]",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.09,
+          "discount_eur": 0.00,
+          "final_eur": 1.09
+        }
+      },
+      {
+        "name_original": "Pfandartikel[cite: 1]",
+        "name_jp": "デポジット品[cite: 1]",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "BerlInkl[cite: 1]",
+        "name_jp": "BerlInkl (商品名?)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Dr.Oe.Pantoletten[cite: 1]",
+        "name_jp": "Dr.Oetker パントレッテン (?)[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.99,
+          "discount_eur": 0.00,
+          "final_eur": 2.99
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20251031_01",
+    "store": {
+      "name": "REWE[cite: 1]",
+      "address": "N/A"
+    },
+    "transaction": {
+      "date": "2025-10-31",
+      "time": "00:00",
+      "total_eur": 7.24,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1332
+    },
+    "items": [
+      {
+        "name_original": "TORTILLAS WEIZEN[cite: 1]",
+        "name_jp": "小麦のトルティーヤ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "BLATTSALAT MIX[cite: 1]",
+        "name_jp": "リーフサラダミックス[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "MILCHSALAMI ROHK[cite: 1]",
+        "name_jp": "ミルクサラミ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "KARTOFFELN BIO[cite: 1]",
+        "name_jp": "オーガニックじゃがいも[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.89,
+          "discount_eur": 0.00,
+          "final_eur": 1.89
+        }
+      },
+      {
+        "name_original": "ZWIEBELN BIO[cite: 1]",
+        "name_jp": "オーガニック玉ねぎ[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "KNOBLAUCH[cite: 1]",
+        "name_jp": "にんにく[cite: 1]",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      }
+    ]
+  }
+]

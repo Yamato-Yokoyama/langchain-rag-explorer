@@ -1,0 +1,1329 @@
+[
+  {
+    "receipt_id": "dm_20260429_01",
+    "store": {
+      "name": "dm-drogerie markt",
+      "address": "Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-29",
+      "time": "00:00",
+      "total_eur": 3.65,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 671
+    },
+    "items": [
+      {
+        "name_original": "Balea MEN Duschgel Deep Sensation 4in1, 300 ml",
+        "name_jp": "ボディソープ",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 0.95,
+          "discount_eur": 0.00,
+          "final_eur": 0.95
+        }
+      },
+      {
+        "name_original": "Balea PROFESSIONAL Shampoo Oil Repair Intensiv, 250 ml",
+        "name_jp": "シャンプー",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 1.25,
+          "discount_eur": 0.00,
+          "final_eur": 1.25
+        }
+      },
+      {
+        "name_original": "Balea Fuß Deospray, 200 ml",
+        "name_jp": "足用デオドラントスプレー",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 1.45,
+          "discount_eur": 0.00,
+          "final_eur": 1.45
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "dm_20260421_01",
+    "store": {
+      "name": "dm-drogerie markt",
+      "address": "Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-21",
+      "time": "00:00",
+      "total_eur": 4.65,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 855
+    },
+    "items": [
+      {
+        "name_original": "Mivolis Traubenzucker, Früchte-Mix, 100 g",
+        "name_jp": "ぶどう糖キャンディ (フルーツミックス)",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Colgate Zahnpasta Total Aktiver Schutz, Gesunde Frische, 75 ml",
+        "name_jp": "歯磨き粉",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 2.95,
+          "discount_eur": 0.00,
+          "final_eur": 2.95
+        }
+      },
+      {
+        "name_original": "Dontodent Mundspülung Antibakteriell, 500 ml",
+        "name_jp": "マウスウォッシュ (抗菌)",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "dm_20260418_01",
+    "store": {
+      "name": "dm-drogerie markt",
+      "address": "Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-18",
+      "time": "00:00",
+      "total_eur": 1.35,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 248
+    },
+    "items": [
+      {
+        "name_original": "Mivolis Multivitamin Brausetabletten 20 St, 20 St",
+        "name_jp": "マルチビタミン発泡錠",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.50,
+          "discount_eur": 0.00,
+          "final_eur": 0.50
+        }
+      },
+      {
+        "name_original": "Balea Waschgel erfrischend, 150 ml",
+        "name_jp": "洗顔ジェル",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260427_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-27",
+      "time": "00:00",
+      "total_eur": 12.90,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2373
+    },
+    "items": [
+      {
+        "name_original": "Banane lose",
+        "name_jp": "バナナ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.51,
+          "discount_eur": 0.00,
+          "final_eur": 1.51
+        }
+      },
+      {
+        "name_original": "Gouda Scheiben",
+        "name_jp": "ゴーダチーズ スライス",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": -0.04,
+          "final_eur": 2.45
+        }
+      },
+      {
+        "name_original": "Lyoner XXL",
+        "name_jp": "リオナソーセージ XXL",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "BürgerSchwä.Maultas.",
+        "name_jp": "シュヴァーベン風マウルタッシェン",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.29,
+          "discount_eur": -0.60,
+          "final_eur": 1.69
+        }
+      },
+      {
+        "name_original": "H-Milch 1,5%",
+        "name_jp": "ロングライフ牛乳 1.5%",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Haferflocken zart",
+        "name_jp": "オートミール",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      },
+      {
+        "name_original": "Milka Daim",
+        "name_jp": "ミルカチョコレート ダイム",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 2.58,
+          "discount_eur": -0.36,
+          "final_eur": 2.22
+        }
+      },
+      {
+        "name_original": "Milka Erdbeer",
+        "name_jp": "ミルカチョコレート イチゴ",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": -0.18,
+          "final_eur": 1.11
+        }
+      },
+      {
+        "name_original": "Weizenbrötchen 8er",
+        "name_jp": "白パン 8個入り",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260424_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-24",
+      "time": "00:00",
+      "total_eur": 6.66,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1225
+    },
+    "items": [
+      {
+        "name_original": "MSC Backfischstäbch.",
+        "name_jp": "白身魚のフライ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      },
+      {
+        "name_original": "Speisequark 20%",
+        "name_jp": "クワルクチーズ 20%",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.18,
+          "discount_eur": 0.00,
+          "final_eur": 1.18
+        }
+      },
+      {
+        "name_original": "Back-Camembert m.Dip",
+        "name_jp": "オーブン用カマンベール ディップ付き",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.99,
+          "discount_eur": 0.00,
+          "final_eur": 2.99
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260422_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-22",
+      "time": "00:00",
+      "total_eur": 4.61,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 848
+    },
+    "items": [
+      {
+        "name_original": "H-Milch 1,5%",
+        "name_jp": "ロングライフ牛乳 1.5%",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Delikat. Mayonnaise",
+        "name_jp": "マヨネーズ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.69,
+          "discount_eur": 0.00,
+          "final_eur": 1.69
+        }
+      },
+      {
+        "name_original": "Lays Clas. gesalzen",
+        "name_jp": "ポテトチップス 塩味",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": -0.11,
+          "final_eur": 0.88
+        }
+      },
+      {
+        "name_original": "Weizenbrötchen 8er",
+        "name_jp": "白パン 8個入り",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260421_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-21",
+      "time": "00:00",
+      "total_eur": 4.17,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 767
+    },
+    "items": [
+      {
+        "name_original": "Birnen",
+        "name_jp": "洋梨",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.79,
+          "discount_eur": -0.30,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Gemüsepf.Sommergart.",
+        "name_jp": "夏野菜ミックス",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": 0.00,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Fusilli",
+        "name_jp": "フジッリ (マカロニ)",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260420_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-20",
+      "time": "00:00",
+      "total_eur": 10.38,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1909
+    },
+    "items": [
+      {
+        "name_original": "Banane lose",
+        "name_jp": "バナナ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.13,
+          "discount_eur": 0.00,
+          "final_eur": 1.13
+        }
+      },
+      {
+        "name_original": "Speisequark 0%",
+        "name_jp": "クワルクチーズ 0%",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Delikatess Lyoner",
+        "name_jp": "リオナソーセージ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Fr.Eier.a. Bodenhal.",
+        "name_jp": "平飼い卵",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      },
+      {
+        "name_original": "Thunfischsteak Sonn.",
+        "name_jp": "ツナステーキ ひまわり油漬け",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.39,
+          "discount_eur": -0.10,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "QS Schweinehackfl.",
+        "name_jp": "豚ひき肉",
+        "category": "Food",
+        "price": {
+          "regular_eur": 3.79,
+          "discount_eur": -0.20,
+          "final_eur": 3.59
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260417_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-17",
+      "time": "00:00",
+      "total_eur": 9.91,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1823
+    },
+    "items": [
+      {
+        "name_original": "Banane lose",
+        "name_jp": "バナナ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.87,
+          "discount_eur": 0.00,
+          "final_eur": 0.87
+        }
+      },
+      {
+        "name_original": "Romatomaten",
+        "name_jp": "ローマトマト",
+        "category": "Food",
+        "price": {
+          "regular_eur": 4.58,
+          "discount_eur": -1.40,
+          "final_eur": 3.18
+        }
+      },
+      {
+        "name_original": "McCain Pommes 1,5kg",
+        "name_jp": "フライドポテト",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.99,
+          "discount_eur": 0.00,
+          "final_eur": 2.99
+        }
+      },
+      {
+        "name_original": "Delikatess Lyoner",
+        "name_jp": "リオナソーセージ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Mega Bärchen",
+        "name_jp": "クマ型ソーセージ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.29,
+          "discount_eur": 0.00,
+          "final_eur": 1.29
+        }
+      },
+      {
+        "name_original": "Weizentoast",
+        "name_jp": "小麦トースト",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.69,
+          "discount_eur": 0.00,
+          "final_eur": 0.69
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260415_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-15",
+      "time": "00:00",
+      "total_eur": 3.46,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 636
+    },
+    "items": [
+      {
+        "name_original": "Speisequark 20%",
+        "name_jp": "クワルクチーズ 20%",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.18,
+          "discount_eur": 0.00,
+          "final_eur": 1.18
+        }
+      },
+      {
+        "name_original": "Weizenbrötchen 8er",
+        "name_jp": "白パン 8個入り",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Trolli Fruchtg.Glühw",
+        "name_jp": "トローリ グミ",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.09,
+          "discount_eur": 0.00,
+          "final_eur": 1.09
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260414_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-14",
+      "time": "00:00",
+      "total_eur": 6.38,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1173
+    },
+    "items": [
+      {
+        "name_original": "Delikatess Lyoner",
+        "name_jp": "リオナソーセージ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Gouda Scheiben",
+        "name_jp": "ゴーダチーズ スライス",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": -0.04,
+          "final_eur": 2.45
+        }
+      },
+      {
+        "name_original": "Blütenhonig",
+        "name_jp": "ハチミツ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.69,
+          "discount_eur": 0.00,
+          "final_eur": 2.69
+        }
+      },
+      {
+        "name_original": "H-Milch 1,5%",
+        "name_jp": "ロングライフ牛乳 1.5%",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Pfandrückgabe",
+        "name_jp": "空き瓶返却",
+        "category": "Pfand_Return",
+        "price": {
+          "regular_eur": -0.50,
+          "discount_eur": 0.00,
+          "final_eur": -0.50
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260411_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-11",
+      "time": "00:00",
+      "total_eur": 4.93,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 907
+    },
+    "items": [
+      {
+        "name_original": "Apfel rot,süß-säuerl",
+        "name_jp": "赤リンゴ (甘酸っぱい)",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.19,
+          "discount_eur": -0.40,
+          "final_eur": 1.79
+        }
+      },
+      {
+        "name_original": "Blattsalat-Rohk.-Mix",
+        "name_jp": "ミックスサラダ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": -0.06,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "Fürstenberg Radler",
+        "name_jp": "フュルステンベルク ラドラー (ビール)",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Pfand 0,25 M",
+        "name_jp": "デポジット",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Haribo Goldbären",
+        "name_jp": "ハリボー ゴールドベア",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": -0.38,
+          "final_eur": 1.11
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260410_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-10",
+      "time": "00:00",
+      "total_eur": 4.20,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 772
+    },
+    "items": [
+      {
+        "name_original": "MSC Backfischstäbch.",
+        "name_jp": "白身魚のフライ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      },
+      {
+        "name_original": "H-Milch 1,5%",
+        "name_jp": "ロングライフ牛乳 1.5%",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Haribo Goldbären",
+        "name_jp": "ハリボー ゴールドベア",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": -0.38,
+          "final_eur": 1.11
+        }
+      },
+      {
+        "name_original": "Pfandrückgabe",
+        "name_jp": "空き瓶返却",
+        "category": "Pfand_Return",
+        "price": {
+          "regular_eur": -0.25,
+          "discount_eur": 0.00,
+          "final_eur": -0.25
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260409_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-09",
+      "time": "00:00",
+      "total_eur": 4.49,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 826
+    },
+    "items": [
+      {
+        "name_original": "Delikatess Lyoner",
+        "name_jp": "リオナソーセージ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Fr.Eier.a. Bodenhal.",
+        "name_jp": "平飼い卵",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      },
+      {
+        "name_original": "Haribo Goldbären",
+        "name_jp": "ハリボー ゴールドベア",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": -0.38,
+          "final_eur": 1.11
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260408_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-08",
+      "time": "00:00",
+      "total_eur": 2.85,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 524
+    },
+    "items": [
+      {
+        "name_original": "Monster Mango Loco",
+        "name_jp": "モンスター マンゴーロコ",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Pfand 0,25 M",
+        "name_jp": "デポジット",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Haribo Goldbären",
+        "name_jp": "ハリボー ゴールドベア",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": -0.38,
+          "final_eur": 1.11
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260407_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-07",
+      "time": "00:00",
+      "total_eur": 5.52,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1015
+    },
+    "items": [
+      {
+        "name_original": "Delikatess Lyoner",
+        "name_jp": "リオナソーセージ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.89,
+          "discount_eur": 0.00,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Speisequark 0%",
+        "name_jp": "クワルクチーズ 0%",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Coca Cola",
+        "name_jp": "コカ・コーラ",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.59,
+          "discount_eur": 0.00,
+          "final_eur": 1.59
+        }
+      },
+      {
+        "name_original": "Pfand 0,25 M",
+        "name_jp": "デポジット",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Weizenbrötchen 8er",
+        "name_jp": "白パン 8個入り",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "Haribo Goldbären",
+        "name_jp": "ハリボー ゴールドベア",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": -0.38,
+          "final_eur": 1.11
+        }
+      },
+      {
+        "name_original": "Pfandrückgabe",
+        "name_jp": "空き瓶返却",
+        "category": "Pfand_Return",
+        "price": {
+          "regular_eur": -0.50,
+          "discount_eur": 0.00,
+          "final_eur": -0.50
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260404_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-04",
+      "time": "00:00",
+      "total_eur": 11.55,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2125
+    },
+    "items": [
+      {
+        "name_original": "Tradiz.Margh.",
+        "name_jp": "マルゲリータピザ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.22,
+          "discount_eur": 0.00,
+          "final_eur": 2.22
+        }
+      },
+      {
+        "name_original": "Dr. Oetker Diavolo",
+        "name_jp": "ディアボロピザ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.22,
+          "discount_eur": 0.00,
+          "final_eur": 2.22
+        }
+      },
+      {
+        "name_original": "Speisequark 0%",
+        "name_jp": "クワルクチーズ 0%",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": 0.00,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Coca Cola 1,25l",
+        "name_jp": "コカ・コーラ 1.25L",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.59,
+          "discount_eur": -0.80,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "Pfand 0,25 M",
+        "name_jp": "デポジット",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Haribo Goldbären",
+        "name_jp": "ハリボー ゴールドベア",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": -0.50,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Vollkorn Toast",
+        "name_jp": "全粒粉トースト",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "Milka Joghurt-Creme",
+        "name_jp": "ミルカ ヨーグルトクリーム (チョコレート)",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": -1.22,
+          "final_eur": 0.77
+        }
+      },
+      {
+        "name_original": "Milka & TUC",
+        "name_jp": "ミルカ & TUC (チョコレート)",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": -1.22,
+          "final_eur": 0.77
+        }
+      },
+      {
+        "name_original": "Lays Clas. gesalzen",
+        "name_jp": "ポテトチップス 塩味",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": -1.11,
+          "final_eur": 0.88
+        }
+      },
+      {
+        "name_original": "Lays Clas. Sour Crea",
+        "name_jp": "ポテトチップス サワークリーム",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": -1.11,
+          "final_eur": 0.88
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "Lidl_20260402_01",
+    "store": {
+      "name": "Lidl",
+      "address": "Schweickhardtstr. 11, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-02",
+      "time": "00:00",
+      "total_eur": 11.27,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 2073
+    },
+    "items": [
+      {
+        "name_original": "Delikatess Lyoner",
+        "name_jp": "リオナソーセージ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.99,
+          "discount_eur": -0.10,
+          "final_eur": 0.89
+        }
+      },
+      {
+        "name_original": "Gouda Scheiben",
+        "name_jp": "ゴーダチーズ スライス",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.45,
+          "discount_eur": -0.46,
+          "final_eur": 1.99
+        }
+      },
+      {
+        "name_original": "Monster Mango Loco",
+        "name_jp": "モンスター マンゴーロコ",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": 0.00,
+          "final_eur": 1.49
+        }
+      },
+      {
+        "name_original": "Pfand 0,25 M",
+        "name_jp": "デポジット",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      },
+      {
+        "name_original": "Haribo Goldbären",
+        "name_jp": "ハリボー ゴールドベア",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.49,
+          "discount_eur": -0.50,
+          "final_eur": 0.99
+        }
+      },
+      {
+        "name_original": "Lays Clas. Sour Crea",
+        "name_jp": "ポテトチップス サワークリーム",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.99,
+          "discount_eur": -1.11,
+          "final_eur": 0.88
+        }
+      },
+      {
+        "name_original": "Weizenbrötchen 8er",
+        "name_jp": "白パン 8個入り",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "QS Schweinehackfl.",
+        "name_jp": "豚ひき肉",
+        "category": "Food",
+        "price": {
+          "regular_eur": 3.79,
+          "discount_eur": -0.20,
+          "final_eur": 3.59
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20260413_5687",
+    "store": {
+      "name": "REWE",
+      "address": "Mohlstr. 26, 72074 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-13",
+      "time": "18:28",
+      "total_eur": 4.47,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 822
+    },
+    "items": [
+      {
+        "name_original": "LACHSFORELLE",
+        "name_jp": "サーモントラウト",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.49,
+          "discount_eur": 0.00,
+          "final_eur": 2.49
+        }
+      },
+      {
+        "name_original": "JA! MARKENBUTTER",
+        "name_jp": "バター",
+        "category": "Food",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "LANG. REIS KB",
+        "name_jp": "長粒米",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20260418_5663",
+    "store": {
+      "name": "REWE",
+      "address": "Europaplatz 5, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-04-18",
+      "time": "19:31",
+      "total_eur": 5.20,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 956
+    },
+    "items": [
+      {
+        "name_original": "OFENKAESE",
+        "name_jp": "オーブンチーズ",
+        "category": "Food",
+        "price": {
+          "regular_eur": 2.29,
+          "discount_eur": 0.00,
+          "final_eur": 2.29
+        }
+      },
+      {
+        "name_original": "JA! H-MILCH 1,5%",
+        "name_jp": "牛乳",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.00,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "LANG. REIS KB",
+        "name_jp": "長粒米",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.79,
+          "discount_eur": 0.00,
+          "final_eur": 0.79
+        }
+      },
+      {
+        "name_original": "SPEZIAL",
+        "name_jp": "飲料",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 1.19,
+          "discount_eur": 0.00,
+          "final_eur": 1.19
+        }
+      },
+      {
+        "name_original": "PFAND 0,08 EUR",
+        "name_jp": "容器デポジット",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.08,
+          "discount_eur": 0.00,
+          "final_eur": 0.08
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "REWE_20260515_7822",
+    "store": {
+      "name": "REWE",
+      "address": "Europaplatz 5, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-05-15",
+      "time": "21:30",
+      "total_eur": 2.09,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 384
+    },
+    "items": [
+      {
+        "name_original": "KNOPPERS RIEGEL",
+        "name_jp": "チョコレート菓子",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.69,
+          "discount_eur": 0.00,
+          "final_eur": 1.69
+        }
+      },
+      {
+        "name_original": "JA! MIWA CL",
+        "name_jp": "ミネラルウォーター",
+        "category": "Beverage",
+        "price": {
+          "regular_eur": 0.15,
+          "discount_eur": 0.00,
+          "final_eur": 0.15
+        }
+      },
+      {
+        "name_original": "PFAND 0,25 EURO",
+        "name_jp": "容器デポジット",
+        "category": "Pfand",
+        "price": {
+          "regular_eur": 0.25,
+          "discount_eur": 0.00,
+          "final_eur": 0.25
+        }
+      }
+    ]
+  }
+]
+  
