@@ -2,8 +2,12 @@
 __pycache__/
 *.py[cod]
 .venv/
+.venv-py314-backup/
 .vscode/
 .DS_Store
 .langchain.cache
 chroma_db/
 files/
+.chainlit/
+requirements-loose.txt
+requirements-py314.txt
