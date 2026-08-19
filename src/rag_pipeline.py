@@ -33,30 +33,37 @@ embeddings = HuggingFaceEmbeddings(
     model_kwargs={"device": "cpu"}
 )
 
-def build_index(filepath: str) -> tuple[list, list]:
+def build_index(filepaths: str | list[str]) -> tuple[list, list]:
     """Load + Split + Embed。ファイル拡張子で loader を自動選択。"""
     
     # 拡張子で分岐
-    if filepath.endswith(".md"):
-        docs = load_as_plain_text(filepath)
-        # Split
-        headers_to_split_on = [
-            ("#", "Header 1"),
-            ("##", "Header 2"),
-            ("###", "Header 3"),
-        ]
-        splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
-        split_docs = splitter.split_text(docs[0].page_content)
-    elif filepath.endswith(".json"):
-        # JSON は 1 レシート = 1 Document で既に分割済み、Split 不要
-        split_docs = load_receipts_from_json(filepath)
-    else:
-        raise ValueError(f"Unsupported file type: {filepath}")
+    if isinstance(filepaths, str):
+        filepaths = [filepaths]
+        
+    all_split_docs = []
+    for path in filepaths:
+        if path.endswith(".md"):
+            docs = load_as_plain_text(path)
+            # Split
+            headers_to_split_on = [
+                ("#", "Header 1"),
+                ("##", "Header 2"),
+                ("###", "Header 3"),
+            ]
+            splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
+            split_docs = splitter.split_text(docs[0].page_content)
+        
+        elif path.endswith(".json"):
+            # JSON は 1 レシート = 1 Document で既に分割済み、Split 不要
+            split_docs = load_receipts_from_json(path)
+        else:
+            raise ValueError(f"Unsupported file type: {path}")
 
+        all_split_docs.extend(split_docs)
 
-    vectors = embeddings.embed_documents([doc.page_content for doc in split_docs])
-    
-    return split_docs, vectors
+    vectors = embeddings.embed_documents([doc.page_content for doc in all_split_docs])
+
+    return all_split_docs, vectors
 
 def search(query: str, split_docs: list, vectors: list, top_k=5, use_rewriting = False, llm=None) -> list:
     """クエリに対して上位k位をChunksを返す"""

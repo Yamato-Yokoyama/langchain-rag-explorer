@@ -6,6 +6,7 @@ Chainlit + RAG pipeline 統合。
 - @cl.on_message: session から取り出して search → generate_answer
 """
 import os
+from pathlib import Path
 import chainlit as cl
 import asyncio
 from dotenv import load_dotenv
@@ -14,7 +15,9 @@ from src.rag_pipeline import build_index, search, generate_answer
 
 load_dotenv()
 
-CORPUS_PATH = "data/tuebingen/receipts_2026-04.json"
+CORPUS_PATHS = sorted(
+    str(p) for p in Path("data/tuebingen").glob("receipts_*.json")
+)
 @cl.on_chat_start
 async def start():
     # TODO 1: LLM を作る(rag_pipeline.py の __main__ をコピペで OK)
@@ -26,7 +29,7 @@ async def start():
     )
     
     # TODO 2: build_index(CORPUS_PATH) を呼んで split_docs, vectors を得る
-    split_docs, vectors = build_index(CORPUS_PATH)
+    split_docs, vectors = build_index(CORPUS_PATHS)
 
     # TODO 3: cl.user_session.set() で llm, split_docs, vectors を3つ保存
     cl.user_session.set("llm", llm)
@@ -47,7 +50,7 @@ async def on_message(msg: cl.Message):
     vectors = cl.user_session.get("vectors")
 
     # TODO 2: search(msg.content, split_docs, vectors, top_k=5) を呼ぶ
-    results = search(msg.content, split_docs, vectors, top_k=50, use_rewriting=False, llm=llm)
+    results = search(msg.content, split_docs, vectors, top_k=len(split_docs), use_rewriting=False, llm=llm)
     # TODO 3: generate_answer(msg.content, results, llm) を呼ぶ
     answer = generate_answer(msg.content, results, llm)
 
