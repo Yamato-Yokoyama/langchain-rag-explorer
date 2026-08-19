@@ -80,3 +80,21 @@
 **元の文脈**: [daily/2026-08-15.md](../2026-08-15.md)
 
 **この気づきが独自な理由**: Common Ground 理論と実装対処法(Enrichment/Contextualization)を直接接続できる。Speech Act 教育を受けた CL 学生の武器。
+
+---
+
+## Future Enhancement: Visual Documentation
+
+**1 行要約**: 設計ドキュメントに Graphviz(DOT 言語)で生成した diagram を添える運用を Day 11 で開始、文章だけでなく視覚的にも設計を残せるようにした。
+
+**面接での 1 段の言い回し**:
+「Day 11 で Router 型 RAG の設計をドキュメント化する際、文章だけでなく Graphviz の DOT 言語で data flow diagram も作成しました。画像を直接コミットするのではなく DOT ソースをバージョン管理下に置くことで、diff で差分レビューができ、必要なら CI で再レンダリングもできる形にしています。設計判断の理由を文章で説明しつつ、全体構造を一目で把握できる図を添えることで、レビュアーやチームメンバーへの説明コストを下げられると考えています。」
+
+**深掘りされた時のフォールバック**:
+- なぜ画像だけでなく DOT ソースもコミットするか: テキストベースなので `git diff` でレビューでき、バイナリの画像ファイルより軽量で差分も追える
+- 現状は router-overview.dot 1 枚だが、Router の 3 分岐が実装フェーズごとに更新していく想定
+- Enterprise では Confluence や ADR(Architecture Decision Record)に diagram を添えるのが一般的、同じプラクティスを個人プロジェクトに導入した形
+
+**元の文脈**: [docs/router-design-sketch.md](../../docs/router-design-sketch.md), [daily/2026-08-19.md](../2026-08-19.md)
+
+**この気づきが独自な理由**: 個人の学習プロジェクトでも、書きっぱなしのメモではなくバージョン管理された図付きの設計ドキュメントとして残す習慣は、実務のドキュメンテーション文化に近い。
