@@ -139,6 +139,7 @@ opentelemetry-util-http==0.65b0
 orjson==3.11.9
 ormsgpack==1.12.2
 packaging==26.3
+pandas==3.0.5
 pillow==12.3.0
 propcache==0.5.2
 protobuf==7.35.1
