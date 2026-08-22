@@ -109,46 +109,34 @@ def load_receipts_as_dataframe(paths: list[str]) -> pd.DataFrame:
         - build_index とは別関数として独立させることで、semantic branch(vector 索引)と
           aggregation/table_display branch(DataFrame)の責務を分離する
     """
-    # --- 実装ガイド(Yamato が写経する際の設計メモ) ---
-    # data/tuebingen/receipts_2026-04.json の 1 件目を目視確認済み。スキーマ:
-    #   receipt = {
-    #       "receipt_id": str,
-    #       "store": {"name": str, "address": str},
-    #       "transaction": {
-    #           "date": "YYYY-MM-DD", "time": str,
-    #           "total_eur": float, "exchange_rate_jpy": float, "total_jpy": float,
-    #       },
-    #       "items": [ {...}, ... ],   # 空リストのレシートもあり得る、その場合 item_count=0
-    #   }
-    # → load_receipts_from_json (L12-38) が読んでいる JSON と同一スキーマ。
-    #
-    # 想定ロジック(load_receipts_from_json の読み込みパターンを踏襲):
-    #   1. rows: list[dict] = [] を用意
-    #   2. for path in paths:
-    #        data = json.loads(Path(path).read_text(encoding="utf-8"))
-    #        for receipt in data:
-    #            transaction = receipt.get("transaction", {})
-    #            store = receipt.get("store", {})
-    #            date_str = transaction.get("date", "")
-    #            rows.append({
-    #                "date": date_str,                        # 3 で pd.to_datetime に変換
-    #                "month": date_str[:7] if date_str else None,
-    #                "store_name": store.get("name"),
-    #                "store_address": store.get("address"),
-    #                "total_eur": transaction.get("total_eur"),
-    #                "total_jpy": transaction.get("total_jpy"),
-    #                "item_count": len(receipt.get("items", [])),
-    #                "source_file": path,
-    #            })
-    #   3. df = pd.DataFrame(rows)
-    #      df["date"] = pd.to_datetime(df["date"]) で dtype を揃える
-    #      (date を文字列のまま残すと month との二重管理になるので注意)
-    #   4. return df
-    #
-    # 注意点:
-    #   - load_receipts_from_json の metadata 構築ロジック(L25-34)と発想は同じだが、
-    #     出力先が Document ではなく DataFrame row なのでここでは独立した関数にする
-    #   - items が空のレシートは item_count=0 として扱う(欠損/エラーにしない)
-    #   - paths が複数ファイルにまたがる場合、月をまたいで concat される想定
-    #     (aggregation branch 側で df.groupby("month") する前提)
-    ...
+
+    
+    rows: list[dict] = []
+    
+    for path in paths:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        
+        for receipt in data:
+            transaction = receipt.get("transaction", {})
+            store = receipt.get("store", {})
+            date_str = transaction.get("date", "")
+            # 元データに "2026-05-19[cite: 1]" のような citation artifact が
+            # 混入しているケースがあるため、日付部分(先頭10文字)だけを取り出す。
+            # month と同じ「固定長 slice で防御」の考え方。
+            date_clean = date_str[:10] if date_str else None
+            rows.append({
+                "date": date_clean,                      # 3 で pd.to_datetime に変換
+                "month": date_str[:7] if date_str else None,
+                "store": store.get("name"),
+                "store_address": store.get("address"),
+                "total_eur": transaction.get("total_eur"),
+                "total_jpy": transaction.get("total_jpy"),
+                "item_count": len(receipt.get("items", [])),
+                "source_file": path,
+            })
+        
+    df = pd.DataFrame(rows)
+    df["date"] = pd.to_datetime(df["date"])  # dtype を揃える
+    
+    return df
+        
