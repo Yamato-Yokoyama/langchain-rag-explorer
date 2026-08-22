@@ -9,6 +9,7 @@ import json
 
 from pathlib import Path
 from langchain_core.documents import Document
+import pandas as pd
 def load_receipts_from_json(filepath: str) -> list[Document]:
     """月次レシート JSON を Document のリストに変換する。"""
     data = json.loads(Path(filepath).read_text(encoding="utf-8"))
@@ -79,5 +80,63 @@ def _format_receipt_as_text(receipt: dict) -> str:
                 item_texts.append(name)
         
         header += f" 購入品: {', '.join(item_texts)}。"
-    
+
     return header
+
+
+def load_receipts_as_dataframe(paths: list[str]) -> pd.DataFrame:
+    """Receipt JSON ファイル群を flat な DataFrame に変換する。
+
+    Input:
+        paths: JSON ファイルパスのリスト
+               (例: ["data/tuebingen/receipts_2025-10.json", ...])
+
+    Output:
+        pd.DataFrame with columns:
+            - date (datetime)        : transaction.date
+            - month (str)            : "2025-10" 形式、date から derive、groupby の主軸
+            - store_name (str)       : store.name
+            - store_address (str)    : store.address
+            - total_eur (float)      : transaction.total_eur、金額集計の主軸
+            - total_jpy (float)      : transaction.total_jpy
+            - item_count (int)       : len(items)
+            - source_file (str)      : traceability 用、paths の要素
+
+    なぜ:
+        - LLM に全件読ませる代わりに、pandas の groupby で決定的に集計できる形にする
+        - top_k=171 で LLM が systematic に +162 EUR 過大報告した問題への構造的解決
+        - Router の aggregation branch と table_display branch の共通データ源
+        - build_index とは別関数として独立させることで、semantic branch(vector 索引)と
+          aggregation/table_display branch(DataFrame)の責務を分離する
+    """
+
+    
+    rows: list[dict] = []
+    
+    for path in paths:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        
+        for receipt in data:
+            transaction = receipt.get("transaction", {})
+            store = receipt.get("store", {})
+            date_str = transaction.get("date", "")
+            # 元データに "2026-05-19[cite: 1]" のような citation artifact が
+            # 混入しているケースがあるため、日付部分(先頭10文字)だけを取り出す。
+            # month と同じ「固定長 slice で防御」の考え方。
+            date_clean = date_str[:10] if date_str else None
+            rows.append({
+                "date": date_clean,                      # 3 で pd.to_datetime に変換
+                "month": date_str[:7] if date_str else None,
+                "store": store.get("name"),
+                "store_address": store.get("address"),
+                "total_eur": transaction.get("total_eur"),
+                "total_jpy": transaction.get("total_jpy"),
+                "item_count": len(receipt.get("items", [])),
+                "source_file": path,
+            })
+        
+    df = pd.DataFrame(rows)
+    df["date"] = pd.to_datetime(df["date"])  # dtype を揃える
+    
+    return df
+        
