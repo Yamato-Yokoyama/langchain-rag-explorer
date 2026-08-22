@@ -203,7 +203,13 @@ def handle_table_display(query: str, df: pd.DataFrame) -> str:
     else:
         result_df = df
 
-    return result_df.to_markdown(index=False)
+    # date 列は集計側では datetime のまま扱いたいので、表示直前にコピー側だけ
+    # 日付部分(時刻なし)の文字列に変換する。df 自体(集計で再利用される側)は変更しない。
+    display_df = result_df.copy()
+    if "date" in display_df.columns:
+        display_df["date"] = display_df["date"].dt.strftime("%Y-%m-%d")
+
+    return display_df.to_markdown(index=False)
 
 
 def router_answer(query: str, split_docs: list[Document], vectors: list[list[float]], df: pd.DataFrame, llm: BaseChatModel) -> str:
