@@ -139,6 +139,7 @@ opentelemetry-util-http==0.65b0
 orjson==3.11.9
 ormsgpack==1.12.2
 packaging==26.3
+pandas==3.0.5
 pillow==12.3.0
 propcache==0.5.2
 protobuf==7.35.1
@@ -184,6 +185,7 @@ sse-starlette==3.4.8
 starlette==1.6.0
 sympy==1.14.0
 syncer==2.0.3
+tabulate==0.10.0
 tenacity==9.1.4
 threadpoolctl==3.6.0
 tokenizers==0.22.2
