@@ -6,10 +6,22 @@ Markdown loader と同じインターフェース(list[Document])で、
 rag_pipeline に統合しやすくする。
 """
 import json
+import re
 
 from pathlib import Path
 from langchain_core.documents import Document
 import pandas as pd
+
+_CITATION_PATTERN = re.compile(r"\[cite:\s*\d+\]")
+
+
+def _strip_citation(text: str | None) -> str | None:
+    """元データに混入している '[cite: N]' のような citation artifact を除去する。"""
+    if text is None:
+        return None
+    return _CITATION_PATTERN.sub("", text).strip()
+
+
 def load_receipts_from_json(filepath: str) -> list[Document]:
     """月次レシート JSON を Document のリストに変換する。"""
     data = json.loads(Path(filepath).read_text(encoding="utf-8"))
@@ -127,8 +139,8 @@ def load_receipts_as_dataframe(paths: list[str]) -> pd.DataFrame:
             rows.append({
                 "date": date_clean,                      # 3 で pd.to_datetime に変換
                 "month": date_str[:7] if date_str else None,
-                "store": store.get("name"),
-                "store_address": store.get("address"),
+                "store": _strip_citation(store.get("name")),
+                "store_address": _strip_citation(store.get("address")),
                 "total_eur": transaction.get("total_eur"),
                 "total_jpy": transaction.get("total_jpy"),
                 "item_count": len(receipt.get("items", [])),
