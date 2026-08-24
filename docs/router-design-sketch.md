@@ -160,3 +160,10 @@ Router 層は新規追加、既存 API は破壊しない。既存の `chainlit_
 - **マルチターン照応**: 「その中で一番高いのは?」のような follow-up query の解決。Day 10 で欠如を確認済み、Router の各 branch が独立してるうちは扱わない。会話 state 管理層を別途導入する Phase で対応
 - **Intent classifier の Hybrid 化**: Phase 1 で LLM ベース(Option A)を選択、latency/cost の実測後に rule + LLM の Option C へ移行
 - **Fallback graph の明示化**: Phase 1 は try/except で簡易実装、Phase 2 で LangGraph の conditional edge として構造化
+- **LinkedIn データの table_display / aggregation 対応**: `route()` は「この人がLinkedInでどういう人とつながっているか教えて」を `table_display` と判定するが、`handle_table_display` は `df`(レシート専用)しか見ておらず LinkedIn Connections を一切扱えない。原因は `table_display`/`aggregation` 両 branch が receipts の DataFrame 前提で設計されているため。semantic branch(embedding retrieval)は LinkedIn を正しく拾える(SAP/DeepL クエリで実証済み、PR #6)ので、今日時点では致命的ではないが要拡張
+- **LinkedIn を軸にした3段階の将来像**(Yamato の構想、2026-08-24 メモ):
+  1. **Connections 一覧/集計**: 「この人はどんな人と繋がってきたか」を表示・集計。`load_receipts_as_dataframe` と同じ発想で `load_connections_from_csv` の出力を DataFrame 化し、`count_by_company` 等の集計関数を足せば receipts の aggregation branch と同じパターンで実現できるはず
+  2. **Posts の意味検索**: 「この人はどんな投稿をしてきたか」。semantic branch は既に対応済み(Shares CSV は build_index に統合済み)
+  3. **横断的なナラティブ抽出**: 1と2を横断して「こういう活動をして、こういう人と繋がって、こういう学びを得た」という物語を投稿本文から再構成する。NotebookLM 的な生成タスクで、上記2つより難易度が高い
+
+     優先度: 1 は receipts の DataFrame パターンを再利用できるため着手コストが低い。2 は完了済み。3 は将来課題、着手は未定。`load_receipts_as_dataframe` を汎用化して LinkedIn にも使い回せないか、という方向性も検討の余地あり(Yamato 案)。
