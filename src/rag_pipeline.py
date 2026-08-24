@@ -25,6 +25,8 @@ from dotenv import load_dotenv
 
 from src.query_rewriting import expand_query_to_definition  # ← 再利用性
 from src.load_receipts import load_receipts_from_json      # ← 再利用性
+from src.load_linkedin import load_shares_from_csv, load_connections_from_csv  # ← 再利用性
+from pathlib import Path
 
 
 # Embedding
@@ -56,6 +58,15 @@ def build_index(filepaths: str | list[str]) -> tuple[list, list]:
         elif path.endswith(".json"):
             # JSON は 1 レシート = 1 Document で既に分割済み、Split 不要
             split_docs = load_receipts_from_json(path)
+        elif path.endswith(".csv"):
+            # LinkedIn export はファイル名で Shares / Connections を判別
+            filename = Path(path).name
+            if "Shares" in filename:
+                split_docs = load_shares_from_csv(path)
+            elif "Connections" in filename:
+                split_docs = load_connections_from_csv(path)
+            else:
+                raise ValueError(f"Unknown LinkedIn CSV type: {filename}")
         else:
             raise ValueError(f"Unsupported file type: {path}")
 
