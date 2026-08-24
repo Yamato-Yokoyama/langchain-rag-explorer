@@ -2,7 +2,8 @@
 src/chainlit_app.py
 
 Chainlit + RAG pipeline 統合。
-- @cl.on_chat_start: LLM・インデックス(split_docs, vectors)・receipt DataFrame(df)を1回だけ構築、session に保存
+- @cl.on_chat_start: LLM・インデックス(split_docs, vectors: レシート+LinkedIn)・
+  receipt DataFrame(df: レシートのみ)を1回だけ構築、session に保存
 - @cl.on_message: session から取り出して router_answer(intent 判定 → semantic/aggregation/table_display)
 """
 import os
@@ -17,9 +18,14 @@ from src.router import router_answer
 
 load_dotenv()
 
-CORPUS_PATHS = sorted(
+RECEIPT_PATHS = sorted(
     str(p) for p in Path("data/tuebingen").glob("receipts_*.json")
 )
+LINKEDIN_PATHS = sorted(
+    str(p) for p in Path("data/linkedin").glob("*.csv")
+)
+# semantic branch(build_index)はレシート + LinkedIn 全部を対象にする
+SEMANTIC_PATHS = RECEIPT_PATHS + LINKEDIN_PATHS
 @cl.on_chat_start
 async def start():
     # TODO 1: LLM を作る(rag_pipeline.py の __main__ をコピペで OK)
@@ -29,10 +35,12 @@ async def start():
         temperature=0.4,
         google_api_key=os.getenv("GEMINI_API_KEY"),
     )
-    
+
     # TODO 2: build_index(CORPUS_PATH) を呼んで split_docs, vectors を得る
-    split_docs, vectors = build_index(CORPUS_PATHS)
-    df = load_receipts_as_dataframe(CORPUS_PATHS)
+    split_docs, vectors = build_index(SEMANTIC_PATHS)
+    # aggregation branch(df)は load_receipts_as_dataframe が JSON 専用のため、
+    # レシートのみを渡す(LinkedIn CSV は含めない)
+    df = load_receipts_as_dataframe(RECEIPT_PATHS)
     
     # TODO 3: cl.user_session.set() で llm, split_docs, vectors を3つ保存
     cl.user_session.set("llm", llm)
