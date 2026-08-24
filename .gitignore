@@ -11,3 +11,4 @@ files/
 .chainlit/
 requirements-loose.txt
 requirements-py314.txt
+data/linkedin/Connections*.csv
