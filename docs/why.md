@@ -97,4 +97,14 @@ Semantics & Pragmatics の授業で Stalnaker の談話モデル、Roberts の Q
 
 ---
 
+## 8. 関連ドキュメント(専門性・試験対策・学習方針)
+
+このファイルは「なぜこのプロジェクトを作るか」に専念させるため、2026-08-27に議論した以下のトピックは別ファイルに分割した:
+
+- [specialty-positioning.md](specialty-positioning.md) — 専門性の言語化: 「システムの失敗を言語理論で診断できるエンジニア」
+- [snlp2-exam-prep.md](snlp2-exam-prep.md) — SNLP2試験対策とこのプロジェクトの接続(カバー範囲/未カバー範囲)
+- [rag-direction-and-learning-method.md](rag-direction-and-learning-method.md) — 学習様式と、RAGの中でどの方向を目指すか
+
+---
+
 このファイルは進行とともに更新される。新しい設計判断があるたびに追記する。
