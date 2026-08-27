@@ -69,6 +69,28 @@ def route(query: str, llm: BaseChatModel) -> Literal["semantic", "aggregation", 
     return intent
 
 
+def _match_known_companies(query: str, split_docs: list[Document]) -> set[str]:
+    """クエリ中に、コーパスに実在する company 名がそのまま含まれていないか調べる。
+
+    LinkedIn Connections の page_content には既に company 名がテキストとして
+    埋め込まれている(load_linkedin.py の "{initials}, {position} at {company}...")が、
+    それでも "SAP" のような固有名詞1語は、他の chunk に埋もれて cosine similarity の
+    上位に来ないことがある(2026-08-27 実験で確認: "DeepLとのつながりは?"などが失敗)。
+    埋め込み類似度だけに頼らず、既知の company 名との文字列一致でメタデータを
+    先に絞り込む(hybrid search の簡易版)。
+    """
+    known_companies = {
+        doc.metadata["company"]
+        for doc in split_docs
+        if doc.metadata.get("company")
+    }
+    query_lower = query.lower()
+    return {
+        company for company in known_companies
+        if company.lower() in query_lower
+    }
+
+
 def handle_semantic(query: str, split_docs: list[Document], vectors: list[list[float]], llm: BaseChatModel) -> str:
     """既存 rag_pipeline を呼ぶ。retrieval + generation の従来経路
 
@@ -84,7 +106,19 @@ def handle_semantic(query: str, split_docs: list[Document], vectors: list[list[f
     なぜ:
         semantic branch は既存 pipeline の再利用。router 層で薄くラップすることで、
         Neo-Gricean のような概念クエリに対する従来経路を破壊しない。
+        クエリが既知の company 名に一致する場合だけ、そのcompanyのDocumentに
+        絞り込んでから検索する(該当なしなら従来通り全件が対象)。
     """
+    matched_companies = _match_known_companies(query, split_docs)
+    if matched_companies:
+        filtered = [
+            (doc, vec)
+            for doc, vec in zip(split_docs, vectors)
+            if doc.metadata.get("company") in matched_companies
+        ]
+        if filtered:
+            split_docs, vectors = (list(items) for items in zip(*filtered))
+
     search_results = search(query, split_docs, vectors, top_k=5, use_rewriting=True, llm=llm)
     generated_answer = generate_answer(query, search_results, llm=llm)
     return generated_answer
