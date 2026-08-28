@@ -26,29 +26,30 @@ LINKEDIN_PATHS = sorted(
 )
 # semantic branch(build_index)はレシート + LinkedIn 全部を対象にする
 SEMANTIC_PATHS = RECEIPT_PATHS + LINKEDIN_PATHS
+
+# モジュールレベルで1プロセスにつき1回だけ構築する。
+# @cl.on_chat_start 内で呼ぶと新しいチャットセッションが始まるたびに
+# 全コーパス(レシート+LinkedIn、計1万件超)の埋め込みを同期的にやり直し、
+# その間 asyncio イベントループがブロックされて他の接続を捌けなくなる
+# (フロントエンド側で「サーバーに接続できませんでした」となる原因だった)。
+llm = ChatGoogleGenerativeAI(
+    model=os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
+    temperature=0.4,
+    google_api_key=os.getenv("GEMINI_API_KEY"),
+)
+split_docs, vectors = build_index(SEMANTIC_PATHS)
+# aggregation branch(df)は load_receipts_as_dataframe が JSON 専用のため、
+# レシートのみを渡す(LinkedIn CSV は含めない)
+df = load_receipts_as_dataframe(RECEIPT_PATHS)
+
+
 @cl.on_chat_start
 async def start():
-    # TODO 1: LLM を作る(rag_pipeline.py の __main__ をコピペで OK)
-    #LLMで回答生成
-    llm = ChatGoogleGenerativeAI(
-        model=os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
-        temperature=0.4,
-        google_api_key=os.getenv("GEMINI_API_KEY"),
-    )
-
-    # TODO 2: build_index(CORPUS_PATH) を呼んで split_docs, vectors を得る
-    split_docs, vectors = build_index(SEMANTIC_PATHS)
-    # aggregation branch(df)は load_receipts_as_dataframe が JSON 専用のため、
-    # レシートのみを渡す(LinkedIn CSV は含めない)
-    df = load_receipts_as_dataframe(RECEIPT_PATHS)
-    
-    # TODO 3: cl.user_session.set() で llm, split_docs, vectors を3つ保存
     cl.user_session.set("llm", llm)
     cl.user_session.set("split_docs", split_docs)
     cl.user_session.set("vectors", vectors)
     cl.user_session.set("df", df)
 
-    # TODO 4: await cl.Message(content="...").send() で準備完了を通知
     await cl.Message(content="RAG pipeline 準備完了。質問をどうぞ。").send()
 
 
