@@ -27,6 +27,8 @@ from src.query_rewriting import expand_query_to_definition  # ← 再利用性
 from src.load_receipts import load_receipts_from_json      # ← 再利用性
 from src.load_linkedin import load_shares_from_csv, load_connections_from_csv  # ← 再利用性
 from pathlib import Path
+import hashlib
+import pickle
 
 
 # Embedding
@@ -35,13 +37,41 @@ embeddings = HuggingFaceEmbeddings(
     model_kwargs={"device": "cpu"}
 )
 
-def build_index(filepaths: str | list[str]) -> tuple[list, list]:
-    """Load + Split + Embed。ファイル拡張子で loader を自動選択。"""
-    
+_CACHE_DIR = Path(".cache")
+
+
+def _index_cache_path(filepaths: list[str]) -> Path:
+    """入力ファイル群(パス+更新時刻+サイズ)からキャッシュキーを作る。
+
+    データファイルが変わっていなければ同じキーになり、埋め込み済みの
+    split_docs/vectors をディスクから再利用できる。
+    """
+    parts = []
+    for path in filepaths:
+        st = Path(path).stat()
+        parts.append(f"{path}:{st.st_mtime_ns}:{st.st_size}")
+    digest = hashlib.sha256("|".join(parts).encode()).hexdigest()
+    return _CACHE_DIR / f"index_{digest}.pkl"
+
+
+def build_index(filepaths: str | list[str], use_cache: bool = True) -> tuple[list, list]:
+    """Load + Split + Embed。ファイル拡張子で loader を自動選択。
+
+    use_cache=True(デフォルト)の場合、対象ファイル群が前回から変わって
+    いなければ .cache/ に保存済みの (split_docs, vectors) を読み込むだけで済む。
+    レシート+LinkedIn 全件のCPU埋め込みは数分かかる重い処理なので、
+    サーバーを再起動するたびにやり直さないようにするための措置。
+    """
+
     # 拡張子で分岐
     if isinstance(filepaths, str):
         filepaths = [filepaths]
-        
+
+    cache_path = _index_cache_path(filepaths) if use_cache else None
+    if cache_path is not None and cache_path.exists():
+        with open(cache_path, "rb") as f:
+            return pickle.load(f)
+
     all_split_docs = []
     for path in filepaths:
         if path.endswith(".md"):
@@ -73,6 +103,11 @@ def build_index(filepaths: str | list[str]) -> tuple[list, list]:
         all_split_docs.extend(split_docs)
 
     vectors = embeddings.embed_documents([doc.page_content for doc in all_split_docs])
+
+    if cache_path is not None:
+        _CACHE_DIR.mkdir(exist_ok=True)
+        with open(cache_path, "wb") as f:
+            pickle.dump((all_split_docs, vectors), f)
 
     return all_split_docs, vectors
 
