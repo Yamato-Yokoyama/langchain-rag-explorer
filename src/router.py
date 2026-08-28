@@ -45,11 +45,18 @@ def route(query: str, llm: BaseChatModel) -> Literal["semantic", "aggregation", 
     - "先月一番高かった買い物は?" → aggregation(top-N は計算)
     - "先月のレシート全部見せて" → table_display(絞り込んだ一覧)
     - "Neo-Gricean と Gricean の違いは?" → semantic(概念比較)
+    - "この人はどんな人とつながってきた?" → semantic(LinkedIn人物・会社の説明)
+    - "〇〇さんはどこの会社にいる?" → semantic(LinkedIn人物・会社の説明)
+    - "最近つながった人について教えて" → semantic(LinkedIn人物・会社の説明)
 
     # 曖昧な場合の判定基準
     - 数値が答えになるなら aggregation
     - 複数レコードを並べて見せるのが答えなら table_display
     - 文章での説明が答えなら semantic
+    - LinkedIn の人物・会社・つながりに関する質問(表形式で明示的に一覧を求めている
+      場合を除く)は常に semantic。table_display / aggregation が扱う df は
+      レシートのみで LinkedIn データを含まないため、これらに分類すると
+      無関係なレシートの表が返ってしまう
 
     # 出力制約
     `semantic` / `aggregation` / `table_display` のいずれか 1 単語のみ。
