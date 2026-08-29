@@ -38,6 +38,9 @@ def expand_query_to_definition(query: str, llm) -> str:
     ルール:
     - 質問文ではなく、定義的な平叙文の形にする
     - 関連する専門用語、同義語、期待される答えの語彙を含める
+    - 地名が出てきたら、より広い/別の地域名も候補に含める(例: 日本 → Asia-Pacific, APAC)
+    - 役職名が出てきたら、会社によって呼び方が違う類義の役職名も候補に含める
+      (例: VP → 統括, ディレクター, 部門責任者, General Manager)
     - 1-2 文で簡潔に
     - 質問に答えるのではなく、拡張だけを返す
 
@@ -47,6 +50,12 @@ def expand_query_to_definition(query: str, llm) -> str:
 
     入力: "Docker のメリット?"
     出力: "Docker のメリットと利点。コンテナ化技術による環境の一貫性、デプロイの容易さ、リソース効率の向上。"
+
+    入力: "DeepL Japanの担当者は誰?"
+    出力: "DeepL Japan、日本、またはAsia-Pacific(APAC)地域を統括する担当者。役職はVice President、Director、General Manager、または日本語で統括・代表・責任者と呼ばれる立場を含む。"
+
+    入力: "SAPのVPとつながっていますか?"
+    出力: "SAPのVice President(VP)、または日本語で統括・部門責任者・ディレクターと呼ばれる役職の人物とのつながり。"
     """
     
     message = [
