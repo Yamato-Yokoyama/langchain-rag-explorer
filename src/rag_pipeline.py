@@ -12,23 +12,28 @@ Depends on:
     - src/similarity.py
 """
 
+import os
+from dotenv import load_dotenv
+
+# HuggingFaceEmbeddings の初期化(HF_HUB_OFFLINE 等を読む)より前に読み込む必要がある。
+# ここで呼ばないと、chainlit_app.py 側の load_dotenv() 呼び出しは
+# `from src.rag_pipeline import build_index` の import 実行後になってしまい、
+# 下の embeddings 初期化には間に合わない(2026-08-29、再発対応)。
+load_dotenv()
+
 from src.load_markdown import load_as_plain_text          # ← 再利用性
-from src.similarity import cosine_similarity              # ← 再利用性
 from langchain_text_splitters import MarkdownHeaderTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-
+from langchain_core.documents import Document
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
-import os
-from dotenv import load_dotenv
 
 from src.query_rewriting import expand_query_to_definition  # ← 再利用性
 from src.load_receipts import load_receipts_from_json      # ← 再利用性
 from src.load_linkedin import load_shares_from_csv, load_connections_from_csv  # ← 再利用性
 from pathlib import Path
-import hashlib
-import pickle
+import chromadb
 
 
 # Embedding
@@ -37,28 +42,27 @@ embeddings = HuggingFaceEmbeddings(
     model_kwargs={"device": "cpu"}
 )
 
-_CACHE_DIR = Path(".cache")
+_CHROMA_DIR = Path("chroma_db")
+_COLLECTION_NAME = "rag_explorer"
 
 
-def _index_cache_path(filepaths: list[str]) -> Path:
-    """入力ファイル群(パス+更新時刻+サイズ)からキャッシュキーを作る。
-
-    データファイルが変わっていなければ同じキーになり、埋め込み済みの
-    split_docs/vectors をディスクから再利用できる。
-    """
-    parts = []
-    for path in filepaths:
-        st = Path(path).stat()
-        parts.append(f"{path}:{st.st_mtime_ns}:{st.st_size}")
-    digest = hashlib.sha256("|".join(parts).encode()).hexdigest()
-    return _CACHE_DIR / f"index_{digest}.pkl"
+def _clean_metadata(metadata: dict) -> dict:
+    """ChromaDB は metadata の値に None や NaN を受け付けないため、有効な値だけ残す。"""
+    cleaned = {}
+    for key, value in metadata.items():
+        if value is None:
+            continue
+        if isinstance(value, float) and value != value:  # NaN は自分自身と等しくない
+            continue
+        cleaned[key] = value
+    return cleaned
 
 
-def build_index(filepaths: str | list[str], use_cache: bool = True) -> tuple[list, list]:
-    """Load + Split + Embed。ファイル拡張子で loader を自動選択。
+def build_index(filepaths: str | list[str]):
+    """Load + Split + Embed し、ChromaDB の collection に保存する。ファイル拡張子で loader を自動選択。
 
-    use_cache=True(デフォルト)の場合、対象ファイル群が前回から変わって
-    いなければ .cache/ に保存済みの (split_docs, vectors) を読み込むだけで済む。
+    対象ファイル群から作った chunk 数と、既に .chroma/ に保存済みの件数が
+    一致していれば埋め込み計算はスキップし、保存済みの collection をそのまま返す。
     レシート+LinkedIn 全件のCPU埋め込みは数分かかる重い処理なので、
     サーバーを再起動するたびにやり直さないようにするための措置。
     """
@@ -66,11 +70,6 @@ def build_index(filepaths: str | list[str], use_cache: bool = True) -> tuple[lis
     # 拡張子で分岐
     if isinstance(filepaths, str):
         filepaths = [filepaths]
-
-    cache_path = _index_cache_path(filepaths) if use_cache else None
-    if cache_path is not None and cache_path.exists():
-        with open(cache_path, "rb") as f:
-            return pickle.load(f)
 
     all_split_docs = []
     for path in filepaths:
@@ -84,7 +83,7 @@ def build_index(filepaths: str | list[str], use_cache: bool = True) -> tuple[lis
             ]
             splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
             split_docs = splitter.split_text(docs[0].page_content)
-        
+
         elif path.endswith(".json"):
             # JSON は 1 レシート = 1 Document で既に分割済み、Split 不要
             split_docs = load_receipts_from_json(path)
@@ -102,36 +101,60 @@ def build_index(filepaths: str | list[str], use_cache: bool = True) -> tuple[lis
 
         all_split_docs.extend(split_docs)
 
+    client = chromadb.PersistentClient(path=str(_CHROMA_DIR))
+    # hnsw:space を明示的に cosine にする(デフォルトは L2 距離で、BGE-M3 のコサイン類似度前提と合わない)
+    collection = client.get_or_create_collection(
+        name=_COLLECTION_NAME,
+        metadata={"hnsw:space": "cosine"},
+    )
+
+    if collection.count() == len(all_split_docs):
+        return collection
+
     vectors = embeddings.embed_documents([doc.page_content for doc in all_split_docs])
 
-    if cache_path is not None:
-        _CACHE_DIR.mkdir(exist_ok=True)
-        with open(cache_path, "wb") as f:
-            pickle.dump((all_split_docs, vectors), f)
+    ids = []
+    documents = []
+    metadatas = []
+    for i, doc in enumerate(all_split_docs):
+        ids.append(f"chunk_{i}")
+        documents.append(doc.page_content)
+        metadatas.append(_clean_metadata(doc.metadata))
 
-    return all_split_docs, vectors
+    collection.add(ids=ids, embeddings=vectors, documents=documents, metadatas=metadatas)
 
-def search(query: str, split_docs: list, vectors: list, top_k=5, use_rewriting = False, llm=None) -> list:
-    """クエリに対して上位k位をChunksを返す"""
+    return collection
+
+def search(query: str, collection, top_k=5, use_rewriting=False, llm=None, where=None) -> list:
+    """クエリに対して上位k件の chunk を、ChromaDB の collection から検索して返す。"""
     if use_rewriting:
         original_query = query
         query = expand_query_to_definition(query, llm)
         print(f"\n[Query Rewriting]")
         print(f"  元:   {original_query}")
         print(f"  拡張: {query}")
-        
-          
+
     query_vec = embeddings.embed_query(query)
+
+    results = collection.query(
+        query_embeddings=[query_vec],
+        n_results=top_k,
+        where=where,
+    )
+
+    # ChromaDB はバッチクエリ前提の形(リストの中にリスト)で返すので、1件分だけ取り出す
+    documents = results["documents"][0]
+    metadatas = results["metadatas"][0]
+    distances = results["distances"][0]
+
     scores = []
-        
-    for chunkvec, doc in zip(vectors, split_docs):
-        similarity = cosine_similarity(query_vec, chunkvec)
+    for document_text, metadata, distance in zip(documents, metadatas, distances):
+        doc = Document(page_content=document_text, metadata=metadata)
+        similarity = 1 - distance  # collection を cosine space で作っているので、distance = 1 - コサイン類似度
         scores.append((similarity, doc))
-        
-    scores.sort(reverse=True, key=lambda x: x[0])
-    
-    return scores[:top_k]
-    
+
+    return scores
+
 def generate_answer(query: str, retrieved_chunks: list, llm) -> str:
     """
     取得した chunks を context に、LLM に回答を生成させる。
@@ -161,7 +184,7 @@ def generate_answer(query: str, retrieved_chunks: list, llm) -> str:
 
 
 if __name__ == "__main__":
-    load_dotenv()
+    # load_dotenv() はファイル冒頭で既に呼んでいる
     #LLMで回答生成
     llm = ChatGoogleGenerativeAI(
         model=os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
@@ -204,22 +227,21 @@ if __name__ == "__main__":
 
     # === 実験 3: レシート検索 ===
     # レシート JSON を index に(まず 4 月分だけ)
-    split_docs, vectors = build_index("data/tuebingen/receipts_2026-04.json")
-    
+    collection = build_index("data/tuebingen/receipts_2026-04.json")
+
     # 自然言語クエリ
     queries = [
         "留学生はどんな食べ物を買ってる?",
         "スーパーで何を買ってる?",
         "4 月の一番高い買い物は?",  # ← SQL 系、うまく答えられない予想
     ]
-    
+
     for query in queries:
         print("=" * 60)
         print(f"Query: {query}")
         print("=" * 60)
-        results = search(query, split_docs, vectors, top_k=5)
+        results = search(query, collection, top_k=5)
         for score, doc in results:
             print(f"\nScore: {score:.4f}, Metadata: {doc.metadata}")
         answer = generate_answer(query, results, llm)
         print(f"\n=== Final Answer ===\n{answer}\n")
-    

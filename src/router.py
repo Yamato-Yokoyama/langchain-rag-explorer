@@ -2,7 +2,6 @@ import re
 from typing import Literal
 import pandas as pd
 from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_core.documents import Document
 from langchain_core.messages import SystemMessage, HumanMessage
 from src.rag_pipeline import search, generate_answer
 from src.aggregations import sum_by_month, count_by_month, top_n_by_price, total_all
@@ -10,7 +9,6 @@ from src.aggregations import sum_by_month, count_by_month, top_n_by_price, total
 """Literal: sketch の route() の返り値型
 pd: aggregation / table_display branch の DataFrame 引数型
 BaseChatModel: sketch の llm 引数の型ヒント
-Document: sketch の split_docs 引数型
 search, generate_answer: sketch に「既存の rag_pipeline を呼ぶ」と明記
 """
 
@@ -76,7 +74,7 @@ def route(query: str, llm: BaseChatModel) -> Literal["semantic", "aggregation", 
     return intent
 
 
-def _match_known_companies(query: str, split_docs: list[Document]) -> set[str]:
+def _match_known_companies(query: str, collection) -> set[str]:
     """クエリ中に、コーパスに実在する company 名がそのまま含まれていないか調べる。
 
     LinkedIn Connections の page_content には既に company 名がテキストとして
@@ -86,25 +84,29 @@ def _match_known_companies(query: str, split_docs: list[Document]) -> set[str]:
     埋め込み類似度だけに頼らず、既知の company 名との文字列一致でメタデータを
     先に絞り込む(hybrid search の簡易版)。
     """
-    known_companies = {
-        doc.metadata["company"]
-        for doc in split_docs
-        if doc.metadata.get("company")
-    }
+    all_metadatas = collection.get(include=["metadatas"])["metadatas"]
+
+    known_companies = set()
+    for metadata in all_metadatas:
+        company = metadata.get("company")
+        if company:
+            known_companies.add(company)
+
     query_lower = query.lower()
-    return {
-        company for company in known_companies
-        if company.lower() in query_lower
-    }
+    matched = set()
+    for company in known_companies:
+        if company.lower() in query_lower:
+            matched.add(company)
+
+    return matched
 
 
-def handle_semantic(query: str, split_docs: list[Document], vectors: list[list[float]], llm: BaseChatModel) -> str:
+def handle_semantic(query: str, collection, llm: BaseChatModel) -> str:
     """既存 rag_pipeline を呼ぶ。retrieval + generation の従来経路
 
     Input:
         query: ユーザーからのクエリ
-        split_docs: build_index で構築済みの chunk リスト
-        vectors: split_docs に対応する embedding ベクトル群
+        collection: build_index で構築済みの ChromaDB collection
         llm: 回答生成用の Gemini モデルインスタンス
 
     Output:
@@ -113,20 +115,13 @@ def handle_semantic(query: str, split_docs: list[Document], vectors: list[list[f
     なぜ:
         semantic branch は既存 pipeline の再利用。router 層で薄くラップすることで、
         Neo-Gricean のような概念クエリに対する従来経路を破壊しない。
-        クエリが既知の company 名に一致する場合だけ、そのcompanyのDocumentに
-        絞り込んでから検索する(該当なしなら従来通り全件が対象)。
+        クエリが既知の company 名に一致する場合だけ、ChromaDB の where フィルタで
+        そのcompanyのDocumentに絞り込んでから検索する(該当なしなら従来通り全件が対象)。
     """
-    matched_companies = _match_known_companies(query, split_docs)
-    if matched_companies:
-        filtered = [
-            (doc, vec)
-            for doc, vec in zip(split_docs, vectors)
-            if doc.metadata.get("company") in matched_companies
-        ]
-        if filtered:
-            split_docs, vectors = (list(items) for items in zip(*filtered))
+    matched_companies = _match_known_companies(query, collection)
+    where = {"company": {"$in": list(matched_companies)}} if matched_companies else None
 
-    search_results = search(query, split_docs, vectors, top_k=5, use_rewriting=True, llm=llm)
+    search_results = search(query, collection, top_k=5, use_rewriting=True, llm=llm, where=where)
     generated_answer = generate_answer(query, search_results, llm=llm)
     return generated_answer
 
@@ -253,12 +248,12 @@ def handle_table_display(query: str, df: pd.DataFrame) -> str:
     return display_df.to_markdown(index=False)
 
 
-def router_answer(query: str, split_docs: list[Document], vectors: list[list[float]], df: pd.DataFrame, llm: BaseChatModel) -> str:
+def router_answer(query: str, collection, df: pd.DataFrame, llm: BaseChatModel) -> str:
     """Router 層の wrapper。intent 判定 → 対応 branch にディスパッチ
 
     Input:
         query: ユーザーからのクエリ
-        split_docs, vectors: semantic branch 用の pre-built 資産
+        collection: semantic branch 用の pre-built ChromaDB collection
         df: aggregation / table_display branch 用の pre-built 資産
         llm: route と各 branch で共用する LLM インスタンス
 
@@ -273,7 +268,7 @@ def router_answer(query: str, split_docs: list[Document], vectors: list[list[flo
     intent = route(query, llm)
 
     if intent == "semantic":
-        return handle_semantic(query, split_docs, vectors, llm)
+        return handle_semantic(query, collection, llm)
     elif intent == "aggregation":
         return handle_aggregation(query, df, llm)
     elif intent == "table_display":
