@@ -2,7 +2,7 @@
 src/chainlit_app.py
 
 Chainlit + RAG pipeline 統合。
-- @cl.on_chat_start: LLM・インデックス(split_docs, vectors: レシート+LinkedIn)・
+- @cl.on_chat_start: LLM・インデックス(collection: レシート+LinkedInを格納したChromaDB)・
   receipt DataFrame(df: レシートのみ)を1回だけ構築、session に保存
 - @cl.on_message: session から取り出して router_answer(intent 判定 → semantic/aggregation/table_display)
 """
@@ -37,7 +37,7 @@ llm = ChatGoogleGenerativeAI(
     temperature=0.4,
     google_api_key=os.getenv("GEMINI_API_KEY"),
 )
-split_docs, vectors = build_index(SEMANTIC_PATHS)
+collection = build_index(SEMANTIC_PATHS)
 # aggregation branch(df)は load_receipts_as_dataframe が JSON 専用のため、
 # レシートのみを渡す(LinkedIn CSV は含めない)
 df = load_receipts_as_dataframe(RECEIPT_PATHS)
@@ -46,8 +46,7 @@ df = load_receipts_as_dataframe(RECEIPT_PATHS)
 @cl.on_chat_start
 async def start():
     cl.user_session.set("llm", llm)
-    cl.user_session.set("split_docs", split_docs)
-    cl.user_session.set("vectors", vectors)
+    cl.user_session.set("collection", collection)
     cl.user_session.set("df", df)
 
     await cl.Message(content="RAG pipeline 準備完了。質問をどうぞ。").send()
@@ -57,12 +56,11 @@ async def start():
 @cl.on_message
 async def on_message(msg: cl.Message):
     llm = cl.user_session.get("llm")
-    split_docs = cl.user_session.get("split_docs")
-    vectors = cl.user_session.get("vectors")
+    collection = cl.user_session.get("collection")
     df = cl.user_session.get("df")
 
     # Router 層に一本化: intent 判定 → semantic / aggregation / table_display に振り分け
-    answer = router_answer(msg.content, split_docs, vectors, df, llm)
+    answer = router_answer(msg.content, collection, df, llm)
 
     await cl.Message(content=answer).send()
     
