@@ -56,6 +56,30 @@ def top_n_by_price(df: pd.DataFrame, n: int = 5) -> pd.DataFrame:
     return result
 
 
+def top_n_recent_connections(df: pd.DataFrame, n: int = 5, company: str | None = None) -> pd.DataFrame:
+    """直近でつながった順に上位N件のLinkedIn Connectionsを返す。
+
+    Input:
+        df: load_connections_as_dataframe で構築された connections DataFrame
+        n: 返す件数(default 5)
+        company: 指定があれば、その勤務先の人だけに絞り込む(大文字小文字を区別しない部分一致)
+
+    Output:
+        initials, company, position, connected_on の4列を持つ pd.DataFrame(n行、日付降順)
+
+    なぜ:
+        「最近つながったDeepLの人を日付順で5人」のような質問は、embedding類似度検索
+        (semantic branch)では原理的に解けない(Issue #12)。レシートのtop_n_by_priceと
+        同じく、pandasのsort_valuesで決定的にソート・件数指定する。
+    """
+    result = df
+    if company:
+        result = result[result["company"].str.contains(company, case=False, na=False)]
+
+    result = result.sort_values("connected_on", ascending=False).head(n)
+    return result[["initials", "company", "position", "connected_on"]]
+
+
 def total_all(df: pd.DataFrame) -> float:
     """全期間の合計金額を返す。
 
