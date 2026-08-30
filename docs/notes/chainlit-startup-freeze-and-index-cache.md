@@ -97,7 +97,8 @@ Pythonの標準機能で、メモリ上のPythonオブジェクト(リストや�
 
 - **これは本来のDB(ChromaDB/pgvector)の代替にはなっていない**。`docs/requirements.md` / `files/02_PLAN.md` では元々 `Week 1-2: ChromaDB` → `Week 3+: pgvector` への移行が計画されていた。今回のpickleキャッシュは「毎回の再計算をサボる」ための応急処置であり、検索自体は相変わらず全ベクトル総当たり(`src/similarity.py` のcosine類似度をfor文的に比較)。件数が増えたときのインデックス検索や、レシート1件だけの増分更新、複数プロセスからの同時アクセスといった、本来のVector DBが持つ利点はまだ得られていない。
 - `.cache/` はデータファイル(レシートJSON・LinkedIn CSV)の変更には追従するが、**埋め込みモデル自体を変えた場合(bge-m3→別モデル等)はキャッシュキーに含まれず、古いベクトルを使い続けてしまう**。モデル変更時は手動で `.cache/` を消す必要がある。
-- `HF_HUB_OFFLINE=1` を恒久化する対応(`.env` 読み込み順の修正、または起動プロファイルへの追記)はまだ未実施。
+- ~~`HF_HUB_OFFLINE=1` を恒久化する対応(`.env` 読み込み順の修正、または起動プロファイルへの追記)はまだ未実施。~~ **[2026-08-29 解決]** ターミナルへの`export`のみで恒久化しておらず、新しいターミナルセッションで同じ問題が再発した。`.env`に`HF_HUB_OFFLINE=1`/`TRANSFORMERS_OFFLINE=1`を追記し、`src/rag_pipeline.py`の`load_dotenv()`を`embeddings`初期化より前(ファイル冒頭)に移動して、確実に読み込まれるようにした。詳細: [daily/interview-prep/git-branch-pr-merge-workflow.md](../../daily/interview-prep/git-branch-pr-merge-workflow.md)は関係ないが、経緯は本セッションの会話記録を参照。
+- **[2026-08-29 追記]** ここで説明しているpickleキャッシュ(`.cache/`, `_index_cache_path`)は、この後ChromaDB移行(`feat/chromadb-migration`)で置き換えられ、現在は存在しない。`build_index()`は代わりにChromaDBの`collection`を返し、永続化もChromaDB自身(`chroma_db/`)が担う。このファイルは当時の設計判断の記録として残す。
 
 ## 関連ファイル
 - `src/chainlit_app.py` — `build_index()` のモジュールレベル化
