@@ -110,6 +110,53 @@ def load_connections_from_csv(filepath: str) -> list[Document]:
     return docs
 
 
+def load_connections_as_dataframe(paths: list[str]) -> pd.DataFrame:
+    """Connections CSV ファイル群を flat な DataFrame に変換する。
+
+    Input:
+        paths: Connections.csv ファイルパスのリスト
+
+    Output:
+        pd.DataFrame with columns:
+            - initials (str)           : イニシャル化した氏名
+            - company (str)            : 勤務先
+            - position (str)           : 役職
+            - connected_on (datetime)  : つながった日
+            - source_file (str)        : traceability 用
+
+    なぜ:
+        - load_receipts_as_dataframe と同じ設計: LLM に全件読ませる代わりに、
+          pandas で決定的にソート・絞り込み・件数指定できる形にする
+        - 「最近つながった人を日付順で5人」のような構造化クエリは、
+          semantic 検索(embedding類似度)では原理的に解けないため(Issue #12)
+    """
+    rows: list[dict] = []
+
+    for path in paths:
+        df = pd.read_csv(path, skiprows=3)
+
+        for _, row in df.iterrows():
+            company = row.get("Company")
+            if pd.isna(company) or not str(company).strip():
+                continue
+
+            initials = _initials(row.get("First Name"), row.get("Last Name"))
+            position = row.get("Position")
+            position_text = str(position).strip() if pd.notna(position) and str(position).strip() else "unknown position"
+
+            rows.append({
+                "initials": initials,
+                "company": str(company).strip(),
+                "position": position_text,
+                "connected_on": _parse_connection_date(row.get("Connected On")),
+                "source_file": path,
+            })
+
+    result_df = pd.DataFrame(rows)
+    result_df["connected_on"] = pd.to_datetime(result_df["connected_on"])
+    return result_df
+
+
 def _initials(first: str, last: str) -> str:
     """フルネームからイニシャル(例: 'C.M.')を生成。
 
