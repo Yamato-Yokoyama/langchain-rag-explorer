@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from src.rag_pipeline import build_index
 from src.load_receipts import load_receipts_as_dataframe
+from src.load_linkedin import load_connections_as_dataframe
 from src.router import router_answer
 
 load_dotenv()
@@ -24,6 +25,7 @@ RECEIPT_PATHS = sorted(
 LINKEDIN_PATHS = sorted(
     str(p) for p in Path("data/linkedin").glob("*.csv")
 )
+CONNECTIONS_PATHS = [p for p in LINKEDIN_PATHS if "Connections" in p]
 # semantic branch(build_index)はレシート + LinkedIn 全部を対象にする
 SEMANTIC_PATHS = RECEIPT_PATHS + LINKEDIN_PATHS
 
@@ -41,6 +43,8 @@ collection = build_index(SEMANTIC_PATHS)
 # aggregation branch(df)は load_receipts_as_dataframe が JSON 専用のため、
 # レシートのみを渡す(LinkedIn CSV は含めない)
 df = load_receipts_as_dataframe(RECEIPT_PATHS)
+# linkedin_table branch(linkedin_df)は Connections のみを渡す(Shares は含めない)
+linkedin_df = load_connections_as_dataframe(CONNECTIONS_PATHS)
 
 
 @cl.on_chat_start
@@ -48,6 +52,7 @@ async def start():
     cl.user_session.set("llm", llm)
     cl.user_session.set("collection", collection)
     cl.user_session.set("df", df)
+    cl.user_session.set("linkedin_df", linkedin_df)
 
     await cl.Message(content="RAG pipeline 準備完了。質問をどうぞ。").send()
 
@@ -58,9 +63,10 @@ async def on_message(msg: cl.Message):
     llm = cl.user_session.get("llm")
     collection = cl.user_session.get("collection")
     df = cl.user_session.get("df")
+    linkedin_df = cl.user_session.get("linkedin_df")
 
-    # Router 層に一本化: intent 判定 → semantic / aggregation / table_display に振り分け
-    answer = router_answer(msg.content, collection, df, llm)
+    # Router 層に一本化: intent 判定 → semantic / aggregation / table_display / linkedin_table に振り分け
+    answer = router_answer(msg.content, collection, df, linkedin_df, llm)
 
     await cl.Message(content=answer).send()
     

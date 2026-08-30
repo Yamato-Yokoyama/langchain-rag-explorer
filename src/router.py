@@ -4,7 +4,7 @@ import pandas as pd
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import SystemMessage, HumanMessage
 from src.rag_pipeline import search, generate_answer
-from src.aggregations import sum_by_month, count_by_month, top_n_by_price, total_all
+from src.aggregations import sum_by_month, count_by_month, top_n_by_price, total_all, top_n_recent_connections
 
 """Literal: sketch の route() の返り値型
 pd: aggregation / table_display branch の DataFrame 引数型
@@ -12,14 +12,14 @@ BaseChatModel: sketch の llm 引数の型ヒント
 search, generate_answer: sketch に「既存の rag_pipeline を呼ぶ」と明記
 """
 
-def route(query: str, llm: BaseChatModel) -> Literal["semantic", "aggregation", "table_display"]:
-    """Query を intent 3分類にディスパッチ
+def route(query: str, llm: BaseChatModel) -> Literal["semantic", "aggregation", "table_display", "linkedin_table"]:
+    """Query を intent 4分類にディスパッチ
 
     Input:
         query: ユーザーからの自然言語クエリ(例: "4月の合計支出は?")
 
     Output:
-        "semantic" / "aggregation" / "table_display" のいずれかの文字列リテラル
+        "semantic" / "aggregation" / "table_display" / "linkedin_table" のいずれかの文字列リテラル
 
     なぜ:
         Router 型 RAG の入口。この判定結果で処理経路が決まるため、
@@ -29,12 +29,15 @@ def route(query: str, llm: BaseChatModel) -> Literal["semantic", "aggregation", 
 
     system_msg=SystemMessage("""\
     # タスク
-    あなたはユーザークエリを 3 つの intent に分類する分類器です。
+    あなたはユーザークエリを 4 つの intent に分類する分類器です。
 
     # Intent の定義
     - **semantic**: 概念・用語・意味の説明を求める質問。自然言語での回答が必要。
-    - **aggregation**: 数値の集計・計算・要約を求める質問。合計・平均・件数・最大最小など。
-    - **table_display**: データを一覧・表形式で見たい質問。個別レコードを構造化して眺めたい意図。
+    - **aggregation**: レシートの数値の集計・計算・要約を求める質問。合計・平均・件数・最大最小など。
+    - **table_display**: レシートを一覧・表形式で見たい質問。個別レコードを構造化して眺めたい意図。
+    - **linkedin_table**: LinkedInのつながりを、日付順・件数指定・会社名などで絞り込んだ
+      一覧として見たい質問。「並べて」「〇人」「最近つながった順」のような、
+      構造的な並び替え・件数指定のシグナルがある場合。
 
     # 境界例(紛らわしいペア)
     - "Q-principle って何?" → semantic(概念説明)
@@ -43,31 +46,32 @@ def route(query: str, llm: BaseChatModel) -> Literal["semantic", "aggregation", 
     - "先月一番高かった買い物は?" → aggregation(top-N は計算)
     - "先月のレシート全部見せて" → table_display(絞り込んだ一覧)
     - "Neo-Gricean と Gricean の違いは?" → semantic(概念比較)
-    - "この人はどんな人とつながってきた?" → semantic(LinkedIn人物・会社の説明)
+    - "この人はどんな人とつながってきた?" → semantic(LinkedIn人物・会社の説明、並び替え指定なし)
     - "〇〇さんはどこの会社にいる?" → semantic(LinkedIn人物・会社の説明)
-    - "最近つながった人について教えて" → semantic(LinkedIn人物・会社の説明)
+    - "最近つながった人について教えて" → semantic(並び替え・件数の明示的指定なし)
+    - "最近つながったDeepLの人を日付順で5人並べて" → linkedin_table(日付順+件数+会社の複合絞り込み)
+    - "SAPで最近つながった人を3人教えて" → linkedin_table(件数指定あり)
 
     # 曖昧な場合の判定基準
     - 数値が答えになるなら aggregation
-    - 複数レコードを並べて見せるのが答えなら table_display
+    - レシートを複数レコード並べて見せるのが答えなら table_display
+    - LinkedInのつながりを、日付順や件数指定つきで並べて見せるのが答えなら linkedin_table
     - 文章での説明が答えなら semantic
-    - LinkedIn の人物・会社・つながりに関する質問(表形式で明示的に一覧を求めている
-      場合を除く)は常に semantic。table_display / aggregation が扱う df は
-      レシートのみで LinkedIn データを含まないため、これらに分類すると
-      無関係なレシートの表が返ってしまう
+    - LinkedIn の人物・会社・つながりに関する質問のうち、並び替え・件数指定の
+      シグナルが無いものは常に semantic
 
     # 出力制約
-    `semantic` / `aggregation` / `table_display` のいずれか 1 単語のみ。
+    `semantic` / `aggregation` / `table_display` / `linkedin_table` のいずれか 1 単語のみ。
     引用符・説明・改行・句読点を含めない。
     """)
 
     human_msg=HumanMessage(content=query)
-    
+
     response = llm.invoke([system_msg, human_msg])
-    
+
     intent = response.text.strip().lower()
-    
-    valid_intents = ["semantic", "aggregation", "table_display"]
+
+    valid_intents = ["semantic", "aggregation", "table_display", "linkedin_table"]
     if intent not in valid_intents:
         intent = "semantic"  # デフォルトは semantic にフォールバック
 
@@ -248,13 +252,48 @@ def handle_table_display(query: str, df: pd.DataFrame) -> str:
     return display_df.to_markdown(index=False)
 
 
-def router_answer(query: str, collection, df: pd.DataFrame, llm: BaseChatModel) -> str:
+def handle_linkedin_table(query: str, linkedin_df: pd.DataFrame) -> str:
+    """LinkedIn Connections を Markdown table として直接返す(LLM を通さない)
+
+    Input:
+        query: 表示系クエリ(例: "最近つながったDeepLの人を日付順で5人並べて")
+        linkedin_df: load_connections_as_dataframe で構築済みの connections DataFrame
+
+    Output:
+        Markdown 形式の table 文字列
+
+    なぜ:
+        table_display(レシート)と同じ設計思想: 日付順ソート・件数指定・会社名絞り込みは
+        query に明示的なシグナルがあるため、LLM を介さず正規表現 + top_n_recent_connections
+        で決定的に絞り込む(Issue #12: semantic 検索では原理的に解けない構造化クエリ)。
+    """
+    match = re.search(r"(\d+)\s*人", query)
+    n = int(match.group(1)) if match else 5
+
+    company = None
+    known_companies = linkedin_df["company"].unique()
+    query_lower = query.lower()
+    for known_company in known_companies:
+        if known_company.lower() in query_lower:
+            company = known_company
+            break
+
+    result_df = top_n_recent_connections(linkedin_df, n=n, company=company)
+
+    display_df = result_df.copy()
+    display_df["connected_on"] = display_df["connected_on"].dt.strftime("%Y-%m-%d")
+
+    return display_df.to_markdown(index=False)
+
+
+def router_answer(query: str, collection, df: pd.DataFrame, linkedin_df: pd.DataFrame, llm: BaseChatModel) -> str:
     """Router 層の wrapper。intent 判定 → 対応 branch にディスパッチ
 
     Input:
         query: ユーザーからのクエリ
         collection: semantic branch 用の pre-built ChromaDB collection
         df: aggregation / table_display branch 用の pre-built 資産
+        linkedin_df: linkedin_table branch 用の pre-built 資産
         llm: route と各 branch で共用する LLM インスタンス
 
     Output:
@@ -273,5 +312,7 @@ def router_answer(query: str, collection, df: pd.DataFrame, llm: BaseChatModel) 
         return handle_aggregation(query, df, llm)
     elif intent == "table_display":
         return handle_table_display(query, df)
+    elif intent == "linkedin_table":
+        return handle_linkedin_table(query, linkedin_df)
 
     return "不明なクエリです。"
