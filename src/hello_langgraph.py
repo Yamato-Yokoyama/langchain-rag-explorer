@@ -6,7 +6,8 @@ State → Node → Edge → compile → invoke の一連の流れを、実際の
 含まない単純な文字列変換で確認する。
 
 詰まったら聞く。ここでは「何をすべきか」だけを Input/Output/なぜ で示す。
-中身は自分で書く(daily/interview-prep/langgraph-101.md の概念説明を参照)。
+中身は自分で書く。書き方のパターンは docs/notes/langgraph-101-tutorial/01_hello_world.md
+を見ながら進める(なぜLangGraphが要るかの背景は daily/interview-prep/langgraph-101.md)。
 
 Called by: なし(単体で実行して確認する用、chainlit_hello.py と同じ位置づけ)
 Depends on: langgraph
