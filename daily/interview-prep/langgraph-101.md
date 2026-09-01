@@ -5,6 +5,35 @@
 
 ---
 
+## 見本(参考実装)
+
+`hello_langgraph.py`の冒頭に、TODOと**別の題材**(数値を+1してから2倍にするだけ)で
+State→Node→Edge→compile→invokeを一通りやった見本(`_ExampleState`, `_add_one`,
+`_double`, `_build_example_graph`, `_run_example`)を置いてある。答えそのものではなく、
+**同じ手順を別の中身で真似できる形**にしてあるので、これを見ながらTODO(文字列を
+大文字にする/`!!!`を足す版)を書き進める。
+
+```python
+class _ExampleState(TypedDict):
+    number: int
+
+def _add_one(state: _ExampleState) -> dict:
+    current = state["number"]       # 1. state から値を取り出す
+    updated = current + 1           # 2. 変換する
+    return {"number": updated}      # 3. 更新分だけdictで返す
+
+def _build_example_graph():
+    graph_builder = StateGraph(_ExampleState)
+    graph_builder.add_node("add_one", _add_one)
+    graph_builder.add_node("double", _double)
+    graph_builder.set_entry_point("add_one")
+    graph_builder.add_edge("add_one", "double")
+    graph_builder.add_edge("double", END)
+    return graph_builder.compile()
+```
+
+---
+
 ## 0. そもそも何のためにあるか
 
 2023年頃から、「1回のプロンプトで1回answerを返す」という素朴な形のLLMアプリでは、複数ステップの推論・自己修正・長い会話の記憶が必要なタスクに対応しきれない、という認識が業界で広がった。LangGraph(LangChainチーム製)は、こうした**複数ステップで、状態を持ち、時にはループする**処理を、明示的で追跡可能な形で組むためのライブラリ。同じ課題への競合ツールとしてMicrosoftのAutoGen、CrewAI等もあるが、LangGraphはLangChainのエコシステム(このプロジェクトが既に使っている`langchain_google_genai`等)と自然に繋がるのが強み。
