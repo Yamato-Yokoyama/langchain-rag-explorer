@@ -27,7 +27,8 @@ from src.router import (
 #   State に入れない(02のCheckpointerの節を参照、後で足す時に壊れる元になる)。
 #   State には「クエリ」と「最終的な回答」の2つだけ持たせればいい。
 class RouterState(TypedDict):
-    ...
+    query: str
+    answer: str
 
 
 def build_router_graph(collection, df, linkedin_df, llm):
@@ -51,7 +52,7 @@ def build_router_graph(collection, df, linkedin_df, llm):
     def router_node(state: RouterState) -> dict:
         # TODO 2: 何もしない空ノード。conditional edge の分岐元として置くだけ。
         #   ヒント: 更新するものが無いので、空の dict を返せばいい
-        ...
+        return {}
 
     def decide_route(state: RouterState) -> str:
         """route()を呼んで、次に進むノード名を決める。
@@ -69,27 +70,31 @@ def build_router_graph(collection, df, linkedin_df, llm):
         """
         # TODO 3: state["query"] と llm を使って route(query, llm) を呼び、
         #   その返り値をそのまま return する
-        ...
+        return route(state["query"], llm)
 
     def semantic_node(state: RouterState) -> dict:
         # TODO 4: handle_semantic(state["query"], collection, llm) を呼び、
         #   結果を {"answer": ...} の形で return する
-        ...
+        result = handle_semantic(state["query"], collection, llm)
+        return {"answer": result}
 
     def aggregation_node(state: RouterState) -> dict:
         # TODO 5: handle_aggregation(state["query"], df, llm) を呼び、
         #   結果を {"answer": ...} の形で return する
-        ...
+        handle_result = handle_aggregation(state["query"], df, llm)
+        return {"answer": handle_result}
 
     def table_display_node(state: RouterState) -> dict:
         # TODO 6: handle_table_display(state["query"], df) を呼び、
         #   結果を {"answer": ...} の形で return する
-        ...
+        handle_result = handle_table_display(state["query"], df)
+        return {"answer": handle_result}
 
     def linkedin_table_node(state: RouterState) -> dict:
         # TODO 7: handle_linkedin_table(state["query"], linkedin_df) を呼び、
         #   結果を {"answer": ...} の形で return する
-        ...
+        handle_result = handle_linkedin_table(state["query"], linkedin_df)
+        return {"answer": handle_result}
 
     # TODO 8: グラフを組み立てる
     #   ヒント:
@@ -105,8 +110,34 @@ def build_router_graph(collection, df, linkedin_df, llm):
     #   - 4つの branch ノードは、それぞれ add_edge で END に繋ぐ
     #   - .compile() したものを return する
     graph_builder = StateGraph(RouterState)
-    ...
+    graph_builder.add_node("router", router_node)
+    graph_builder.add_node("semantic", semantic_node)
+    graph_builder.add_node("aggregation", aggregation_node)
+    graph_builder.add_node("table_display", table_display_node)
+    graph_builder.add_node("linkedin_table", linkedin_table_node)
+    graph_builder.set_entry_point("router")
+    graph_builder.add_conditional_edges("router", decide_route,{
+        "semantic": "semantic",
+        "aggregation": "aggregation",
+        "table_display": "table_display",
+        "linkedin_table": "linkedin_table",
+    })
+    graph_builder.add_edge("semantic", END)
+    graph_builder.add_edge("aggregation", END)
+    graph_builder.add_edge("table_display", END)
+    graph_builder.add_edge("linkedin_table", END)
+    return graph_builder.compile()
 
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+load_dotenv()
+
+from src.rag_pipeline import build_index
+from src.load_receipts import load_receipts_as_dataframe
+from src.load_linkedin import load_connections_as_dataframe
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 if __name__ == "__main__":
     # TODO 9: 実際に動かして確認する
@@ -120,4 +151,40 @@ if __name__ == "__main__":
     #   - いくつかテストクエリで invoke して、route()と同じ答えが返るか確認する
     #     例: "4月の合計支出は?" → aggregation, "DeepLのVPは?" → semantic,
     #         "最近つながったSAPの人を3人教えて" → linkedin_table
-    ...
+    RECEIPT_PATHS = sorted(
+        str(p) for p in Path("data/tuebingen").glob("receipts_*.json")
+    )
+    LINKEDIN_PATHS = sorted(
+        str(p) for p in Path("data/linkedin").glob("*.csv")
+    )
+    CONNECTIONS_PATHS = [p for p in LINKEDIN_PATHS if "Connections" in p]
+    # semantic branch(build_index)はレシート + LinkedIn 全部を対象にする
+    SEMANTIC_PATHS = RECEIPT_PATHS + LINKEDIN_PATHS
+
+    # モジュールレベルで1プロセスにつき1回だけ構築する。
+    # @cl.on_chat_start 内で呼ぶと新しいチャットセッションが始まるたびに
+    # 全コーパス(レシート+LinkedIn、計1万件超)の埋め込みを同期的にやり直し、
+    # その間 asyncio イベントループがブロックされて他の接続を捌けなくなる
+    # (フロントエンド側で「サーバーに接続できませんでした」となる原因だった)。
+    llm = ChatGoogleGenerativeAI(
+        model=os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
+        temperature=0.4,
+        google_api_key=os.getenv("GEMINI_API_KEY"),
+    )
+    collection = build_index(SEMANTIC_PATHS)
+    # aggregation branch(df)は load_receipts_as_dataframe が JSON 専用のため、
+    # レシートのみを渡す(LinkedIn CSV は含めない)
+    df = load_receipts_as_dataframe(RECEIPT_PATHS)
+    # linkedin_table branch(linkedin_df)は Connections のみを渡す(Shares は含めない)
+    linkedin_df = load_connections_as_dataframe(CONNECTIONS_PATHS)
+
+    graph = build_router_graph(collection, df, linkedin_df, llm)
+    print("=== LangGraph の結果 ===")
+    result = graph.invoke({"query": "4月の合計支出は?", "answer": ""})
+    print(f"結果: {result}")  # => {'query': '4月の合計支出は?', 'answer': '...'}
+    result = graph.invoke({"query": "DeepL APACのVPは?", "answer": ""})
+    print(f"結果: {result}")  # => {'query': 'DeepLのVPは?', 'answer': '...'}
+    result = graph.invoke({"query": "最近つながったSAPの人を3人教えて", "answer": ""})
+    print(f"結果: {result}")  # => {'query': '最近つながったSAPの人を3人教えて', 'answer': '...'}
+    print("--- グラフの構造(draw_ascii) ---")
+    print(graph.get_graph().draw_ascii())
