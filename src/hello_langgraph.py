@@ -82,7 +82,7 @@ def _run_example():
 #   ヒント: TypedDict で「ノード間を流れるデータの形」を決める。
 #   今回は文字列1個(キー名は自由、例: "text")を持たせるだけでいい。
 class HelloState(TypedDict):
-    ...
+    text: str
 
 
 def shout(state: HelloState) -> dict:
@@ -100,6 +100,8 @@ def shout(state: HelloState) -> dict:
         というだけのシンプルな契約。まずこの形に慣れる。
     """
     # TODO 2: state から文字列を取り出し、大文字にして dict で返す
+    shouted_text = state["text"].upper()
+    return {"text": shouted_text}
 
 
 def add_exclamation(state: HelloState) -> dict:
@@ -116,6 +118,8 @@ def add_exclamation(state: HelloState) -> dict:
         順番に実行される様子を確認できる(1個だけだとグラフである意味がない)。
     """
     # TODO 3: state から文字列を取り出し、末尾に "!!!" を足して dict で返す
+    exlm_text = state["text"] + "!!!"
+    return {"text": exlm_text}
 
 
 def build_graph():
@@ -137,13 +141,27 @@ def build_graph():
         - .compile() で実行可能な形にして return する
     """
     # TODO 4: 上のヒント通りに組み立てて、compile したものを返す
+    graph_builder = StateGraph(HelloState)
+    graph_builder.add_node("shout", shout)
+    graph_builder.add_node("exclamation", add_exclamation)
+    graph_builder.set_entry_point("shout")
+    graph_builder.add_edge("shout", "exclamation")
+    graph_builder.add_edge("exclamation", END)
+    graph =  graph_builder.compile()
+    return graph
 
 
 if __name__ == "__main__":
     # 見本を試したい時はこちらを実行(コメントアウトを外す)
-    _run_example()
+    #_run_example()
 
     graph = build_graph()
     # TODO 5: graph.invoke({...}) を呼んで、結果を print する
     #   入力は {"text": "hello langgraph"} のような形(Stateのキー名に合わせる)
     #   見本の _run_example() の書き方を真似ればいい
+    print("=== LangGraph の結果 ===")
+    input_state = {"text": "hello langgraph"}
+    result = graph.invoke(input_state)
+    print(f"結果: {result}")  # => {'text': 'HELLO LANGGRAPH!!!'}
+    print("--- グラフの構造(draw_ascii) ---")
+    print(graph.get_graph().draw_ascii())
