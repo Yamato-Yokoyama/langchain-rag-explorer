@@ -82,4 +82,4 @@ print(result)  # 全ノードを通過した後のstate全体が返る
 1. まずこのファイルのコード片を見て、パターンを掴む
 2. `src/hello_langgraph.py`の見本(`_add_one`/`_double`)で、実際に動く形を確認する
 3. 自分のTODO(文字列版、または実際のRAGプロジェクトのノード)を、同じパターンで書く
-4. さらに高度な機能(条件分岐edge、checkpointerによる会話履歴の保存等、Issue #21で必要になる)が要る時は、`02_conditional_edges_and_checkpointer.md`のような形でこのフォルダに追加していく(未作成、必要になったら作る)
+4. さらに高度な機能(条件分岐edge、checkpointerによる会話履歴の保存)は[02_conditional_edges_and_checkpointer.md](02_conditional_edges_and_checkpointer.md)にまとめてある
