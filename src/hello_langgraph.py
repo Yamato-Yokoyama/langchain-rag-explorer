@@ -65,6 +65,10 @@ def _run_example():
     5 を入れると、add_one で 6、double で 12 になって返るはず。
     """
     example_graph = _build_example_graph()
+
+    print("--- グラフの構造(draw_ascii) ---")
+    print(example_graph.get_graph().draw_ascii())
+
     result = example_graph.invoke({"number": 5})
     print(f"見本の結果: {result}")  # => {'number': 12}
 
@@ -137,7 +141,7 @@ def build_graph():
 
 if __name__ == "__main__":
     # 見本を試したい時はこちらを実行(コメントアウトを外す)
-    # _run_example()
+    _run_example()
 
     graph = build_graph()
     # TODO 5: graph.invoke({...}) を呼んで、結果を print する
