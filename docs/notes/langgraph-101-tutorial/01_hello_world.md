@@ -84,3 +84,4 @@ print(result)  # 全ノードを通過した後のstate全体が返る
 3. 自分のTODO(文字列版、または実際のRAGプロジェクトのノード)を、同じパターンで書く
 4. さらに高度な機能(条件分岐edge、checkpointerによる会話履歴の保存)は[02_conditional_edges_and_checkpointer.md](02_conditional_edges_and_checkpointer.md)にまとめてある
 5. 実際のアプリ(Chainlit)への接続例は[03_wiring_into_chainlit.md](03_wiring_into_chainlit.md)
+6. Stateを「蓄積」させて会話履歴を持たせる書き方は[04_accumulating_state_for_conversation_history.md](04_accumulating_state_for_conversation_history.md)
