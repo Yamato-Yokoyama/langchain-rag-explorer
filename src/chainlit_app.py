@@ -4,7 +4,8 @@ src/chainlit_app.py
 Chainlit + RAG pipeline 統合。
 - @cl.on_chat_start: LLM・インデックス(collection: レシート+LinkedInを格納したChromaDB)・
   receipt DataFrame(df: レシートのみ)を1回だけ構築、session に保存
-- @cl.on_message: session から取り出して router_answer(intent 判定 → semantic/aggregation/table_display)
+- @cl.on_message: session から取り出して LangGraph(graph_router.build_router_graph)に
+  intent 判定 → semantic/aggregation/table_display/linkedin_table への振り分けを委譲(Issue #29)
 """
 import os
 from pathlib import Path
@@ -15,7 +16,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from src.rag_pipeline import build_index
 from src.load_receipts import load_receipts_as_dataframe
 from src.load_linkedin import load_connections_as_dataframe
-from src.router import router_answer
+from src.graph_router import build_router_graph
 
 load_dotenv()
 
@@ -45,14 +46,14 @@ collection = build_index(SEMANTIC_PATHS)
 df = load_receipts_as_dataframe(RECEIPT_PATHS)
 # linkedin_table branch(linkedin_df)は Connections のみを渡す(Shares は含めない)
 linkedin_df = load_connections_as_dataframe(CONNECTIONS_PATHS)
+# LangGraphのグラフもモジュールレベルで1回だけ組み立てる(collection等と同じ理由)。
+# Checkpointerはまだ無い(Issue #21 stage 2、会話履歴の保存は次段階)。
+graph = build_router_graph(collection, df, linkedin_df, llm)
 
 
 @cl.on_chat_start
 async def start():
-    cl.user_session.set("llm", llm)
-    cl.user_session.set("collection", collection)
-    cl.user_session.set("df", df)
-    cl.user_session.set("linkedin_df", linkedin_df)
+    cl.user_session.set("graph", graph)
 
     await cl.Message(content="RAG pipeline 準備完了。質問をどうぞ。").send()
 
@@ -60,13 +61,11 @@ async def start():
 
 @cl.on_message
 async def on_message(msg: cl.Message):
-    llm = cl.user_session.get("llm")
-    collection = cl.user_session.get("collection")
-    df = cl.user_session.get("df")
-    linkedin_df = cl.user_session.get("linkedin_df")
+    graph = cl.user_session.get("graph")
 
-    # Router 層に一本化: intent 判定 → semantic / aggregation / table_display / linkedin_table に振り分け
-    answer = router_answer(msg.content, collection, df, linkedin_df, llm)
+    # LangGraphに一本化: intent 判定 → semantic / aggregation / table_display / linkedin_table に振り分け
+    result = graph.invoke({"query": msg.content, "answer": ""})
+    answer = result["answer"]
 
     await cl.Message(content=answer).send()
     
