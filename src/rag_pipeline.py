@@ -175,7 +175,14 @@ def generate_answer(query: str, retrieved_chunks: list, llm) -> str:
     
     # プロンプト構築(SystemMessage で役割、HumanMessage で質問 + context)
     message = [
-        SystemMessage(content="以下の文脈のみを根拠に、日本語で簡潔に答えてください。文脈から合理的に推論できる範囲で答えて構いません。関連する情報が全くない場合のみ「情報がありません」と答えてください。"),
+        SystemMessage(content="""\
+以下の文脈のみを根拠に、日本語で簡潔に答えてください。文脈から合理的に推論できる範囲で答えて構いません。関連する情報が全くない場合のみ「情報がありません」と答えてください。
+
+文脈中の役職名・地名は、質問と表記が異なっていても、下記のような同義語であれば同一のものとして扱ってください:
+- 役職名: VP = Vice President = 統括 = 社長(Global Corporationなら統括、リージオンでなら社長)= ディレクター = 部門責任者 = General Manager 
+- 地名: 日本 = Asia-Pacific = APAC
+表記の違いだけを理由に「情報がありません」と判断しないでください。
+該当しそうな人物・情報が文脈中に複数ある場合は、1人だけに絞らず全員挙げてください。"""),
         HumanMessage(content=f"文脈:\n{context}\n\n質問: {query}"),
     ]
     
