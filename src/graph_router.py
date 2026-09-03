@@ -1,18 +1,23 @@
 """
 src/graph_router.py
 
-Issue #21 の第一段階。src/router.py の route() が行っている if/elif の
-判定ロジックを、LangGraph の conditional edge として組み直す。
-Checkpointer(会話履歴の保存)はまだ含めない(そこは次の段階)。
+Issue #21 stage 1: src/router.py の route() が行っている if/elif の
+判定ロジックを、LangGraph の conditional edge として組み直した(完了)。
+Issue #21 stage 2: Checkpointer + 指示語解決ノードを追加し、マルチターンの
+会話(「それぞれの役職は?」等)に対応する(今回のTODO)。
 
-参考: docs/notes/langgraph-101-tutorial/01_hello_world.md, 02_conditional_edges_and_checkpointer.md
+参考: docs/notes/langgraph-101-tutorial/
+  01_hello_world.md, 02_conditional_edges_and_checkpointer.md,
+  03_wiring_into_chainlit.md, 04_accumulating_state_for_conversation_history.md
 詰まったら聞く。中身は自分で書く。
 
-Called by: なし(単体で実行して確認する用)
-Depends on: src.router(既存の route/handle_* をそのまま再利用)
+Called by: src.chainlit_app
+Depends on: src.router(既存の route/handle_* をそのまま再利用), src.query_rewriting(contextualize_query)
 """
-from typing import TypedDict
+import operator
+from typing import TypedDict, Annotated
 from langgraph.graph import StateGraph, END
+from langgraph.checkpoint.memory import MemorySaver
 from src.router import (
     route,
     handle_semantic,
@@ -20,15 +25,16 @@ from src.router import (
     handle_table_display,
     handle_linkedin_table,
 )
+from src.query_rewriting import contextualize_query
 
 
-# TODO 1: State を定義する
-#   ヒント: collection や df のような「大きい・シリアライズしにくいリソース」は
-#   State に入れない(02のCheckpointerの節を参照、後で足す時に壊れる元になる)。
-#   State には「クエリ」と「最終的な回答」の2つだけ持たせればいい。
+# TODO 1: State を定義する(完了)
 class RouterState(TypedDict):
     query: str
     answer: str
+    # TODO 10: history フィールドを追加する。
+    #   ヒント: 04のノートの通り、Annotated[list, operator.add] にすると
+    #   ノードが {"history": [新しい1件]} を返すだけで蓄積される(上書きされない)
 
 
 def build_router_graph(collection, df, linkedin_df, llm):
@@ -96,19 +102,51 @@ def build_router_graph(collection, df, linkedin_df, llm):
         handle_result = handle_linkedin_table(state["query"], linkedin_df)
         return {"answer": handle_result}
 
-    # TODO 8: グラフを組み立てる
+    def contextualize_node(state: RouterState) -> dict:
+        """会話履歴を見て、今回のクエリの指示語を解決する(Issue #21 stage 2)。
+
+        Input:
+            state: RouterState(historyには過去のターンが蓄積されている)
+
+        Output:
+            dict。{"query": 解決後のクエリ} を返す(historyはここでは触らない)
+
+        なぜ:
+            route()やhandle_*が指示語入りのクエリ(「それぞれの役職は?」)を
+            そのまま受け取ると、何を指しているか分からず正しく処理できない。
+            router_nodeより前にこのノードを置き、解決済みのクエリに
+            差し替えてから後段(router以降)に渡す。
+        """
+        # TODO 11: contextualize_query(state["query"], state["history"], llm) を呼び、
+        #   結果を {"query": ...} の形で return する
+
+    def record_history_node(state: RouterState) -> dict:
+        """このターンのやり取り(質問+回答)を history に1件追加する。
+
+        Input:
+            state: RouterState(この時点で query は解決済み、answer は生成済み)
+
+        Output:
+            dict。{"history": [このターンの記録1件]} を返す
+            (historyはAnnotated[list, operator.add]なので、これだけで蓄積される)
+
+        なぜ:
+            semantic/aggregation/table_display/linkedin_tableの4つのノードは
+            それぞれ別の場所にあるので、「このターンが終わった後」を表す
+            1箇所(この関数)にまとめてhistory記録の責務を持たせる。
+        """
+        # TODO 12: f"Q: {state['query']}\nA: {state['answer']}" のような1件の
+        #   文字列を作り、{"history": [その文字列]} を return する
+
+    # TODO 13: グラフを組み立て直す(stage 1からの変更点)
     #   ヒント:
-    #   - StateGraph(RouterState) で器を作る
-    #   - add_node で router_node と 4つの branch ノードを登録
-    #     (登録名は "semantic" / "aggregation" / "table_display" / "linkedin_table" に
-    #      揃えておくと、decide_route の返り値をそのままノード名として使える)
-    #   - set_entry_point("router") で router_node から始める
-    #   - add_conditional_edges("router", decide_route, {
-    #         "semantic": "semantic", "aggregation": "aggregation",
-    #         "table_display": "table_display", "linkedin_table": "linkedin_table",
-    #     })
-    #   - 4つの branch ノードは、それぞれ add_edge で END に繋ぐ
-    #   - .compile() したものを return する
+    #   - ノード登録に "contextualize" と "record_history" を追加
+    #   - set_entry_point を "router" から "contextualize" に変更
+    #   - add_edge("contextualize", "router") を追加(固定のedge、conditionalではない)
+    #   - 4つの branch ノードの行き先を、END ではなく "record_history" に変更
+    #     (add_edge("semantic", "record_history") のように4つとも直す)
+    #   - add_edge("record_history", END) を追加
+    #   - .compile() の引数に checkpointer=MemorySaver() を渡す
     graph_builder = StateGraph(RouterState)
     graph_builder.add_node("router", router_node)
     graph_builder.add_node("semantic", semantic_node)
@@ -179,12 +217,20 @@ if __name__ == "__main__":
     linkedin_df = load_connections_as_dataframe(CONNECTIONS_PATHS)
 
     graph = build_router_graph(collection, df, linkedin_df, llm)
-    print("=== LangGraph の結果 ===")
-    result = graph.invoke({"query": "4月の合計支出は?", "answer": ""})
-    print(f"結果: {result}")  # => {'query': '4月の合計支出は?', 'answer': '...'}
-    result = graph.invoke({"query": "DeepL APACのVPは?", "answer": ""})
-    print(f"結果: {result}")  # => {'query': 'DeepLのVPは?', 'answer': '...'}
-    result = graph.invoke({"query": "最近つながったSAPの人を3人教えて", "answer": ""})
-    print(f"結果: {result}")  # => {'query': '最近つながったSAPの人を3人教えて', 'answer': '...'}
+    print("=== stage 1 の確認(単発クエリ、historyは空のまま) ===")
+    result = graph.invoke({"query": "4月の合計支出は?", "answer": "", "history": []})
+    print(f"結果: {result}")
     print("--- グラフの構造(draw_ascii) ---")
     print(graph.get_graph().draw_ascii())
+
+    # TODO 14: stage 2(マルチターン)の確認。
+    #   ヒント:
+    #   - config = {"configurable": {"thread_id": "test-conversation-1"}} を作る
+    #   - 1ターン目: graph.invoke({"query": "最近つながったSAPの人を3人教えて",
+    #     "answer": "", "history": []}, config=config) を呼ぶ
+    #   - 2ターン目: graph.invoke({"query": "それぞれの役職は?", "answer": "",
+    #     "history": []}, config=config) を、同じ config で呼ぶ
+    #     (historyは空のリストを渡してよい、Annotated[list, operator.add]が
+    #      checkpointerに保存済みの中身と自動的に合成してくれる)
+    #   - 2ターン目の結果のqueryとanswerを見て、「それぞれ」がSAPの3人を
+    #     指して解決できているか確認する
