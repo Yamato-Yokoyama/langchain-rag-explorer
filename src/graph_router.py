@@ -35,6 +35,7 @@ class RouterState(TypedDict):
     # TODO 10: history フィールドを追加する。
     #   ヒント: 04のノートの通り、Annotated[list, operator.add] にすると
     #   ノードが {"history": [新しい1件]} を返すだけで蓄積される(上書きされない)
+    history: Annotated[list, operator.add]
 
 
 def build_router_graph(collection, df, linkedin_df, llm):
@@ -119,6 +120,8 @@ def build_router_graph(collection, df, linkedin_df, llm):
         """
         # TODO 11: contextualize_query(state["query"], state["history"], llm) を呼び、
         #   結果を {"query": ...} の形で return する
+        result = contextualize_query(state["query"], state["history"], llm)
+        return {"query": result}
 
     def record_history_node(state: RouterState) -> dict:
         """このターンのやり取り(質問+回答)を history に1件追加する。
@@ -137,6 +140,8 @@ def build_router_graph(collection, df, linkedin_df, llm):
         """
         # TODO 12: f"Q: {state['query']}\nA: {state['answer']}" のような1件の
         #   文字列を作り、{"history": [その文字列]} を return する
+        history_entry = f"Q: {state['query']}\nA: {state['answer']}"
+        return {"history": [history_entry]}
 
     # TODO 13: グラフを組み立て直す(stage 1からの変更点)
     #   ヒント:
@@ -148,23 +153,27 @@ def build_router_graph(collection, df, linkedin_df, llm):
     #   - add_edge("record_history", END) を追加
     #   - .compile() の引数に checkpointer=MemorySaver() を渡す
     graph_builder = StateGraph(RouterState)
+    graph_builder.add_node("contextualize", contextualize_node)
+    graph_builder.add_node("record_history", record_history_node)
     graph_builder.add_node("router", router_node)
     graph_builder.add_node("semantic", semantic_node)
     graph_builder.add_node("aggregation", aggregation_node)
     graph_builder.add_node("table_display", table_display_node)
     graph_builder.add_node("linkedin_table", linkedin_table_node)
-    graph_builder.set_entry_point("router")
+    graph_builder.set_entry_point("contextualize")
+    graph_builder.add_edge("contextualize", "router")
     graph_builder.add_conditional_edges("router", decide_route,{
         "semantic": "semantic",
         "aggregation": "aggregation",
         "table_display": "table_display",
         "linkedin_table": "linkedin_table",
     })
-    graph_builder.add_edge("semantic", END)
-    graph_builder.add_edge("aggregation", END)
-    graph_builder.add_edge("table_display", END)
-    graph_builder.add_edge("linkedin_table", END)
-    return graph_builder.compile()
+    graph_builder.add_edge("semantic", "record_history")
+    graph_builder.add_edge("aggregation", "record_history")
+    graph_builder.add_edge("table_display", "record_history")
+    graph_builder.add_edge("linkedin_table", "record_history")
+    graph_builder.add_edge("record_history", END)
+    return graph_builder.compile(checkpointer=MemorySaver())
 
 import os
 from dotenv import load_dotenv
@@ -218,10 +227,11 @@ if __name__ == "__main__":
 
     graph = build_router_graph(collection, df, linkedin_df, llm)
     print("=== stage 1 の確認(単発クエリ、historyは空のまま) ===")
-    result = graph.invoke({"query": "4月の合計支出は?", "answer": "", "history": []})
+    result = graph.invoke(
+        {"query": "4月の合計支出は?", "answer": "", "history": []},
+        config={"configurable": {"thread_id": "stage1-test"}},
+    )
     print(f"結果: {result}")
-    print("--- グラフの構造(draw_ascii) ---")
-    print(graph.get_graph().draw_ascii())
 
     # TODO 14: stage 2(マルチターン)の確認。
     #   ヒント:
@@ -234,3 +244,30 @@ if __name__ == "__main__":
     #      checkpointerに保存済みの中身と自動的に合成してくれる)
     #   - 2ターン目の結果のqueryとanswerを見て、「それぞれ」がSAPの3人を
     #     指して解決できているか確認する
+
+    def run_turn(label, turn_input, config):
+        """graph.stream()でノードごとの出力を逐次printし、どのbranchを通ったか可視化する。
+        invoke()は最終結果しか返さないため、途中どのノードが呼ばれたかは分からない。
+        """
+        print(f"=== stage 2 の確認: {label} ===")
+        for update in graph.stream(turn_input, config=config, stream_mode="updates"):
+            for node_name, node_output in update.items():
+                print(f"  [{node_name}] → {node_output}")
+        final_state = graph.get_state(config).values
+        print(f"{label}の最終state: {final_state}")
+        return final_state
+
+    config = {"configurable": {"thread_id": "test-conversation-1"}}
+    result1 = run_turn(
+        "1ターン目",
+        {"query": "最近つながったSAPの人を3人教えて", "answer": "", "history": []},
+        config,
+    )
+    result2 = run_turn(
+        "2ターン目",
+        {"query": "それぞれの役職は?", "answer": "", "history": []},
+        config,
+    )
+
+    print("--- グラフの構造(draw_ascii、これは配線図そのもの。実行順は上のstream出力を見る) ---")
+    print(graph.get_graph().draw_ascii())
