@@ -66,3 +66,60 @@ def expand_query_to_definition(query: str, llm) -> str:
     response = llm.invoke(message)
 
     return response.text.strip()
+
+
+def contextualize_query(query: str, history: list[str], llm) -> str:
+    """
+    会話履歴を踏まえて、指示語(それぞれ/その人/あの人 等)を含むクエリを
+    自己完結した形に書き換える(Issue #21, deixis/指示語の解決)。
+
+    Input:
+        query: ユーザーの今回のクエリ(例: "それぞれの役職は?")
+        history: これまでの会話の記録。1ターン分が1つの文字列
+            (例: ["Q: SAPで最近つながった人を3人教えて\\nA: I.K., M.S., Y.H."])
+        llm: ChatGoogleGenerativeAI インスタンス
+
+    Output:
+        str: 指示語を解決し、自己完結させたクエリ
+            (例: "I.K., M.S., Y.H.それぞれの役職は?")
+
+    なぜ:
+        - `daily/2026-08-20.md`で発見済みの課題: on_message は毎ターン独立で、
+          「それぞれ」が何を指すか分からず破綻していた
+        - expand_query_to_definition と同じ設計(LLMにルール+few-shot例を与えて
+          書き換えさせる)だが、こちらは「retrievalに効きやすくする」のではなく
+          「会話履歴を見て指示語を解決する」という別の目的
+        - historyが空(1ターン目)の場合は、書き換えずそのまま返してよい
+    """
+    # TODO 10: expand_query_to_definition と同じパターンで実装する。
+    #   ヒント:
+    #   - history が空リストなら、LLMを呼ばずそのまま query を return する(1ターン目はそのまま)
+    #   - SystemMessage には「これまでの会話を踏まえて、指示語を具体的な内容に
+    #     置き換えて書き直してください。指示語が無ければそのまま返してください」
+    #     というルール + few-shot例(上のdocstringの例のような)を書く
+    #   - HumanMessage には history を文字列として繋げたもの + 今回の query を渡す
+    #     (例: f"これまでの会話:\\n{'\\n'.join(history)}\\n\\n今回の質問: {query}")
+    #   - llm.invoke([...]) を呼び、.text.strip() を返す
+    
+    if not history:
+        return query
+    
+    system_prompt = """
+    これまでの会話を踏まえて、指示語(それぞれ/その人など)があれば、具体的な内容に置き換えて書き直してください。指示語が無ければそのまま返してください。
+    指示語を置き換える際は、人名だけでなく、会話に出てきた会社名などの文脈情報もできる限り残してください(検索の手がかりになる情報を落とさないこと)。
+    例:
+    入力: これまでの会話: Q: SAPで最近つながった人を3人教えて\nA: I.K., M.S., Y.H.\n今回の質問: それぞれの役職は?
+    出力: SAPで最近つながったI.K., M.S., Y.H.それぞれの役職は?
+    入力: これまでの会話: Q: 今月スーパーで買った商品の中で、1番高かったもの3つ教えて\nA:牛肉、ワイン、チーズ\n今回の質問: その中で、どれが一番高かった?やその中でそれぞれの品物はどこで買ったのか？
+    出力: 牛肉、ワイン、チーズの中で、どれが一番高かったか、またそれぞれの品物はどこで買ったのか？
+    """
+    
+    history_text = "\n".join(history)
+    message = [
+        SystemMessage(content=system_prompt),
+        HumanMessage(content=f"これまでの会話:\n{history_text}\n\n今回の質問: {query}"),
+    ]
+    
+    response = llm.invoke(message)
+
+    return response.text.strip()

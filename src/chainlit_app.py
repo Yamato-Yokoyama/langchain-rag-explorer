@@ -47,7 +47,10 @@ df = load_receipts_as_dataframe(RECEIPT_PATHS)
 # linkedin_table branch(linkedin_df)は Connections のみを渡す(Shares は含めない)
 linkedin_df = load_connections_as_dataframe(CONNECTIONS_PATHS)
 # LangGraphのグラフもモジュールレベルで1回だけ組み立てる(collection等と同じ理由)。
-# Checkpointerはまだ無い(Issue #21 stage 2、会話履歴の保存は次段階)。
+# checkpointer(MemorySaver)はgraph_router.build_router_graph側のcompile()で付与済み
+# (Issue #21 stage 2)。会話履歴はプロセスのメモリ上に保持されるだけなので、
+# サーバー再起動で消える・複数プロセスでは共有されない点に注意(本番運用するなら
+# 永続化されたcheckpointerへの差し替えが必要、長期のセッション管理はIssue #22の射程)。
 graph = build_router_graph(collection, df, linkedin_df, llm)
 
 
@@ -64,7 +67,10 @@ async def on_message(msg: cl.Message):
     graph = cl.user_session.get("graph")
 
     # LangGraphに一本化: intent 判定 → semantic / aggregation / table_display / linkedin_table に振り分け
-    result = graph.invoke({"query": msg.content, "answer": ""})
+    # thread_id を Chainlit のセッションID(cl.context.session.id、タブ単位で不変)に対応させることで、
+    # 同じタブ内の会話historyがcheckpointerに保存・復元され、指示語解決(Issue #21 stage 2)が機能する
+    config = {"configurable": {"thread_id": cl.context.session.id}}
+    result = graph.invoke({"query": msg.content, "answer": "", "history": []}, config=config)
     answer = result["answer"]
 
     await cl.Message(content=answer).send()
