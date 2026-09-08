@@ -105,6 +105,32 @@ def _match_known_companies(query: str, collection) -> set[str]:
     return matched
 
 
+def _match_known_initials(query: str, collection) -> set[str]:
+    """クエリ中に、コーパスに実在する人物の initials(例: "I.K.")がそのまま含まれていないか調べる。
+
+    _match_known_companies と同じ発想のhybrid search。company名だけの絞り込みでは、
+    「SAPで最近つながったI.K., M.S., Y.H.それぞれの役職は?」のように複数人物を名指しした
+    クエリで、SAPだけでも100人超いる中から狙った数人のchunkが必ずしもtop_kに入らない
+    (2026-09-07 実験で確認: I.K./M.S.の役職がtop_k=5に入らず回答できなかった)。
+    既知のinitialsとの文字列一致でメタデータを先に絞り込む。
+    """
+    all_metadatas = collection.get(include=["metadatas"])["metadatas"]
+
+    known_initials = set()
+    for metadata in all_metadatas:
+        initials = metadata.get("initials")
+        if initials:
+            known_initials.add(initials)
+
+    query_lower = query.lower()
+    matched = set()
+    for initials in known_initials:
+        if initials.lower() in query_lower:
+            matched.add(initials)
+
+    return matched
+
+
 def handle_semantic(query: str, collection, llm: BaseChatModel) -> str:
     """既存 rag_pipeline を呼ぶ。retrieval + generation の従来経路
 
@@ -119,11 +145,25 @@ def handle_semantic(query: str, collection, llm: BaseChatModel) -> str:
     なぜ:
         semantic branch は既存 pipeline の再利用。router 層で薄くラップすることで、
         Neo-Gricean のような概念クエリに対する従来経路を破壊しない。
-        クエリが既知の company 名に一致する場合だけ、ChromaDB の where フィルタで
-        そのcompanyのDocumentに絞り込んでから検索する(該当なしなら従来通り全件が対象)。
+        クエリが既知の company 名・人物 initials に一致する場合、ChromaDB の where
+        フィルタでそのDocumentに絞り込んでから検索する(両方一致すれば$andで両方に絞る、
+        どちらも該当なしなら従来通り全件が対象)。
     """
     matched_companies = _match_known_companies(query, collection)
-    where = {"company": {"$in": list(matched_companies)}} if matched_companies else None
+    matched_initials = _match_known_initials(query, collection)
+
+    conditions = []
+    if matched_companies:
+        conditions.append({"company": {"$in": list(matched_companies)}})
+    if matched_initials:
+        conditions.append({"initials": {"$in": list(matched_initials)}})
+
+    if not conditions:
+        where = None
+    elif len(conditions) == 1:
+        where = conditions[0]
+    else:
+        where = {"$and": conditions}
 
     search_results = search(query, collection, top_k=5, use_rewriting=True, llm=llm, where=where)
     generated_answer = generate_answer(query, search_results, llm=llm)
