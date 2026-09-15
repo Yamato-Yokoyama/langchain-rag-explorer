@@ -119,7 +119,54 @@ def contextualize_query(query: str, history: list[str], llm) -> str:
         SystemMessage(content=system_prompt),
         HumanMessage(content=f"これまでの会話:\n{history_text}\n\n今回の質問: {query}"),
     ]
-    
+
     response = llm.invoke(message)
 
     return response.text.strip()
+
+
+def needs_context(query: str, llm) -> bool:
+    """
+    クエリ単体を見て(履歴は見ない)、指示語(それぞれ/その人/あの/彼ら等)を
+    含み、会話履歴を見に行かないと意味が確定しないかを判定する(Issue #22)。
+
+    Input:
+        query: ユーザーの今回のクエリ(履歴は渡さない、クエリ単体で判定する)
+        llm: ChatGoogleGenerativeAI インスタンス
+
+    Output:
+        bool: True なら contextualize_query() で履歴を見に行く必要がある、
+              False なら指示語を含まないのでそのまま router に渡してよい
+
+    なぜ:
+        contextualize_query() は history があれば無条件で全履歴をLLMに渡して
+        書き換えを試みる。話題が変わったターン(例: 「4月の合計支出は?」)でも
+        毎回この処理を通り、無関係な履歴に引っ張られて誤った書き換えが起きる
+        リスクがある(Issue #22 論点2: 複数トピックの絞り込み)。
+        route() と同じ「クエリを見て分類する」パターンを、4択(intent)ではなく
+        2択(指示語の有無)で使う。
+    """
+    # TODO: route()と同じ構造で実装する。
+    #   ヒント:
+    #   - SystemMessage: 「クエリに、それぞれ/その人/あの/彼ら等の指示語が
+    #     含まれていて、会話の文脈が無いと意味が確定しないか判定してください。
+    #     'yes' か 'no' のみで答えてください」+ few-shot例
+    #     (例1: "それぞれの役職は?" → yes、例2: "4月の合計支出は?" → no)
+    #   - HumanMessage: query だけ渡す(history は渡さない、ここでは不要)
+    #   - llm.invoke([...]).text.strip().lower() が "yes" かどうかを見て
+    #     bool を return する
+    system_prompt = """
+    クエリに、それぞれ/その人/あの/彼ら等の指示語が含まれていて、会話の文脈が無いと意味が確定しないか判定してください。'yes' か 'no' のみで答えてください。
+    例:
+    入力: それぞれの役職は?
+    出力: yes
+    入力: 4月の合計支出は?
+    出力: no
+    """
+    message = [
+        SystemMessage(content=system_prompt),
+        HumanMessage(content=query),
+    ]
+    response = llm.invoke(message)
+    #==yesでここでもう判定する。yesならTrue、noならFalseを返す
+    return response.text.strip().lower() == "yes" 
