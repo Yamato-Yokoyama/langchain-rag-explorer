@@ -4,7 +4,11 @@ src/graph_router.py
 Issue #21 stage 1: src/router.py の route() が行っている if/elif の
 判定ロジックを、LangGraph の conditional edge として組み直した(完了)。
 Issue #21 stage 2: Checkpointer + 指示語解決ノードを追加し、マルチターンの
-会話(「それぞれの役職は?」等)に対応する(今回のTODO)。
+会話(「それぞれの役職は?」等)に対応した(完了)。
+Issue #22: 指示語の有無をクエリ単体で先に判定する detect_deixis ノードを
+追加し、指示語が無いターン(話題が変わった時等)では contextualize_query の
+全履歴書き換えをスキップする(今回のTODO)。3ターン以上での履歴参照範囲や
+複数トピックの絞り込みは、まずこのフラグで様子を見てから設計判断する。
 
 参考: docs/notes/langgraph-101-tutorial/
   01_hello_world.md, 02_conditional_edges_and_checkpointer.md,
@@ -12,7 +16,8 @@ Issue #21 stage 2: Checkpointer + 指示語解決ノードを追加し、マル�
 詰まったら聞く。中身は自分で書く。
 
 Called by: src.chainlit_app
-Depends on: src.router(既存の route/handle_* をそのまま再利用), src.query_rewriting(contextualize_query)
+Depends on: src.router(既存の route/handle_* をそのまま再利用),
+  src.query_rewriting(contextualize_query, needs_context)
 """
 import operator
 from typing import TypedDict, Annotated
@@ -25,7 +30,7 @@ from src.router import (
     handle_table_display,
     handle_linkedin_table,
 )
-from src.query_rewriting import contextualize_query
+from src.query_rewriting import contextualize_query, needs_context
 
 
 # TODO 1: State を定義する(完了)
@@ -103,6 +108,36 @@ def build_router_graph(collection, df, linkedin_df, llm):
         handle_result = handle_linkedin_table(state["query"], linkedin_df)
         return {"answer": handle_result}
 
+    def detect_deixis_node(state: RouterState) -> dict:
+        # TODO 15: 何もしない空ノード(router_nodeと同じ役割)。
+        #   conditional edge の分岐元として置くだけ。
+        return {}
+
+    def decide_needs_context(state: RouterState) -> str:
+        """クエリに指示語が含まれるか判定して、次のノード名を返す(Issue #22)。
+
+        Input:
+            state: RouterState
+
+        Output:
+            "needed"(contextualizeへ、履歴を見に行く) /
+            "not_needed"(routerへ直行、書き換えをスキップ)
+
+        なぜ:
+            decide_route と同じ「判定してノード名を返す」パターン。
+            指示語が無いクエリ(話題が変わったターン等)まで毎回
+            contextualize_query に全履歴を渡してしまうと、無関係な履歴に
+            引っ張られて誤った書き換えが起きるリスクがある(Issue #22 論点2)。
+            ここで先に1段階フィルタする。
+        """
+        # TODO 16: needs_context(state["query"], llm) を呼び、
+        #   True なら "needed"、False なら "not_needed" を return する
+        needs_context_result = needs_context(state["query"], llm)
+        if needs_context_result:
+            return "needed"
+        else:
+            return "not_needed"
+
     def contextualize_node(state: RouterState) -> dict:
         """会話履歴を見て、今回のクエリの指示語を解決する(Issue #21 stage 2)。
 
@@ -143,7 +178,7 @@ def build_router_graph(collection, df, linkedin_df, llm):
         history_entry = f"Q: {state['query']}\nA: {state['answer']}"
         return {"history": [history_entry]}
 
-    # TODO 13: グラフを組み立て直す(stage 1からの変更点)
+    # TODO 13: グラフを組み立て直す(stage 1からの変更点、済)
     #   ヒント:
     #   - ノード登録に "contextualize" と "record_history" を追加
     #   - set_entry_point を "router" から "contextualize" に変更
@@ -152,7 +187,17 @@ def build_router_graph(collection, df, linkedin_df, llm):
     #     (add_edge("semantic", "record_history") のように4つとも直す)
     #   - add_edge("record_history", END) を追加
     #   - .compile() の引数に checkpointer=MemorySaver() を渡す
+    # TODO 17: Issue #22 用にグラフ入口を組み替える。
+    #   ヒント:
+    #   - ノード登録に "detect_deixis" を追加
+    #   - set_entry_point を "contextualize" から "detect_deixis" に変更
+    #   - add_edge("contextualize", "router") はそのまま残す
+    #   - add_conditional_edges("detect_deixis", decide_needs_context, {
+    #         "needed": "contextualize",
+    #         "not_needed": "router",
+    #     }) を追加
     graph_builder = StateGraph(RouterState)
+    graph_builder.add_node("detect_deixis", detect_deixis_node)
     graph_builder.add_node("contextualize", contextualize_node)
     graph_builder.add_node("record_history", record_history_node)
     graph_builder.add_node("router", router_node)
@@ -160,7 +205,11 @@ def build_router_graph(collection, df, linkedin_df, llm):
     graph_builder.add_node("aggregation", aggregation_node)
     graph_builder.add_node("table_display", table_display_node)
     graph_builder.add_node("linkedin_table", linkedin_table_node)
-    graph_builder.set_entry_point("contextualize")
+    graph_builder.set_entry_point("detect_deixis")
+    graph_builder.add_conditional_edges("detect_deixis", decide_needs_context, {
+        "needed": "contextualize",
+        "not_needed": "router",
+    })
     graph_builder.add_edge("contextualize", "router")
     graph_builder.add_conditional_edges("router", decide_route,{
         "semantic": "semantic",
