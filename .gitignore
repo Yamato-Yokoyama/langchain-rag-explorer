@@ -13,4 +13,5 @@ requirements-loose.txt
 requirements-py314.txt
 data/linkedin/Connections*.csv
 data/external/
+data/resume/
 src/ml/models/*.joblib
