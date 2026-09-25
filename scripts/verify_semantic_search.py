@@ -54,7 +54,7 @@ def main():
         query = case["query"]
         expect_mentions = case["expect_mentions"]
 
-        answer = handle_semantic(query, collection, llm)
+        answer, _ = handle_semantic(query, collection, llm)
 
         print("=" * 60)
         print(f"Query: {query}")
