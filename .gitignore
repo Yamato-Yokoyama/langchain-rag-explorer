@@ -14,4 +14,5 @@ requirements-py314.txt
 data/linkedin/Connections*.csv
 data/external/
 data/resume/
+data/tuebingen/receipts_raw/
 src/ml/models/*.joblib
