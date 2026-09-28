@@ -15,9 +15,11 @@ Called by: src.chainlit_app
 Depends on: src.router(既存の route/handle_* をそのまま再利用), src.query_rewriting(contextualize_query)
 """
 import operator
+import sqlite3
 from typing import TypedDict, Annotated
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.sqlite import SqliteSaver
 from src.router import (
     route,
     handle_semantic,
@@ -200,7 +202,14 @@ def build_router_graph(collection, df, linkedin_df, llm):
             "先頭に付けて回答ごと返してください。問題なければ回答をそのまま返してください。"
         )
         response = llm.invoke(prompt)
-        return {"answer": response.content}
+        content = response.content
+        # Geminiがthought signature付きの構造化パーツ([{"type": "text", "text": ...}, ...])を
+        # 返すことがある(通常の文字列ではなくなる)。その場合はtext部分だけ繋げて文字列に戻す。
+        if isinstance(content, list):
+            content = "".join(
+                part.get("text", "") for part in content if isinstance(part, dict)
+            )
+        return {"answer": content}
     
     # TODO 13: グラフを組み立て直す(stage 1からの変更点)
     #   ヒント:
@@ -243,7 +252,18 @@ def build_router_graph(collection, df, linkedin_df, llm):
     graph_builder.add_edge("table_display", "record_history")
     graph_builder.add_edge("linkedin_table", "record_history")
     graph_builder.add_edge("record_history", END)
-    return graph_builder.compile(checkpointer=MemorySaver())
+
+    # TODO 17: MemorySaver → SqliteSaver に差し替える
+    #   (docs/notes/langgraph-101-tutorial/07_persistent_checkpointer.md参照)
+    #   ヒント:
+    #   - conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
+    #     (check_same_thread=Falseが必要な理由は07のノート参照)
+    #   - checkpointer = SqliteSaver(conn)
+    #   - return graph_builder.compile(checkpointer=checkpointer)
+    #     (下のMemorySaver版を置き換える)
+    conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
+    checkpointer = SqliteSaver(conn)
+    return graph_builder.compile(checkpointer=checkpointer)
 
 import os
 from dotenv import load_dotenv
