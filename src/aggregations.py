@@ -1,38 +1,51 @@
 import pandas as pd
 
-def sum_by_month(df: pd.DataFrame) -> dict[str, float]:
+def sum_by_month(df: pd.DataFrame, month: str | None = None) -> dict[str, float] | float:
     """月別合計金額を計算する。
 
     Input:
         df: load_receipts_as_dataframe で構築された receipt DataFrame
+        month: 指定があれば(例: "2026-08")、その月だけの合計を返す。
+            無指定なら今まで通り全月の内訳を返す
 
     Output:
-        {"2025-10": 145.32, "2025-11": 89.50, ...} のような月 → 合計 EUR の dict
+        monthを指定した場合: その月の合計EUR(float、該当データが無ければ0.0)
+        無指定の場合: {"2025-10": 145.32, "2025-11": 89.50, ...} のような月 → 合計 EUR の dict
 
     なぜ:
         LLM は top_k=171 で全件見えても月別 grouping を 10ヶ月中 9ヶ月で誤答した。
         pandas の groupby で決定的に計算することで、Retrieval/Arithmetic bottleneck を
         構造的に回避する(sketch の Problem セクション参照)。
+        monthパラメータが無かったため、「特定の月」を聞かれても全月分を返すしかなく、
+        整形役のLLMが不正確に絞り込む原因になっていた(2026-09-30に発見・修正)。
     """
+    if month:
+        matched = df[df["month"] == month]
+        return float(matched["total_eur"].sum())
     results = df.groupby("month")["total_eur"].sum()
     return results.to_dict()
 
 
 
-def count_by_month(df: pd.DataFrame) -> dict[str, int]:
+def count_by_month(df: pd.DataFrame, month: str | None = None) -> dict[str, int] | int:
     """月別レシート件数を計算する。
 
     Input:
         df: load_receipts_as_dataframe で構築された receipt DataFrame
+        month: 指定があれば(例: "2026-08")、その月だけの件数を返す。
+            無指定なら今まで通り全月の内訳を返す
 
     Output:
-        {"2025-10": 18, "2025-11": 15, ...} のような月 → 件数 の dict
+        monthを指定した場合: その月の件数(int、該当データが無ければ0)
+        無指定の場合: {"2025-10": 18, "2025-11": 15, ...} のような月 → 件数 の dict
 
     なぜ:
         top_k=50 で LLM の月別件数報告合計がぴったり 50 に一致した現象(retrieval bottleneck)、
         top_k=171 でも件数を誤答した現象(arithmetic bottleneck)、両方への構造的解決。
         pandas の groupby.size() で決定的に計算する。
     """
+    if month:
+        return int((df["month"] == month).sum())
     results = df.groupby("month").size()
     return results.to_dict()
 

@@ -54,11 +54,41 @@ linkedin_df = load_connections_as_dataframe(CONNECTIONS_PATHS)
 graph = build_router_graph(collection, df, linkedin_df, llm)
 
 
+@cl.set_starters
+async def set_starters():
+    """チャット開始画面にクリックできる例を並べる。何が聞けるか分からない問題への対処。"""
+    return [
+        cl.Starter(
+            label="LinkedInのつながりを調べる",
+            message="最近つながったSAPの人を3人教えて",
+        ),
+        cl.Starter(
+            label="月ごとの支出を集計する",
+            message="先月の合計支出は?",
+        ),
+        cl.Starter(
+            label="授業ノートについて質問する",
+            message="Q-principleって何?",
+        ),
+        cl.Starter(
+            label="会社とのつながりを横断して調べる",
+            message="DeepLとつながっている人はいる?",
+        ),
+    ]
+
+
 @cl.on_chat_start
 async def start():
     cl.user_session.set("graph", graph)
 
-    await cl.Message(content="RAG pipeline 準備完了。質問をどうぞ。").send()
+    await cl.Message(content=(
+        "RAG pipeline 準備完了。以下のような質問に答えられます:\n\n"
+        "- **LinkedInのつながり**: 「最近つながったSAPの人を3人教えて」\n"
+        "- **月ごとの支出集計**: 「先月の合計支出は?」「一番高かった買い物は?」\n"
+        "- **授業ノート(語用論)への質問**: 「Q-principleって何?」\n"
+        "- **会社名での横断検索**: 「DeepLとつながっている人はいる?」\n\n"
+        "下のStartersからも選べます。"
+    )).send()
 
 
 
