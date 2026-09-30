@@ -131,7 +131,7 @@ def _match_known_initials(query: str, collection) -> set[str]:
     return matched
 
 
-def handle_semantic(query: str, collection, llm: BaseChatModel) -> str:
+def handle_semantic(query: str, collection, llm: BaseChatModel) -> tuple[str, list]:
     """既存 rag_pipeline を呼ぶ。retrieval + generation の従来経路
 
     Input:
@@ -140,7 +140,12 @@ def handle_semantic(query: str, collection, llm: BaseChatModel) -> str:
         llm: 回答生成用の Gemini モデルインスタンス
 
     Output:
-        LLM が生成した自然文の回答
+        tuple[str, list]: (LLM が生成した自然文の回答, search()の返り値である
+        retrieved_chunks そのもの=[(score, doc), ...])。
+        retrieved_chunksを返すのは、graph_router.pyのcriticノードが
+        「回答が実際に検索結果に基づいているか(groundedness)」を確認する時に、
+        検索結果そのものが必要になるため(docs/notes/multi-agent-101-tutorial/
+        03_grounding_vs_ground_truth.md参照)。
 
     なぜ:
         semantic branch は既存 pipeline の再利用。router 層で薄くラップすることで、
@@ -167,7 +172,7 @@ def handle_semantic(query: str, collection, llm: BaseChatModel) -> str:
 
     search_results = search(query, collection, top_k=5, use_rewriting=True, llm=llm, where=where)
     generated_answer = generate_answer(query, search_results, llm=llm)
-    return generated_answer
+    return generated_answer, search_results
 
 
 def handle_aggregation(query: str, df: pd.DataFrame, llm: BaseChatModel) -> str:
@@ -347,7 +352,8 @@ def router_answer(query: str, collection, df: pd.DataFrame, linkedin_df: pd.Data
     intent = route(query, llm)
 
     if intent == "semantic":
-        return handle_semantic(query, collection, llm)
+        answer, _ = handle_semantic(query, collection, llm)
+        return answer
     elif intent == "aggregation":
         return handle_aggregation(query, df, llm)
     elif intent == "table_display":
