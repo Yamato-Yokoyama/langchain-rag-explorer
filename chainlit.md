@@ -1,14 +1,14 @@
-# Welcome to Chainlit! 🚀🤖
+# LangChain RAG Explorer 🔎
 
-Hi there, Developer! 👋 We're excited to have you on board. Chainlit is a powerful tool designed to help you prototype, debug and share applications built on top of LLMs.
+自分のLinkedInのつながり、月々の生活費レシート、言語学の授業ノートを横断して質問できるRAGアシスタントです。
 
-## Useful Links 🔗
+## 何が聞けるか
 
-- **Documentation:** Get started with our comprehensive [Chainlit Documentation](https://docs.chainlit.io) 📚
-- **Discord Community:** Join our friendly [Chainlit Discord](https://discord.gg/k73SQ3FyUh) to ask questions, share your projects, and connect with other developers! 💬
+- **LinkedInのつながりを調べる**: 「最近つながったSAPの人を3人教えて」「DeepLとつながっている人はいる?」
+- **月ごとの支出を集計する**: 「先月の合計支出は?」「一番高かった買い物は?」
+- **授業ノート(語用論)への質問**: 「Q-principleって何?」「Common Groundとは?」
+- **会話の文脈を踏まえた質問**: 1つ前の回答の続きとして「それぞれの役職は?」のような聞き方もできます
 
-We can't wait to see what you create with Chainlit! Happy coding! 💻😊
+質問の意図(会社検索か、集計か、概念の説明か)を自動で判定し、適切な処理に振り分けます。semantic検索の回答は、根拠(検索結果)と照合する2つ目のエージェント(critic)によって検証されます。
 
-## Welcome screen
-
-To modify the welcome screen, edit the `chainlit.md` file at the root of your project. If you do not want a welcome screen, just leave this file empty.
+詳しい設計は [GitHub README](https://github.com/Yamato-Yokoyama/langchain-rag-explorer) を参照してください。
