@@ -1,4 +1,5 @@
 import re
+from datetime import date
 from typing import Literal
 import pandas as pd
 from langchain_core.language_models.chat_models import BaseChatModel
@@ -191,10 +192,13 @@ def handle_aggregation(query: str, df: pd.DataFrame, llm: BaseChatModel) -> str:
         pandas の決定的計算に置き換える。LLM は関数選択と整形のみ担当し、
         数値計算そのものには関与させない。
     """
-    sub_intent_system = SystemMessage(content="""\
+    today_str = date.today().isoformat()
+    sub_intent_system = SystemMessage(content=f"""\
     # タスク
-    あなたはユーザーの集計クエリを 4 つのサブカテゴリに分類する分類器です。
+    あなたはユーザーの集計クエリを分類し、対象の月(あれば)を抽出する係です。
     Router で既に aggregation branch と判定された query のみが入力されます。
+    今日の日付は {today_str} です。「先月」「今月」のような相対表現は、この日付を基準に
+    実際の年月("2026-08"のような形式)に変換してください。
 
     # サブ intent の定義
     - **sum_by_month**: 月ごとの合計金額を求める質問。「月別に」「4月の合計は」など。
@@ -215,25 +219,37 @@ def handle_aggregation(query: str, df: pd.DataFrame, llm: BaseChatModel) -> str:
     - 「月」が含まれず、全期間の金額を聞くなら total_all
     - 「高い」「top」など順位付けを求めるなら top_n_by_price
 
-    # 出力制約
-    `sum_by_month` / `count_by_month` / `top_n_by_price` / `total_all` のいずれか 1 単語のみ。
-    引用符・説明・改行・句読点を含めない。
+    # 出力フォーマット
+    `{{intent}}|{{month}}` の形式で1行だけ出力してください。
+    - intent: `sum_by_month` / `count_by_month` / `top_n_by_price` / `total_all` のいずれか1単語
+    - month: 特定の月を指すクエリ(sum_by_month/count_by_monthで、かつ月が特定できる場合)は
+      "YYYY-MM"形式。特定の月を指していない場合(「毎月の」「全期間」等)は空文字列のまま。
+    - 引用符・説明・改行・句読点を含めない。
+
+    例:
+    "先月の合計支出は?" → sum_by_month|2026-08
+    "4月の合計は?" → sum_by_month|2026-04
+    "毎月の支出は?" → sum_by_month|
+    "全部でいくら使った?" → total_all|
+    "一番高かった買い物は?" → top_n_by_price|
     """)
-    
-    sub_intent_system = SystemMessage(content=sub_intent_system.content)
+
     human_msg = HumanMessage(content=query)
 
     response = llm.invoke([sub_intent_system, human_msg])
-    sub_intent = response.text.strip().lower()
-    
-    valid_intents = ["sum_by_month", "count_by_month", "top_n_by_price", "total_all"]   
+    raw = response.text.strip().lower()
+    sub_intent, _, target_month = raw.partition("|")
+    sub_intent = sub_intent.strip()
+    target_month = target_month.strip() or None
+
+    valid_intents = ["sum_by_month", "count_by_month", "top_n_by_price", "total_all"]
     FUNC_MAP = {
     "sum_by_month": sum_by_month,
     "count_by_month": count_by_month,
     "top_n_by_price": top_n_by_price,
     "total_all": total_all,
     }
-    
+
     if sub_intent not in valid_intents:
         agg_func = None
     else:
@@ -242,8 +258,13 @@ def handle_aggregation(query: str, df: pd.DataFrame, llm: BaseChatModel) -> str:
     if agg_func is None:
         return "不明な集計クエリです。"
 
-    # 集計処理を実行(aggregations.py の各関数は df のみを受け取る決定的な計算)
-    result = agg_func(df)
+    # 集計処理を実行(aggregations.py の各関数は df のみを受け取る決定的な計算)。
+    # sum_by_month/count_by_monthは、対象の月が特定できていればmonthを渡して
+    # その月だけに絞り込む(月が特定できなければ今まで通り全月の内訳を返す)。
+    if sub_intent in ("sum_by_month", "count_by_month") and target_month:
+        result = agg_func(df, month=target_month)
+    else:
+        result = agg_func(df)
 
     # 集計結果(dict / float / DataFrame)を LLM で自然文に整形する。
     # generate_answer() は chunk(score, Document)のリストを前提にした semantic branch 専用の
