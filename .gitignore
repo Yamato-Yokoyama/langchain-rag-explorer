@@ -7,6 +7,7 @@ __pycache__/
 .DS_Store
 .langchain.cache
 chroma_db/
+checkpoints.sqlite
 files/
 .chainlit/
 requirements-loose.txt
@@ -14,5 +15,6 @@ requirements-py314.txt
 data/linkedin/Connections*.csv
 data/external/
 data/resume/
+data/applications/
 data/tuebingen/receipts_raw/
 src/ml/models/*.joblib

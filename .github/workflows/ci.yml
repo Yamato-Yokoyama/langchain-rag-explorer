@@ -80,10 +80,20 @@ jobs:
       #    1行ずつ見えるようになる(手元でつけているのと同じ理由)。
       - run: pytest src/embedding_quality_test.py -v
 
+      # 5. requirements.txtの依存パッケージに既知の脆弱性が無いか確認する。
+      #    docs/notes/github-actions-101-tutorial/03_pip_audit_dependency_scanning.md参照。
+      #    pytestと同じく、判断が要らない機械的なチェックなのでLLM/エージェント化はしない。
+      #    continue-on-error: true にしているのは「検出はするがCI全体は赤にしない」ため。
+      #    今の時点で既に39件の既知脆弱性が見つかっている(chromadb/nltk/pypdf/unstructured)が、
+      #    検証無しに緊急でバージョンを上げると別の互換性問題を起こすリスクがあるため、
+      #    今は「見える化だけする」に留め、対応は別途落ち着いてから行う。
+      - run: pip install pip-audit
+      - run: pip-audit -r requirements.txt
+        continue-on-error: true
+
       # ============================================================
-      # ここから下はまだ書かない(pip-audit/ruffが未インストールのため)。
+      # ここから下はまだ書かない(ruffが未インストールのため)。
       # 02_ci_workflow.md の「4. 運用の仕方」参照。
-      # 導入したら、この続きに次のようなstepを1行ずつ足していく想定:
+      # 導入したら、この続きに次のstepを足す想定:
       #   - run: ruff check src/
-      #   - run: pip-audit
       # ============================================================
