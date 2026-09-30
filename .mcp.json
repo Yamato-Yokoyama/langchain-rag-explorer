@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "receipt-extractor": {
+      "command": ".venv/bin/python",
+      "args": ["src/receipt_mcp_server.py"]
+    }
+  }
+}

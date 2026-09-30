@@ -1,0 +1,130 @@
+[
+  {
+    "receipt_id": "dm_20260903_000102",
+    "store": {
+      "name": "dm",
+      "address": "Hügelstraße 5, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-09-03",
+      "time": "17:33",
+      "total_eur": 1.7,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 312
+    },
+    "items": [
+      {
+        "name_original": "Mivolis Traubenz.10Vitam. 100g",
+        "name_jp": "Mivolis ぶどう糖 10ビタミン 100g",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.0,
+          "final_eur": 0.85
+        }
+      },
+      {
+        "name_original": "Dontodent ZB Clean & White",
+        "name_jp": "Dontodent 歯磨き粉 クリーン＆ホワイト",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.0,
+          "final_eur": 0.85
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "dm_20260908_9355",
+    "store": {
+      "name": "dm",
+      "address": "Hügelstraße 5 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-09-08",
+      "time": "16:42",
+      "total_eur": 5.05,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 929
+    },
+    "items": [
+      {
+        "name_original": "Dontodent Kaugummi Black Shine",
+        "name_jp": "デントデント ガム ブラックシャイン",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.55,
+          "discount_eur": 0.0,
+          "final_eur": 1.55
+        }
+      },
+      {
+        "name_original": "Dontodent Kaugummi Grapefruit",
+        "name_jp": "デントデント ガム グレープフルーツ",
+        "category": "Snack",
+        "price": {
+          "regular_eur": 1.55,
+          "discount_eur": 0.0,
+          "final_eur": 1.55
+        }
+      },
+      {
+        "name_original": "Mivolis MultivitaminBrausetabl",
+        "name_jp": "ミボリス マルチビタミン発泡錠",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.5,
+          "discount_eur": 0.0,
+          "final_eur": 0.5
+        }
+      },
+      {
+        "name_original": "Balea Schuhdeo",
+        "name_jp": "バレア 靴用消臭スプレー",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 1.45,
+          "discount_eur": 0.0,
+          "final_eur": 1.45
+        }
+      }
+    ]
+  },
+  {
+    "receipt_id": "dm_20260916_6045",
+    "store": {
+      "name": "dm",
+      "address": "Hügelstraße 5, 72072 Tübingen"
+    },
+    "transaction": {
+      "date": "2026-09-16",
+      "time": "17:51",
+      "total_eur": 5.8,
+      "exchange_rate_jpy": 184,
+      "total_jpy": 1067
+    },
+    "items": [
+      {
+        "name_original": "Sagrotan Hygienespüler",
+        "name_jp": "サグロタン 衣料用除菌剤",
+        "category": "Daily_Necessities",
+        "price": {
+          "regular_eur": 4.95,
+          "discount_eur": 0.0,
+          "final_eur": 4.95
+        }
+      },
+      {
+        "name_original": "Mivolis Traubenz.10Vitam. 100g",
+        "name_jp": "ミボリス ぶどう糖タブレット 10ビタミン 100g",
+        "category": "Food",
+        "price": {
+          "regular_eur": 0.85,
+          "discount_eur": 0.0,
+          "final_eur": 0.85
+        }
+      }
+    ]
+  }
+]
