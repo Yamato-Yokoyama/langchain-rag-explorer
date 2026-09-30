@@ -36,6 +36,10 @@ class RouterState(TypedDict):
     #   ヒント: 04のノートの通り、Annotated[list, operator.add] にすると
     #   ノードが {"history": [新しい1件]} を返すだけで蓄積される(上書きされない)
     history: Annotated[list, operator.add]
+    # semanticブランチがretrievalした根拠(chunk本文)。criticノードが
+    # 「回答が根拠に基づいているか」を確認する時に使う。他のブランチでは空文字列のまま
+    # (docs/notes/multi-agent-101-tutorial/03_grounding_vs_ground_truth.md参照)
+    retrieved_context: str
 
 
 def build_router_graph(collection, df, linkedin_df, llm):
@@ -80,10 +84,13 @@ def build_router_graph(collection, df, linkedin_df, llm):
         return route(state["query"], llm)
 
     def semantic_node(state: RouterState) -> dict:
-        # TODO 4: handle_semantic(state["query"], collection, llm) を呼び、
-        #   結果を {"answer": ...} の形で return する
-        result = handle_semantic(state["query"], collection, llm)
-        return {"answer": result}
+        # handle_semanticは(answer, search_results)のtupleを返す
+        # (docs/notes/multi-agent-101-tutorial/03参照、criticノードのために追加)。
+        # search_resultsは[(score, doc), ...]なので、doc.page_contentだけを
+        # 繋げてcriticが読みやすい1つの文字列にしておく。
+        answer, search_results = handle_semantic(state["query"], collection, llm)
+        retrieved_context = "\n\n".join(doc.page_content for _score, doc in search_results)
+        return {"answer": answer, "retrieved_context": retrieved_context}
 
     def aggregation_node(state: RouterState) -> dict:
         # TODO 5: handle_aggregation(state["query"], df, llm) を呼び、
@@ -143,6 +150,58 @@ def build_router_graph(collection, df, linkedin_df, llm):
         history_entry = f"Q: {state['query']}\nA: {state['answer']}"
         return {"history": [history_entry]}
 
+    def critic_node(state: RouterState) -> dict:
+        """semantic回答が、実際にretrieved_context(検索結果)に基づいているかを確認する(検証役)。
+
+        Input:
+            state: RouterState(answer=semantic_nodeが生成した回答、
+            retrieved_context=その回答の根拠になったはずのchunk本文)
+
+        Output:
+            dict。{"answer": 検証後の回答}(根拠に基づいていればそのまま、
+            根拠が無い/薄い内容が含まれていれば"⚠️ 検証: ..."を先頭に付けて返す)
+
+        なぜ:
+            「客観的に正しいか」はcritic自身にも判定できない(ground truthを
+            持っていないため)。判定できるのは「retrieved_contextに書かれている
+            内容とちゃんと一致しているか(groundedness)」だけ。
+            これはanswerとretrieved_context両方を見比べれば機械的に判定できる。
+            詳細はdocs/notes/multi-agent-101-tutorial/03_grounding_vs_ground_truth.md。
+
+            docs/notes/multi-agent-101-tutorial/01_why_and_what.mdの理由2の通り、
+            生成した本人(同じ文脈)に自己採点させるより、別のLLM呼び出しで
+            チェックさせる方が、生成時の思い込みに引きずられにくい。
+            retryループにはせず、注記を付けて返すだけの一番小さい形にする
+            (詳細はdocs/notes/multi-agent-101-tutorial/02_critic_node_design.md)。
+        """
+        # TODO 15: llmに state["query"]・state["answer"]・state["retrieved_context"]
+        #   の3つを渡して、「回答がretrieved_contextの内容だけで裏付けられているか」
+        #   を確認させる。
+        #   ヒント:
+        #   - プロンプト例:
+        #     f"質問: {state['query']}\n"
+        #     f"回答: {state['answer']}\n"
+        #     f"検索結果(回答の根拠):\n{state['retrieved_context']}\n\n"
+        #     "回答の内容が、上の検索結果だけから裏付けられるか確認してください。"
+        #     "検索結果に無い情報を回答が含んでいる場合、または検索結果だけでは"
+        #     "自信を持って答えられないはずの内容の場合は、"
+        #     "'⚠️ 検証: 検索結果からは十分な根拠が見つかりませんでした。(理由)' を"
+        #     "先頭に付けて回答ごと返してください。問題なければ回答をそのまま返してください。"
+        #   - llm.invoke(prompt).content で結果の文字列を取得
+        #   - {"answer": 結果} を return する
+        prompt = (
+            f"質問: {state['query']}\n"
+            f"回答: {state['answer']}\n"
+            f"検索結果(回答の根拠):\n{state['retrieved_context']}\n\n"
+            "回答の内容が、上の検索結果だけから裏付けられるか確認してください。"
+            "検索結果に無い情報を回答が含んでいる場合、または検索結果だけでは"
+            "自信を持って答えられないはずの内容の場合は、"
+            "'⚠️ 検証: 検索結果からは十分な根拠が見つかりませんでした。(理由)' を"
+            "先頭に付けて回答ごと返してください。問題なければ回答をそのまま返してください。"
+        )
+        response = llm.invoke(prompt)
+        return {"answer": response.content}
+    
     # TODO 13: グラフを組み立て直す(stage 1からの変更点)
     #   ヒント:
     #   - ノード登録に "contextualize" と "record_history" を追加
@@ -152,6 +211,15 @@ def build_router_graph(collection, df, linkedin_df, llm):
     #     (add_edge("semantic", "record_history") のように4つとも直す)
     #   - add_edge("record_history", END) を追加
     #   - .compile() の引数に checkpointer=MemorySaver() を渡す
+    #
+    # TODO 16: criticノードをsemanticブランチの後ろに挿入する
+    #   (docs/notes/multi-agent-101-tutorial/02_critic_node_design.md参照)
+    #   ヒント:
+    #   - add_node("critic", critic_node) を追加登録する
+    #   - add_edge("semantic", "record_history") を削除し、代わりに
+    #     add_edge("semantic", "critic") と add_edge("critic", "record_history")
+    #     の2本にする
+    #   - aggregation/table_display/linkedin_tableの3本は変更しない
     graph_builder = StateGraph(RouterState)
     graph_builder.add_node("contextualize", contextualize_node)
     graph_builder.add_node("record_history", record_history_node)
@@ -160,6 +228,7 @@ def build_router_graph(collection, df, linkedin_df, llm):
     graph_builder.add_node("aggregation", aggregation_node)
     graph_builder.add_node("table_display", table_display_node)
     graph_builder.add_node("linkedin_table", linkedin_table_node)
+    graph_builder.add_node("critic", critic_node)
     graph_builder.set_entry_point("contextualize")
     graph_builder.add_edge("contextualize", "router")
     graph_builder.add_conditional_edges("router", decide_route,{
@@ -168,7 +237,8 @@ def build_router_graph(collection, df, linkedin_df, llm):
         "table_display": "table_display",
         "linkedin_table": "linkedin_table",
     })
-    graph_builder.add_edge("semantic", "record_history")
+    graph_builder.add_edge("semantic", "critic")
+    graph_builder.add_edge("critic", "record_history")
     graph_builder.add_edge("aggregation", "record_history")
     graph_builder.add_edge("table_display", "record_history")
     graph_builder.add_edge("linkedin_table", "record_history")
