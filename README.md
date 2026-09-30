@@ -3,48 +3,65 @@
 > Multilingual Personal Knowledge Base with Pragmatic Reasoning
 > Built by [Yamato Yokoyama](https://linkedin.com/in/yamato-yokoyama/) · Computational Linguistics BA · University of Tübingen
 
-A multilingual (Japanese / English, German later) RAG system built as both a portfolio project and a study in mapping Semantics & Pragmatics theory (Common Ground, QUD, Speech Acts) onto real RAG / agent architecture.
+A multilingual (Japanese / English) RAG assistant over my own data (LinkedIn connections, personal expense receipts, linguistics class notes), built as both a working tool and a study in mapping Semantics & Pragmatics theory (Speech Acts, Common Ground, Gricean maxims) onto real RAG / agent failure modes.
 
-**Status:** Week 1 in progress (2026-08-07 → 2026-09-03). See [daily notes](daily/) for build-in-public log.
+**Status:** Actively developed since 2026-08-07. Core RAG + LangGraph router + multi-agent verification + MCP tooling are implemented and running. See [Notable Findings](#notable-findings-the-debugging-journey) below and [daily/](daily/) for the build-in-public log.
 
 ## Why?
 
 See [docs/why.md](docs/why.md) for the full story. Short version: I got frustrated with Gemini/NotebookLM losing context in long sessions, realized this is the same problem discourse pragmatics tries to formalize, and decided to build a system that treats context management as a first-class concern.
 
-## Planned Architecture
+## Architecture
 
 | Layer | Technology | Status |
 |---|---|---|
-| Chat UI | Chainlit | Week 2 |
-| Orchestration | LangChain | ✅ Basic (Week 1) |
-| State Management | LangGraph | Week 3 |
-| LLM | Google Gemini Flash | ✅ Wired (Week 1) |
-| Embeddings | BGE-M3 (sentence-transformers) | Week 2 |
-| Vector Store | ChromaDB → pgvector | Week 2 / Week 3 |
-| Persistence | PostgreSQL + SQLAlchemy + Alembic | Week 3 |
+| Chat UI | Chainlit | ✅ |
+| Orchestration | LangChain + LangGraph (router → verification agent) | ✅ |
+| State Management | LangGraph checkpointer (SQLite, persists across restarts) | ✅ |
+| LLM | Google Gemini Flash | ✅ |
+| Embeddings | BGE-M3 (sentence-transformers) | ✅ |
+| Vector Store | ChromaDB | ✅ |
+| Tooling | MCP server (receipt PDF → structured JSON) | ✅ |
+| CI | GitHub Actions (pytest + pip-audit) | ✅ |
+| Orchestration (containers) | Docker / Kubernetes | 📋 planned, see [Issue #41](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/41) |
 
-## Current State (as of 2026-08-09)
+## What it does
 
-- Raw Gemini SDK Hello World (`src/hello_gemini.py`)
-- LangChain equivalent (`src/hello_langchain.py`)
-- Manual conversation loop with history (`src/chat_manual.py`)
-- LangChain conversation loop with `SystemMessage` (`src/chat_langchain.py`)
-- Thought Summary experimentation (see [daily/2026-08-09.md](daily/2026-08-09.md))
+Ask it things like:
 
-## Theory to Implementation Mapping (Week 4)
+- *"Who are the SAP people I've connected with recently, and what are their roles?"* → routes to a structured LinkedIn query
+- *"What did I spend on groceries in September?"* → routes to a deterministic pandas aggregation (not LLM arithmetic, see below)
+- *"What's the Q-principle?"* → routes to semantic search over class notes, answer is checked by a second agent before being returned
+- Multi-turn: *"...and what about M.S.?"* resolves the pronoun against conversation history (LangGraph checkpointer, survives process restarts)
 
-This is what the project is really about. See `docs/theory-mapping.md` (Week 4).
+Query routing (`src/graph_router.py`) is a LangGraph state machine: `contextualize → router → {semantic, aggregation, table_display, linkedin_table} → [critic, semantic only] → record_history`.
 
-| Concept (Pragmatics) | Implementation |
-|---|---|
-| Common Ground | Session Store + Vector DB |
-| Context Set | Retrieved candidates |
-| QUD Stack | LangGraph state machine |
-| Implicature | Query intent classification |
-| Felicity Conditions | Tool use pre-conditions |
-| Speech Act | Function calling |
+## Multi-agent verification (critic node)
 
-## Quick Start (Week 1 minimum)
+The semantic-search branch adds a second, independently-prompted LLM call that checks whether the generated answer is actually supported by the retrieved evidence, rather than trusting the first answer at face value. It doesn't know "the truth" (no agent does) — it only checks *groundedness*: does the answer match what was retrieved. See [docs/notes/multi-agent-101-tutorial/](docs/notes/multi-agent-101-tutorial/).
+
+It has already caught a real bug in my own data: two different LinkedIn contacts sharing the same initials had been silently merged into one answer.
+
+## MCP tool: receipt automation
+
+`src/receipt_mcp_server.py` exposes an `extract_receipt` tool (via the Model Context Protocol) that turns a manual task — reading a receipt PDF and typing the line items into JSON by hand — into something any MCP-compatible client can call directly. See [docs/notes/mcp-101-tutorial/](docs/notes/mcp-101-tutorial/).
+
+## Notable findings (the debugging journey)
+
+This project is as much about *why RAG fails* as about making it work. A few findings that came from treating retrieval failures as things to diagnose, not just patch:
+
+- **Chunk Size dilution**: a query about a specific concept ranked its own source chunk 5th instead of 1st, because the chunk packed a definition + example + extra context together and diluted its own embedding. Fixed via query rewriting; documented in [daily/interview-prep/insights.md](daily/interview-prep/insights.md).
+- **Speech Act mismatch**: embeddings sometimes match on *how* something is phrased (question vs. statement) over *what* it's about — a linguistically-motivated explanation for a real retrieval bug. Same note as above.
+- **Chainlit + asyncio**: building the vector index inside `@cl.on_chat_start` blocked the event loop for every other connection. See [daily/interview-prep/chainlit-asyncio-event-loop-blocking.md](daily/interview-prep/chainlit-asyncio-event-loop-blocking.md).
+- **LLM arithmetic is unreliable at scale**: expense totals computed by the LLM directly were off by real money at `top_k=171`; replaced with deterministic pandas aggregation, LLM only picks which function to call. See [src/aggregations.py](src/aggregations.py).
+- **OCR/vision extraction errors**: the MCP receipt tool misread a price (read 2x the correct value on one line item); caught by an integrity check (`sum(items) == total`) before saving, not by trusting the model.
+- **`pip-audit` found 39 known vulnerabilities** across 4 dependencies the first time it was run in CI — a reminder that a clean test suite says nothing about dependency security.
+
+## ML side-track: Speech Act classification baseline
+
+Independent of the RAG pipeline, `src/ml/` has a from-scratch Naive Bayes / Logistic Regression baseline for Speech Act classification (DailyDialog, TF-IDF features, Macro F1 0.539 → 0.700). Not yet wired into the router — see [Issue #39](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/39) (closed) and [daily/interview-prep/speech-act-baseline-report.md](daily/interview-prep/speech-act-baseline-report.md) for the results and how it connects back to the Speech Act mismatch finding above.
+
+## Quick Start
 
 ```bash
 git clone https://github.com/Yamato-Yokoyama/langchain-rag-explorer.git
@@ -57,34 +74,46 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edit .env and add your GEMINI_API_KEY (get one at https://aistudio.google.com/apikey)
 
-python src/hello_langchain.py
-python src/chat_langchain.py
+chainlit run src/chainlit_app.py
+```
+
+Running the test suite / dependency scan locally (same as CI):
+
+```bash
+pytest src/embedding_quality_test.py -v
+pip install pip-audit && pip-audit -r requirements.txt
 ```
 
 ## Repository Structure
 
+```
 langchain-rag-explorer/
-├── daily/ # Daily build-in-public notes
-├── docs/ # Public project documentation
-│ ├── why.md
-│ └── requirements.md
-├── src/ # Implementation
-│ ├── hello_gemini.py
-│ ├── hello_langchain.py
-│ ├── chat_manual.py
-│ └── chat_langchain.py
-├── .env.example
-├── .gitignore
+├── daily/                  # Daily build-in-public notes + interview-prep deep dives
+├── docs/
+│   ├── notes/               # 101-style tutorials (LangGraph, GitHub Actions, MCP, multi-agent)
+│   ├── why.md
+│   └── requirements.md
+├── src/
+│   ├── chainlit_app.py       # Chat UI entry point
+│   ├── graph_router.py       # LangGraph state machine (router + critic)
+│   ├── router.py             # Intent routing + branch handlers
+│   ├── rag_pipeline.py       # Embedding/search/generation
+│   ├── receipt_mcp_server.py # MCP tool for receipt PDF → JSON
+│   ├── aggregations.py       # Deterministic pandas aggregations
+│   └── ml/                   # Speech Act classification (independent side-track)
+├── .github/workflows/ci.yml  # pytest + pip-audit
+├── notebooks/
 ├── requirements.txt
 └── README.md
+```
 
+## Known Limitations / Open Work
 
-## Weekly Roadmap
-
-- Week 1 (8/7 – 8/13): Foundation — Gemini SDK, LangChain basics, single-doc RAG
-- Week 2 (8/14 – 8/20): Documents & Multilingual — LinkedIn CSV ingestion, Chainlit UI, BGE-M3 + ChromaDB
-- Week 3 (8/21 – 8/27): State & Session — LangGraph, PostgreSQL migration, hierarchical history
-- Week 4 (8/28 – 9/3): Theory Mapping & Ship — pragmatics-to-implementation docs, portfolio prep, SAP application
+- No Kubernetes/container deployment yet ([Issue #41](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/41))
+- No quantitative retrieval evaluation harness yet — current findings are real but individually diagnosed, not benchmarked at scale ([Issue #42](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/42))
+- Speech Act classifier (`src/ml/`) is trained but not yet wired into query routing
+- Negation/exclusion queries, multi-entity relationship queries, and long-conversation history pruning are known gaps (see [open issues](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues))
+- `pip-audit` currently reports 39 known dependency vulnerabilities (`continue-on-error: true` in CI, not yet triaged/upgraded)
 
 ## About the Author
 
