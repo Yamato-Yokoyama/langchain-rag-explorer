@@ -56,7 +56,7 @@ $ pytest src/embedding_quality_test.py -v
 
 ## 4. 運用の仕方: 今回はこれだけ、今後どう育てるか
 
-今回スコープに入れるのは`src/embedding_quality_test.py`のpytest実行だけです。前回の`daily/2026-09-25-sap-459930-plan.md`で挙げていたlint(ruff)とdependency audit(pip-audit)は、**まだ`requirements.txt`に入っていない**ので今回は書きません(入っていないツールをCIで呼んでも「コマンドが見つからない」で落ちるだけなので)。
+今回スコープに入れるのは`src/embedding_quality_test.py`のpytest実行だけです。前回の計画で挙げていたlint(ruff)とdependency audit(pip-audit)は、**まだ`requirements.txt`に入っていない**ので今回は書きません(入っていないツールをCIで呼んでも「コマンドが見つからない」で落ちるだけなので)。
 
 今後増やす時の運用は2パターンあります:
 

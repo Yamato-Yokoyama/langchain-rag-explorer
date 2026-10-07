@@ -78,7 +78,7 @@ def load_shares_from_csv(filepath: str) -> list[Document]:
 
 ## 3. company メタデータフィルタとの接続(2026-08-27の追加分)
 
-`Connections`のmetadataに`company`フィールドがあることが、後で効いてくる。`src/router.py`の`_match_known_companies()`は、この`company`の集合を使って「クエリに既知の会社名がそのまま含まれるか」を文字列一致でチェックし、一致すればその会社の`Document`だけに絞り込んでから検索する(詳細: [daily/2026-08-27.md](../2026-08-27.md))。**metadataを"後から検索フィルタとして再利用する"設計は、ロード時に構造化データをmetadataとして残しておいたからこそ可能になっている**、という点が2つの作業の繋がり。
+`Connections`のmetadataに`company`フィールドがあることが、後で効いてくる。`src/router.py`の`_match_known_companies()`は、この`company`の集合を使って「クエリに既知の会社名がそのまま含まれるか」を文字列一致でチェックし、一致すればその会社の`Document`だけに絞り込んでから検索する(詳細: 開発ログ 2026-08-27)。**metadataを"後から検索フィルタとして再利用する"設計は、ロード時に構造化データをmetadataとして残しておいたからこそ可能になっている**、という点が2つの作業の繋がり。
 
 ## 4. 全体の流れ(図解)
 
@@ -111,4 +111,4 @@ flowchart TD
 - Connections.csvの`skiprows=3`はLinkedInのエクスポート形式固有の癖で、汎用的なCSVパーサーの話ではない
 - `_clean_share_commentary`の正規表現は実データを見て初めて気づいた壊れ方(改行のたびにクォートで囲むエスケープ)、事前に仕様書を読んで分かるものではなく実データ検証で発見した
 
-**元の文脈**: `src/load_linkedin.py`, [daily/2026-08-27.md](../2026-08-27.md)(companyフィルタの実装経緯)
+**元の文脈**: `src/load_linkedin.py`, 開発ログ 2026-08-27(companyフィルタの実装経緯)

@@ -60,7 +60,7 @@ Issue #21の「それぞれの役職は?」を解けるようにするには、�
 
 1. `route()`の前に「会話履歴を見て指示語を解決する」ノード(contextualizeノード)を挟む
 2. そのノードが参照する会話履歴は、Checkpointerが自動的に保存・復元してくれるstateから読む
-3. `thread_id`は、Chainlitの`cl.user_session`(既に`daily/2026-08-19.md`で「per-user Common Ground」と位置づけ済み)のセッションIDと対応させる
+3. `thread_id`は、Chainlitの`cl.user_session`(既に開発ログ 2026-08-19 で「per-user Common Ground」と位置づけ済み)のセッションIDと対応させる
 
 ---
 

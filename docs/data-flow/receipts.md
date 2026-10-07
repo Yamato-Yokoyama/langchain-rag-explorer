@@ -65,7 +65,7 @@ def load_receipts_from_json(filepath: str) -> list[Document]:
     return docs
 ```
 
-**メタデータの取り方**: ネストしたdict(`receipt["transaction"]["date"]`等)から、必要な値だけをフラットな1階層の`metadata` dictに"引っ張り出して"いる。`Document.metadata`は基本的にフラットな辞書という前提([docs/notes/langchain-and-rag-overview.md](../../docs/notes/langchain-and-rag-overview.md)で確認済みの一般構造)に合わせて、ここで構造を平坦化している。
+**メタデータの取り方**: ネストしたdict(`receipt["transaction"]["date"]`等)から、必要な値だけをフラットな1階層の`metadata` dictに"引っ張り出して"いる。`Document.metadata`は基本的にフラットな辞書という前提([docs/notes/langchain-and-rag-overview.md](../notes/langchain-and-rag-overview.md)で確認済みの一般構造)に合わせて、ここで構造を平坦化している。
 
 **page_contentの中身**(`_format_receipt_as_text`が生成する自然文の例):
 ```
@@ -74,13 +74,13 @@ def load_receipts_from_json(filepath: str) -> list[Document]:
 購入品: ボディソープ(Daily_Necessities, 0.95 EUR), ...
 ```
 
-冒頭の「【Tübingen で生活する...】」という一文は、Data Enrichmentという意図的な処理([insights.md](insights.md) Insight 04参照)。生のレシートには「誰の記録か」という主体情報が無いため、検索時に「留学生はどんな食べ物を買ってる?」のような質問とマッチしにくい(Common Groundの欠如)。全chunkの冒頭に主体情報を注入することで、この種の質問への一致度を上げている。
+冒頭の「【Tübingen で生活する...】」という一文は、Data Enrichmentという意図的な処理(面接メモ insights Insight 04参照)。生のレシートには「誰の記録か」という主体情報が無いため、検索時に「留学生はどんな食べ物を買ってる?」のような質問とマッチしにくい(Common Groundの欠如)。全chunkの冒頭に主体情報を注入することで、この種の質問への一致度を上げている。
 
 **チャンク分割は無し**: `src/rag_pipeline.py:89`のコメント通り「JSON は 1 レシート = 1 Document で既に分割済み、Split 不要」。Markdownのようにヘッダーでさらに割る処理はここでは行わない(1レシートの文量がもともと短いため)。
 
 ## 3. aggregation/table_display側: `load_receipts_as_dataframe()` の変換
 
-こちらは`Document`を経由せず、`json.loads`した中身を直接フラットな行の辞書に変換して`pd.DataFrame`にする。`date`列は`pd.to_datetime`で型変換され、`groupby("month")`等での集計に使われる。citation artifact(`[cite: N]`のような混入テキスト)を`_strip_citation`で除去する処理も入っている(元データの品質問題への対処、`daily/2026-08-22.md`に記録済み)。
+こちらは`Document`を経由せず、`json.loads`した中身を直接フラットな行の辞書に変換して`pd.DataFrame`にする。`date`列は`pd.to_datetime`で型変換され、`groupby("month")`等での集計に使われる。citation artifact(`[cite: N]`のような混入テキスト)を`_strip_citation`で除去する処理も入っている(元データの品質問題への対処、開発ログ 2026-08-22 に記録済み)。
 
 ## 4. 全体の流れ(図解)
 
@@ -110,8 +110,8 @@ flowchart TD
 
 ## 深掘りされた時のフォールバック
 
-- なぜmetadataをフラットにするか → LangChainの`Document.metadata`は「テキスト1本+フラットなmetadata辞書」という2属性構造が前提([docs/notes/langchain-and-rag-overview.md](../../docs/notes/langchain-and-rag-overview.md))
+- なぜmetadataをフラットにするか → LangChainの`Document.metadata`は「テキスト1本+フラットなmetadata辞書」という2属性構造が前提([docs/notes/langchain-and-rag-overview.md](../notes/langchain-and-rag-overview.md))
 - Data Enrichmentの副作用 → 全chunkに同じ主体情報テキストを注入すると、chunk同士の差別化が弱まる可能性がある(Griceの量の公理違反と読める、insights.md Insight 04参照)
 - チャンク分割をしない理由 → レシート1件の文量がもともと短く、Small-to-Big Retrieval等の粒度調整が必要になるほど長くない
 
-**元の文脈**: `src/load_receipts.py`, `src/rag_pipeline.py`, [insights.md](insights.md) Insight 04, [daily/2026-08-22.md](../2026-08-22.md)
+**元の文脈**: `src/load_receipts.py`, `src/rag_pipeline.py`, 面接メモ insights Insight 04, 開発ログ 2026-08-22
