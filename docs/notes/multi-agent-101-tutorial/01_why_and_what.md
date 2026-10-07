@@ -8,7 +8,7 @@
 
 ## 今回やろうとしていること(前提の確認)
 
-`daily/2026-09-25-sap-459930-plan.md`に書いた通り: 既存の`graph_router.py`に、回答を検証・修正する2つ目のLLMノード(criticノード)を追加する。今は`router`が`semantic`/`aggregation`/`table_display`などに振り分けるだけの「1つのLLMが分岐する」構造。そこに「出てきた回答が正しいか確認する、別の役割のLLM呼び出し」を足す。
+計画の通り、既存の`graph_router.py`に、回答を検証・修正する2つ目のLLMノード(criticノード)を追加する。今は`router`が`semantic`/`aggregation`/`table_display`などに振り分けるだけの「1つのLLMが分岐する」構造。そこに「出てきた回答が正しいか確認する、別の役割のLLM呼び出し」を足す。
 
 ## 「1つのAPI呼び出し(マルチモーダル)でいいじゃん」への回答
 

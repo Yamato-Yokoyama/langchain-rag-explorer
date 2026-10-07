@@ -84,7 +84,7 @@ def contextualize_query(query: str, history: list[str], llm) -> str:
             (例: "I.K., M.S., Y.H.それぞれの役職は?")
 
     なぜ:
-        - `daily/2026-08-20.md`で発見済みの課題: on_message は毎ターン独立で、
+        - 開発ログ(2026-08-20)で発見済みの課題: on_message は毎ターン独立で、
           「それぞれ」が何を指すか分からず破綻していた
         - expand_query_to_definition と同じ設計(LLMにルール+few-shot例を与えて
           書き換えさせる)だが、こちらは「retrievalに効きやすくする」のではなく

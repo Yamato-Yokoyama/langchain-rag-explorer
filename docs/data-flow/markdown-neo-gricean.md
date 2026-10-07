@@ -1,7 +1,7 @@
 # データフロー復習: Markdownノート(Neo-Gricean等) → Document → chunk → 検索
 
 > `src/load_markdown.py` の構造を、生データから最終出力まで追って復習する。
-> このトピックは [daily/2026-08-10.md](../2026-08-10.md)(Day 3-4)に詳しい記録があったので、そこから再構成した。
+> このトピックは 開発ログ 2026-08-10(Day 3-4)に詳しい記録があったので、そこから再構成した。
 
 ---
 
@@ -16,7 +16,7 @@
 - YAML frontmatterでパーサーが混乱し、以降の本文が要素化されない
 - `Document count 1`、`page_content`がfrontmatterだけになる不具合
 
-**設計判断**: 「Load + Splitを一気にやる」汎用ツールは便利だが予測不能な崩れ方をする。**LoadとSplitを2つの独立したステップに分ける方が、何が起きているか追いやすい**。これが自作`load_as_plain_text()`(4行)+ `MarkdownHeaderTextSplitter`という組み合わせを選んだ理由([daily/2026-08-10.md](../2026-08-10.md)「詰まったこと・調べたこと」2番)。
+**設計判断**: 「Load + Splitを一気にやる」汎用ツールは便利だが予測不能な崩れ方をする。**LoadとSplitを2つの独立したステップに分ける方が、何が起きているか追いやすい**。これが自作`load_as_plain_text()`(4行)+ `MarkdownHeaderTextSplitter`という組み合わせを選んだ理由(開発ログ 2026-08-10「詰まったこと・調べたこと」2番)。
 
 ## 2. Load: `load_as_plain_text()`(4行の自作ローダー)
 
@@ -42,7 +42,7 @@ split_docs = splitter.split_text(docs[0].page_content)
 
 ## 4. `docs` と `split_docs` の関係(複数ファイルになった時の構造)
 
-これが[daily/2026-08-10.md](../2026-08-10.md)の「学び②」でまとめられていた、最初は混乱しやすいポイント:
+これが開発ログ 2026-08-10の「学び②」でまとめられていた、最初は混乱しやすいポイント:
 
 ```
 1ファイルの時:
@@ -63,18 +63,18 @@ split_docs = [QUDの8chunks, Neo-Griceanの12chunks, Speech Actsの10chunks]
 
 ## 5. Document = 2属性だけ、という原則
 
-`Document`オブジェクトは`page_content`(文字列)と`metadata`(辞書)の2属性のみ([docs/notes/langchain-and-rag-overview.md](../../docs/notes/langchain-and-rag-overview.md)で確認した一般構造そのもの)。属性アクセス(`doc.page_content`)と辞書アクセス(`doc.metadata["Header 1"]`)が混在するので、書く時に混同しやすい点として記録されていた。
+`Document`オブジェクトは`page_content`(文字列)と`metadata`(辞書)の2属性のみ([docs/notes/langchain-and-rag-overview.md](../notes/langchain-and-rag-overview.md)で確認した一般構造そのもの)。属性アクセス(`doc.page_content`)と辞書アクセス(`doc.metadata["Header 1"]`)が混在するので、書く時に混同しやすい点として記録されていた。
 
 ## 6. なぜembeddingが必要か(このデータで検証された4つの理由)
 
-素朴なキーワード検索ではなくembeddingを使う理由が、このNeo-Griceanノートを使った実験で具体的に確認されている([daily/2026-08-10.md](../2026-08-10.md)学び③):
+素朴なキーワード検索ではなくembeddingを使う理由が、このNeo-Griceanノートを使った実験で具体的に確認されている(開発ログ 2026-08-10学び③):
 
 1. **同義語で切れる**: 「Q原則って?」で「Q-principle」という表記にキーワード一致しない
 2. **日英クロスで完全に切れる**: 日本語で聞いて英語ノートから探す、が文字列一致では不可能
 3. **言い換え質問で切れる**: 「Hornの2分割は?」でQ-principle/R-principleを引けない
 4. **意味的関連が拾えない**: 「LLMのhallucinationと含意理論」でこのノートを関連付けられない
 
-コーパスが極小でcontext windowに全部入るなら省略可能だが、多言語+意味検索が要件のこのプロジェクトでは必須、という判断([daily/2026-08-10.md](../2026-08-10.md)学び③)。
+コーパスが極小でcontext windowに全部入るなら省略可能だが、多言語+意味検索が要件のこのプロジェクトでは必須、という判断(開発ログ 2026-08-10学び③)。
 
 ## 7. 全体の流れ(図解)
 
@@ -93,7 +93,7 @@ flowchart TD
 
 ## 8. このデータで見つかった検索精度の問題(復習: Semantic Gap)
 
-このNeo-Griceanノートは、検索精度の問題を最初に発見した題材でもある。詳細は[insights.md](insights.md) Insight 01・03、[daily/2026-08-13.md](../2026-08-13.md)に記録済みだが、要点だけ:
+このNeo-Griceanノートは、検索精度の問題を最初に発見した題材でもある。詳細は面接メモ insights Insight 01・03、開発ログ 2026-08-13に記録済みだが、要点だけ:
 
 - クエリ「Q-principleって何?」に対し、**Q-principle chunk自体が5位まで落ちる**現象が観測された
 - 原因は2つに分離できた: ①Speech Actミスマッチ(質問形式と平叙文形式の型の不一致がPropositional Content一致より優先される)、②Chunk Size希釈(1chunkに定義+例+補足が全部入っていて意味が平均化される)
@@ -111,4 +111,4 @@ flowchart TD
 - `metadata["source"]`の役割 → 複数ファイルがフラット化された後も、どのchunkがどのファイル由来か追跡するための唯一の手がかり
 - なぜ見出し3階層(`#`/`##`/`###`)で区切ったか → このノートの構造がその階層に対応していたため。ファイルごとに見出し構造が違えば`headers_to_split_on`も変える必要がある
 
-**元の文脈**: [daily/2026-08-10.md](../2026-08-10.md)(Load/Split/Embed/Visualizeの詳細), [daily/2026-08-13.md](../2026-08-13.md)(Semantic Gap発見), [docs/notes/langchain-and-rag-overview.md](../../docs/notes/langchain-and-rag-overview.md), [insights.md](insights.md) Insight 01・03
+**元の文脈**: 開発ログ 2026-08-10(Load/Split/Embed/Visualizeの詳細), 開発ログ 2026-08-13(Semantic Gap発見), [docs/notes/langchain-and-rag-overview.md](../notes/langchain-and-rag-overview.md), 面接メモ insights Insight 01・03
