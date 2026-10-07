@@ -10,7 +10,7 @@ embed_test.py は「目で見て確認する」スクリプトのまま残す(PC
 詰まったら聞く。ここでは「何をすべきか」だけを Input/Output/なぜ で示す。
 中身は自分で書く。背景は:
   - docs/notes/langchain-and-rag-overview.md:136 (chunk_sizeの定石: 500-1000文字)
-  - daily/interview-prep/data-flow-markdown-neo-gricean.md (Chunk Size希釈の実例)
+  - docs/data-flow/markdown-neo-gricean.md (Chunk Size希釈の実例)
 
 注意(なぜembed_test.pyをimportしないか):
   embed_test.pyはトップレベルにコードが書いてあるスクリプト形式なので、
@@ -193,7 +193,7 @@ def test_embedding_is_deterministic(chunks_and_vectors):
 #     1個ずつ選ぶ(インデックス決め打ちでいい)
 #   - cosine_similarity(query_vec, 関連chunkのvector) が
 #     cosine_similarity(query_vec, 無関係chunkのvector) より大きいことをassert
-#   注意: daily/interview-prep/data-flow-markdown-neo-gricean.mdに記録されている通り、
+#   注意: docs/data-flow/markdown-neo-gricean.mdに記録されている通り、
 #   実際にQ-principle chunkが5位まで落ちた実例があるので、このテストも
 #   現状のチャンク分割ではfailする可能性がある。TODO 3と合わせて両方failするなら、
 #   それ自体が「Chunk Size希釈は実在する」ことの動かぬ証拠になる。

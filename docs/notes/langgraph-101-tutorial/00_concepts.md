@@ -1,6 +1,6 @@
 # LangGraph 101
 
-> Issue #23。実装は[hello_langgraph.py](../../src/hello_langgraph.py)(TODOスキャフォールド、自分で書く)。
+> Issue #23。実装は[hello_langgraph.py](../../../src/hello_langgraph.py)(TODOスキャフォールド、自分で書く)。
 > このファイルは概念・業界での使われ方・言語学とのつながりをまとめる。
 
 ---
@@ -75,13 +75,13 @@ flowchart LR
 
 | Pain Point(このプロジェクトで実際に発見した課題) | 素朴な実装での限界 | LangGraphがどう効くか |
 |---|---|---|
-| フォローアップ質問(「それぞれの役職は?」)が解けない(`daily/2026-08-20.md`) | `@cl.on_message`が毎ターン独立、会話履歴を持たない | Checkpointerがthread_idごとに会話履歴を保存・復元。以前のstateを次のノードに渡せる |
+| フォローアップ質問(「それぞれの役職は?」)が解けない(開発ログ 2026-08-20) | `@cl.on_message`が毎ターン独立、会話履歴を持たない | Checkpointerがthread_idごとに会話履歴を保存・復元。以前のstateを次のノードに渡せる |
 | 複数エンティティを跨いだ推論(Issue #16の意味的なケース) | if/elifのRouterは1回判定したら後戻りできない | Cycleで「検索→評価→不十分なら再検索」のようなループが組める |
 | Routerの判定ロジック自体 | if/elifで手書き、状態を持たない | Conditional edgeとして正式にモデル化される(ロジック自体は変わらない) |
 
 ## 4. 計算言語学(CL)とのつながり
 
-- **State = Common Ground**: `daily/2026-08-19.md`で既に確認済みの理論的対応(`cl.user_session` = per-user Common Ground)。LangGraphのCheckpointerは、この対応を**実装として永続化する**もの
+- **State = Common Ground**: 開発ログ 2026-08-19 で既に確認済みの理論的対応(`cl.user_session` = per-user Common Ground)。LangGraphのCheckpointerは、この対応を**実装として永続化する**もの
 - **Conditional edge = QUD型判定**: `route()`が「質問のタイプに応じて処理を振り分ける」のは、Robertsの QUD (Question Under Discussion) 理論の実装そのもの(`pragmatics-in-rag-query-processing.md`参照)。LangGraphではこれが正式なグラフ構造として表現される
 - **指示語解決ノード = Deixis(直示表現)の解決**: 「それぞれ」「この人」のような直示表現は、発話時点のコンテキスト(=会話履歴という状態)を参照して初めて具体的な指示対象に解決される。Issue #21で作る「contextualizeノード」は、まさにこの言語学的な操作をコードにしたもの
 

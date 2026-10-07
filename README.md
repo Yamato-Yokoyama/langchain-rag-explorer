@@ -5,7 +5,7 @@
 
 A multilingual (Japanese / English) RAG assistant over my own data (LinkedIn connections, personal expense receipts, linguistics class notes), built as both a working tool and a study in mapping Semantics & Pragmatics theory (Speech Acts, Common Ground, Gricean maxims) onto real RAG / agent failure modes.
 
-**Status:** Actively developed since 2026-08-07. Core RAG + LangGraph router + multi-agent verification + MCP tooling are implemented and running. See [Notable Findings](#notable-findings-the-debugging-journey) below and [daily/](daily/) for the build-in-public log.
+**Status:** Actively developed since 2026-08-07. Core RAG + LangGraph router + multi-agent verification + MCP tooling are implemented and running. See [Notable Findings](#notable-findings-the-debugging-journey) below.
 
 ## Why?
 
@@ -50,16 +50,15 @@ It has already caught a real bug in my own data: two different LinkedIn contacts
 
 This project is as much about *why RAG fails* as about making it work. A few findings that came from treating retrieval failures as things to diagnose, not just patch:
 
-- **Chunk Size dilution**: a query about a specific concept ranked its own source chunk 5th instead of 1st, because the chunk packed a definition + example + extra context together and diluted its own embedding. Fixed via query rewriting; documented in [daily/interview-prep/insights.md](daily/interview-prep/insights.md).
-- **Speech Act mismatch**: embeddings sometimes match on *how* something is phrased (question vs. statement) over *what* it's about — a linguistically-motivated explanation for a real retrieval bug. Same note as above.
-- **Chainlit + asyncio**: building the vector index inside `@cl.on_chat_start` blocked the event loop for every other connection. See [daily/interview-prep/chainlit-asyncio-event-loop-blocking.md](daily/interview-prep/chainlit-asyncio-event-loop-blocking.md).
+- **Speech Act mismatch in retrieval**: the query "Q-principleって何?" ranked the Q-principle chunk 5th instead of 1st (score 0.3833 vs 0.4510 for the top chunk). The chunk is not long (275 chars, shorter than the top three), so the better explanation is that the embedding matched the question's form more than its content. Rewriting the query into a definition-style statement (`expand_query_to_definition`) moved it to 2nd to 4th place over four runs, but never 1st, because the rewriter kept guessing the wrong field for the term (quantum physics, business). Re-measured on 2026-10-05. Earlier notes called this "Chunk Size dilution"; the chunk length does not support that.
+- **Chainlit + asyncio**: building the vector index inside `@cl.on_chat_start` blocked the event loop for every other connection.
 - **LLM arithmetic is unreliable at scale**: expense totals computed by the LLM directly were off by real money at `top_k=171`; replaced with deterministic pandas aggregation, LLM only picks which function to call. See [src/aggregations.py](src/aggregations.py).
-- **OCR/vision extraction errors**: the MCP receipt tool misread a price (read 2x the correct value on one line item); caught by an integrity check (`sum(items) == total`) before saving, not by trusting the model.
+- **Vision extraction errors**: the MCP receipt tool sends each PDF to the Gemini API, and the model misread a price (2x the correct value on one line item). The tool itself has no automatic check yet. The error was caught by comparing the extracted items with the receipt total in a separate review step before saving, not by trusting the model. An automatic `sum(items) == total` check is planned (see docs/notes/mcp-101-tutorial/01_why_and_what.md).
 - **`pip-audit` found 39 known vulnerabilities** across 4 dependencies the first time it was run in CI — a reminder that a clean test suite says nothing about dependency security.
 
 ## ML side-track: Speech Act classification baseline
 
-Independent of the RAG pipeline, `src/ml/` has a from-scratch Naive Bayes / Logistic Regression baseline for Speech Act classification (DailyDialog, TF-IDF features, Macro F1 0.539 → 0.700). Not yet wired into the router — see [Issue #39](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/39) (closed) and [daily/interview-prep/speech-act-baseline-report.md](daily/interview-prep/speech-act-baseline-report.md) for the results and how it connects back to the Speech Act mismatch finding above.
+Independent of the RAG pipeline, `src/ml/` has a from-scratch Naive Bayes / Logistic Regression baseline for Speech Act classification (DailyDialog, TF-IDF features, Macro F1 0.539 → 0.700). Not yet wired into the router — see [Issue #39](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/39) (closed) and [docs/experiments.md](docs/experiments.md) for the results and how it connects back to the Speech Act mismatch finding above.
 
 ## Quick Start
 
@@ -88,8 +87,8 @@ pip install pip-audit && pip-audit -r requirements.txt
 
 ```
 langchain-rag-explorer/
-├── daily/                  # Daily build-in-public notes + interview-prep deep dives
 ├── docs/
+│   ├── data-flow/           # How each loader turns raw data into Documents
 │   ├── notes/               # 101-style tutorials (LangGraph, GitHub Actions, MCP, multi-agent)
 │   ├── why.md
 │   └── requirements.md
