@@ -7,7 +7,7 @@ A multilingual (Japanese / English) RAG assistant over my own data (LinkedIn con
 
 **Status:** Actively developed since 2026-08-07. Core RAG + LangGraph router + multi-agent verification + MCP tooling are implemented and running. See [Notable Findings](#notable-findings-the-debugging-journey) below.
 
-**Roadmap:** v1 closes this personal-data RAG with measured fixes (#42 evaluation, #17 negation, #38 CI, README). v2 rebuilds the assistant on the Amazon ESCI Japanese product data as a conversational shopping assistant. See [docs/roadmap.md](docs/roadmap.md).
+**Roadmap:** v1 closes this personal-data RAG once retrieval is measured (#42 nDCG@10) and the README is current; negation (#17) and CI (#38) move to v2. v2 rebuilds the assistant on the Amazon ESCI Japanese product data as a conversational shopping assistant. See [docs/roadmap.md](docs/roadmap.md).
 
 ## Why?
 
