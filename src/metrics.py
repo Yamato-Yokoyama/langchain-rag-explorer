@@ -13,7 +13,12 @@ import math
 
 def dcg(gains: list[float], k: int) -> float:
     """DCG@k = Σ_{i=1..k} gain_i / log2(i + 1)(i は 1 始まりの順位)"""
-    return sum(g / math.log2(i + 2) for i, g in enumerate(gains[:k]))
+    total = 0.0
+    top_k = gains[:k]
+    for i, gain in enumerate(top_k):
+        # enumerate は 0 始まりなので、順位 = i + 1、割る数 = log2(順位 + 1) = log2(i + 2)
+        total = total + gain / math.log2(i + 2)
+    return total
 
 
 def ndcg(ranked_gains: list[float], k: int = 10, ideal_gains: list[float] | None = None) -> float:
@@ -25,7 +30,10 @@ def ndcg(ranked_gains: list[float], k: int = 10, ideal_gains: list[float] | None
         検索で取りこぼした正解がある場合はそれも理想に入れないといけないので、評価では必ず渡す。
     理想の DCG が 0 なら 0.0 を返す。
     """
-    ideal = sorted(ideal_gains if ideal_gains is not None else ranked_gains, reverse=True)
+    if ideal_gains is not None:
+        ideal = sorted(ideal_gains, reverse=True)
+    else:
+        ideal = sorted(ranked_gains, reverse=True)
     idcg = dcg(ideal, k)
     if idcg == 0:
         return 0.0
@@ -36,4 +44,8 @@ def recall(retrieved_ids: list[str], relevant_ids: set[str], k: int) -> float:
     """Recall@k = 上位 k 件に入った正解の数 / 正解の数。正解が無ければ 0.0。"""
     if not relevant_ids:
         return 0.0
-    return len(set(retrieved_ids[:k]) & relevant_ids) / len(relevant_ids)
+    found = 0
+    for rid in set(retrieved_ids[:k]):
+        if rid in relevant_ids:
+            found = found + 1
+    return found / len(relevant_ids)

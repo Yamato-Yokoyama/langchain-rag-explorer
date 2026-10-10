@@ -47,14 +47,28 @@ def relevant_ids(receipts: list[dict], keywords: list[str]) -> list[str]:
     """Return receipt_ids whose item names (Japanese or original) contain any keyword."""
     hits = []
     for r in receipts:
-        names = [_clean(it.get("name_jp")) + " " + _clean(it.get("name_original")) for it in r.get("items", [])]
-        if any(kw in name for kw in keywords for name in names):
+        # 1枚のレシートの品目名を、日本語訳とドイツ語の原文をつなげた文字列にする
+        names = []
+        for it in r.get("items", []):
+            names.append(_clean(it.get("name_jp")) + " " + _clean(it.get("name_original")))
+
+        # どれか1つの品目に、どれか1つのキーワードが入っていれば正解
+        matched = False
+        for name in names:
+            for kw in keywords:
+                if kw in name:
+                    matched = True
+        if matched:
             hits.append(r["receipt_id"])
     return hits
 
 
 def main():
-    receipts = [r for f in RECEIPTS for r in json.loads(f.read_text(encoding="utf-8"))]
+    receipts = []
+    for f in RECEIPTS:
+        month = json.loads(f.read_text(encoding="utf-8"))  # 1ファイル = 1か月分のレシートのリスト
+        for r in month:
+            receipts.append(r)
     OUT.parent.mkdir(exist_ok=True)
     with OUT.open("w", encoding="utf-8") as f:
         for query, keywords in QUERIES:
