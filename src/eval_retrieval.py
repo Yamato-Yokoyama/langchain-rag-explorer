@@ -28,8 +28,13 @@ RESULTS = Path("results/retrieval_eval.csv")
 
 def load_golden(path: Path = GOLDEN) -> list[dict]:
     """Read the golden set: one {"query", "relevant"} per line."""
+    cases = []
     with path.open(encoding="utf-8") as f:
-        return [json.loads(line) for line in f if line.strip()]
+        for line in f:
+            if not line.strip():
+                continue  # 空行は飛ばす
+            cases.append(json.loads(line))
+    return cases
 
 
 def item_id(metadata: dict) -> str | None:
@@ -39,7 +44,13 @@ def item_id(metadata: dict) -> str | None:
 
 def gains_for(retrieved_ids: list[str | None], relevant: set[str]) -> list[float]:
     """Gain per retrieved rank: 1.0 if that document is a correct answer, else 0.0."""
-    return [1.0 if rid in relevant else 0.0 for rid in retrieved_ids]
+    gains = []
+    for rid in retrieved_ids:
+        if rid in relevant:
+            gains.append(1.0)
+        else:
+            gains.append(0.0)
+    return gains
 
 
 def evaluate_query(retrieved_ids: list[str | None], relevant_ids: list[str], k: int) -> dict:
@@ -67,14 +78,21 @@ def main() -> None:
     rows = []
     for case in load_golden():
         hits = search(case["query"], collection, top_k=args.k)
-        retrieved_ids = [item_id(doc.metadata) for _, doc in hits]
+        retrieved_ids = []
+        for _score, doc in hits:
+            retrieved_ids.append(item_id(doc.metadata))
         rows.append({"query": case["query"], **evaluate_query(retrieved_ids, case["relevant"], args.k)})
 
     print(f"{'nDCG':>6} {'Recall':>6} {'hits':>9}  query")
     for r in rows:
         print(f"{r['ndcg']:6.3f} {r['recall']:6.3f} {r['hits']:>4}/{r['n_relevant']:<4}  {r['query']}")
-    mean_ndcg = sum(r["ndcg"] for r in rows) / len(rows)
-    mean_recall = sum(r["recall"] for r in rows) / len(rows)
+    total_ndcg = 0.0
+    total_recall = 0.0
+    for r in rows:
+        total_ndcg = total_ndcg + r["ndcg"]
+        total_recall = total_recall + r["recall"]
+    mean_ndcg = total_ndcg / len(rows)
+    mean_recall = total_recall / len(rows)
     print(f"\nmean nDCG@{args.k} = {mean_ndcg:.3f}   mean Recall@{args.k} = {mean_recall:.3f}   ({len(rows)} queries)")
 
     RESULTS.parent.mkdir(exist_ok=True)
