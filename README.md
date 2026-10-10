@@ -7,6 +7,8 @@ A multilingual (Japanese / English) RAG assistant over my own data (LinkedIn con
 
 **Status:** Actively developed since 2026-08-07. Core RAG + LangGraph router + multi-agent verification + MCP tooling are implemented and running. See [Notable Findings](#notable-findings-the-debugging-journey) below.
 
+**Roadmap:** v1 closes this personal-data RAG with measured fixes (#42 evaluation, #17 negation, #38 CI, README). v2 rebuilds the assistant on the Amazon ESCI Japanese product data as a conversational shopping assistant. See [docs/roadmap.md](docs/roadmap.md).
+
 ## Why?
 
 See [docs/why.md](docs/why.md) for the full story. Short version: I got frustrated with Gemini/NotebookLM losing context in long sessions, realized this is the same problem discourse pragmatics tries to formalize, and decided to build a system that treats context management as a first-class concern.
