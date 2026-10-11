@@ -57,8 +57,14 @@ def evaluate_query(retrieved_ids: list[str | None], relevant_ids: list[str], k: 
     """nDCG@k and Recall@k for one query."""
     relevant = set(relevant_ids)
     gains = gains_for(retrieved_ids, relevant)
+
+    # 理想の並びは、検索が取れた分ではなく正解全部から作る(取りこぼしも点に効くように)
+    ideal = []
+    for _ in relevant:
+        ideal.append(1.0)
+
     return {
-        "ndcg": metrics.ndcg(gains, k),
+        "ndcg": metrics.ndcg(gains, k, ideal_gains=ideal),
         "recall": metrics.recall(retrieved_ids, relevant, k),
         "hits": int(sum(gains[:k])),
         "n_relevant": len(relevant),
