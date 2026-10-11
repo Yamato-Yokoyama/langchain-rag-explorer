@@ -56,6 +56,21 @@ This project is as much about *why RAG fails* as about making it work. A few fin
 - **Vision extraction errors**: the MCP receipt tool sends each PDF to the Gemini API, and the model misread a price (2x the correct value on one line item). The tool itself has no automatic check yet. The error was caught by comparing the extracted items with the receipt total in a separate review step before saving, not by trusting the model. An automatic `sum(items) == total` check is planned (see docs/notes/mcp-101-tutorial/01_why_and_what.md).
 - **`pip-audit` found 39 known vulnerabilities** across 4 dependencies the first time it was run in CI — a reminder that a clean test suite says nothing about dependency security.
 
+## Retrieval evaluation (Issue #42)
+
+`python -m src.eval_retrieval` runs 15 questions (Japanese, English, German) through the vector search and scores the top 10 against a golden set (`eval/golden_retrieval.jsonl`). A receipt counts as correct if one of its item names contains the question's keyword; the rule is in `scripts/build_golden_retrieval.py`, so anyone who reruns it gets the same labels. LinkedIn connections are personal data and are not part of the golden set.
+
+| Metric | Value |
+|---|---|
+| mean nDCG@10 | **0.655** |
+| mean Recall@10 | 0.604 |
+
+What the numbers showed:
+
+- **Japanese short queries lose to unrelated documents.** For "ハリボーのグミ" (Haribo gummies) all top 10 results were LinkedIn connection rows, 0 of 16 relevant receipts. The English "Haribo gummy bears" found 6 of 16. Receipts and connections share one index, and the short rows win when similarity is low across the board (0.37 to 0.43).
+- **This measures the bare `search()` only.** The chat app goes through the router, Gemini query rewriting and `where` filters first, so what a user sees in the app is better than these numbers. The two are kept apart on purpose: the bare number is what a reranker or a new embedding model has to move.
+- A review caught a bug before merge: the nDCG ideal was built from the retrieved items, not from all relevant ones, so a query with 7 of 10 receipts found scored 0.995. Fixed with a hand-computed test (`tests/test_eval_retrieval.py`).
+
 ## ML side-track: Speech Act classification baseline
 
 Independent of the RAG pipeline, `src/ml/` has a from-scratch Naive Bayes / Logistic Regression baseline for Speech Act classification (DailyDialog, TF-IDF features, Macro F1 0.539 → 0.700). Not yet wired into the router — see [Issue #39](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/39) (closed) and [docs/experiments.md](docs/experiments.md) for the results and how it connects back to the Speech Act mismatch finding above.
@@ -109,7 +124,7 @@ langchain-rag-explorer/
 ## Known Limitations / Open Work
 
 - No Kubernetes/container deployment yet ([Issue #41](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/41))
-- No quantitative retrieval evaluation harness yet — current findings are real but individually diagnosed, not benchmarked at scale ([Issue #42](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues/42))
+- Receipts and LinkedIn connections share one vector index; Japanese short queries get buried (see [Retrieval evaluation](#retrieval-evaluation-issue-42)). The golden set is rule-based (keyword match, 1/0 labels) and does not catch spelling variants
 - Speech Act classifier (`src/ml/`) is trained but not yet wired into query routing
 - Negation/exclusion queries, multi-entity relationship queries, and long-conversation history pruning are known gaps (see [open issues](https://github.com/Yamato-Yokoyama/langchain-rag-explorer/issues))
 - `pip-audit` currently reports 39 known dependency vulnerabilities (`continue-on-error: true` in CI, not yet triaged/upgraded)
