@@ -1,6 +1,7 @@
 """eval_retrieval の部品の仕様(埋め込みモデルは読み込まない)。"""
 
 import json
+import math
 
 import pytest
 
@@ -21,6 +22,14 @@ def test_perfect_retrieval():
     assert r["ndcg"] == pytest.approx(1.0)
     assert r["recall"] == 1.0
     assert (r["hits"], r["n_relevant"]) == (2, 2)
+
+
+def test_missed_relevant_lowers_ndcg():
+    # 正解は a と b の2つ。検索は a だけ取れて、b を取りこぼした
+    # 理想は正解2つ [1, 1] から作る: DCG = 1/log2(2) = 1、IDCG = 1/log2(2) + 1/log2(3)
+    r = evaluate_query(["a", "x"], ["a", "b"], k=2)
+    expected = 1 / (1 + 1 / math.log2(3))  # 0.613
+    assert r["ndcg"] == pytest.approx(expected)
 
 
 def test_nothing_found():
