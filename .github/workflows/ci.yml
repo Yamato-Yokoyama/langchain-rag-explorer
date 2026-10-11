@@ -80,6 +80,11 @@ jobs:
       #    1行ずつ見えるようになる(手元でつけているのと同じ理由)。
       - run: pytest src/embedding_quality_test.py -v
 
+      # 4b. tests/ の下のテスト(Issue #42 の検索評価の指標と部品)を実行する。
+      #     ファイル名を書かなくても、pytest.ini の testpaths = tests で tests/ を探しに行く。
+      #     埋め込みモデルは読み込まないテストだけなので、数秒で終わる。
+      - run: pytest -v
+
       # 5. requirements.txtの依存パッケージに既知の脆弱性が無いか確認する。
       #    docs/notes/github-actions-101-tutorial/03_pip_audit_dependency_scanning.md参照。
       #    pytestと同じく、判断が要らない機械的なチェックなのでLLM/エージェント化はしない。
