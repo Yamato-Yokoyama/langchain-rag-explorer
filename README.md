@@ -7,7 +7,7 @@ A multilingual (Japanese / English) RAG assistant over my own data (LinkedIn con
 
 **Status:** Actively developed since 2026-08-07. Core RAG + LangGraph router + multi-agent verification + MCP tooling are implemented and running. See [Notable Findings](#notable-findings-the-debugging-journey) below.
 
-**Roadmap:** v1 closes this personal-data RAG once retrieval is measured (#42 nDCG@10) and the README is current; negation (#17) and CI (#38) move to v2. v2 rebuilds the assistant on the Amazon ESCI Japanese product data as a conversational shopping assistant. See [docs/roadmap.md](docs/roadmap.md).
+**Roadmap:** v1 is complete (2026-10). The negation / exclusion problem (#17) continues in a separate project, ConstraintRAG.
 
 ## Why?
 
@@ -60,7 +60,7 @@ This project is as much about *why RAG fails* as about making it work. A few fin
 
 ## Retrieval evaluation (Issue #42)
 
-`python -m src.eval_retrieval` runs 15 questions (Japanese, English, German) through the vector search and scores the top 10 against a golden set (`eval/golden_retrieval.jsonl`). A receipt counts as correct if one of its item names contains the question's keyword; the rule is in `scripts/build_golden_retrieval.py`, so anyone who reruns it gets the same labels. LinkedIn connections are personal data and are not part of the golden set.
+`python -m src.eval_retrieval` runs 15 questions (Japanese, English, German) through the vector search and scores the top 10 against a golden set (`eval/golden_retrieval.jsonl`). A receipt counts as correct if one of its item names contains the question's keyword; the rule is in `scripts/build_golden_retrieval.py`, so anyone who reruns it gets the same labels. LinkedIn connections are personal data and are not part of the golden set. The receipts and LinkedIn exports themselves are personal data and are not published in this repository, so the numbers below cannot be reproduced from a fresh clone.
 
 | Metric | Value |
 |---|---|

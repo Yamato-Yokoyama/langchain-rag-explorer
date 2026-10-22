@@ -18,3 +18,5 @@ data/resume/
 data/applications/
 data/tuebingen/receipts_raw/
 src/ml/models/*.joblib
+data/tuebingen/receipts_*.json
+data/linkedin/Shares_*.csv
